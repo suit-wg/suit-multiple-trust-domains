@@ -1,0 +1,53 @@
+$$SUIT_Envelope_Extensions //= 
+    (suit-delegation => bstr .cbor SUIT_Delegation)
+$$SUIT_Envelope_Extensions //= SUIT_Integrated_Dependency
+
+SUIT_Delegation = [ + [ + bstr .cbor CWT ] ]
+
+CWT = SUIT_Authentication_Block
+
+$$SUIT_severable-members-extensions //= 
+    (suit-dependency-resolution => bstr .cbor SUIT_Command_Sequence)
+
+SUIT_Integrated_Dependency = (
+    suit-integrated-dependency-key => bstr .cbor SUIT_Envelope)
+suit-integrated-dependency-key = tstr
+
+$$severable-manifest-members-choice-extensions //= (
+    suit-dependency-resolution => \
+        bstr .cbor SUIT_Command_Sequence / SUIT_Digest)
+
+$$SUIT_Common-extensions //= (
+        suit-dependencies => SUIT_Dependencies
+)
+
+SUIT_Dependencies         = [ + SUIT_Dependency ]
+
+SUIT_Dependency = {
+    suit-dependency-digest => SUIT_Digest,
+    ? suit-dependency-prefix => SUIT_Component_Identifier,
+    * $$SUIT_Dependency-extensions,
+}
+
+SUIT_Directive //= (
+    suit-directive-set-dependency-index, IndexArg)
+SUIT_Directive //= (
+    suit-directive-process-dependency, SUIT_Rep_Policy)
+SUIT_Directive //= (suit-directive-set-parameters,
+    {+ SUIT_Parameters})
+SUIT_Directive //= (
+    suit-directive-unlink, SUIT_Rep_Policy)
+
+suit-delegation = 1
+suit-dependency-resolution = 7
+
+suit-dependencies = 1
+
+suit-dependency-digest = 1
+suit-dependency-prefix = 2
+
+suit-directive-set-dependency-index     = 13
+suit-directive-process-dependency       = 18
+suit-directive-set-parameters           = 19
+suit-directive-unlink                   = 33
+
