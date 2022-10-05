@@ -30,6 +30,12 @@ author:
       organization: Arm Limited
       email: Brendan.Moran@arm.com
 
+ -
+      ins: K. Takayama
+      name: Ken Takayama
+      organization: SECOM CO., LTD.
+      email: ken.takayama.ietf@gmail.com
+
 normative:
   RFC3986:
   RFC7228:
