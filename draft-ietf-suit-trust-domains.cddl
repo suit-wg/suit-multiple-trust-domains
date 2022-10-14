@@ -20,17 +20,17 @@ $$severable-manifest-members-choice-extensions //= (
 $$SUIT_Common-extensions //= (
         suit-dependencies => SUIT_Dependencies
 )
-
-SUIT_Dependencies         = [ + SUIT_Dependency ]
-
-SUIT_Dependency = {
-    suit-dependency-digest => SUIT_Digest,
-    ? suit-dependency-prefix => SUIT_Component_Identifier,
-    * $$SUIT_Dependency-extensions,
+SUIT_Dependencies = {
+    + uint => SUIT_Dependency_Metadata
+}
+SUIT_Dependency_Metadata = {
+    ? suit-dependency-prefix => SUIT_Component_Identifier
+    $$SUIT_Dependency_Extensions
 }
 
-SUIT_Directive //= (
-    suit-directive-set-dependency-index, IndexArg)
+SUIT_Condition //= (
+    suit-condition-is-dependency, SUIT_Rep_Policy)
+
 SUIT_Directive //= (
     suit-directive-process-dependency, SUIT_Rep_Policy)
 SUIT_Directive //= (suit-directive-set-parameters,
@@ -43,10 +43,9 @@ suit-dependency-resolution = 7
 
 suit-dependencies = 1
 
-suit-dependency-digest = 1
-suit-dependency-prefix = 2
+suit-dependency-prefix = 1
 
-suit-directive-set-dependency-index     = 13
+suit-condition-is-dependency            = 13
 suit-directive-process-dependency       = 18
 suit-directive-set-parameters           = 19
 suit-directive-unlink                   = 33
