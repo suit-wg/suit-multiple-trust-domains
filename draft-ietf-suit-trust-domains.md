@@ -295,6 +295,10 @@ When the first manifest processor encounters a dependency prefix, that informs t
 
 This mechanism ensures that the two or more manifest processors do not need to trust each other, except in a very limited case. When parameter setting across security domains is used, it must be very carefully considered. Only parameters that do not have an effect on security properties should be allowed. The dependency manifest MAY control which parameters are allowed to be set by using the Override Parameters directive. The second manifest processor MAY also control which parameters may be set by the first manifest processor by means of an ACL that lists the allowed parameters. For example, a URI may be set by a dependent without a substantial impact on the security properties of the manifest.
 
+##  Dependency Resolution {#suit-dependency-resolution}
+
+The Dependency Resolution Command Sequence is a container for the commands needed to acquire and process the dependencies of the current manifest. Ideally, all dependency manifests should fetched before any payload is fetched to ensure that all manifests are available and authenticated before any of the (larger) payloads are acquired.
+
 ##  Added and Modified Commands
 
 All commands are modified in that they can also target dependencies. However, Set Component Index has a larger modification.
@@ -372,6 +376,14 @@ A dependency prefix can be used with a component identifier. This allows complex
 
 A dependency prefix can also be used to indicate when a dependency manifest needs to be processed by a secondary manifest processor, as described in {{hierarchical-interpreters}}.
 
+# Uninstall {#suit-uninstall}
+
+In some systems, particularly with multiple, independent, optional components, it may be that there is a need to uninstall the components that have been installed by a manifest. Where this is expected, the uninstall command sequence can provide the sequence needed to cleanly remove the components defined by the manifest and its dependencies. In general, suit uninstall will contain primarily unlink directives.
+
+WARNING: This can cause faults where there are loose dependencies (e.g. version-only, see {{I-D.ietf-suit-update-management}}), since a component can be removed while it is depended upon by another component.
+
+The Uninstall command sequence is not severable, since it must always be available to enable uninstalling.
+
 # Creating Manifests {#creating-manifests}
 
 This section details a set of templates for creating manifests. These templates explain which parameters, commands, and orders of commands are necessary to achieve a stated goal.
@@ -431,6 +443,13 @@ A plaintext manifest and its encrypted dependency may also form a composite mani
 #  IANA Considerations {#iana}
 
 IANA is requested to allocate the following numbers in the listed registries:
+
+## SUIT Command Sequences
+
+Label | Name | Reference
+---|---|---
+7  | Dependency Resolution | 
+24 | Uninstall | {{suit-uninstall}}
 
 ## SUIT Commands
 
