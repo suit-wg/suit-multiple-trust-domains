@@ -348,11 +348,11 @@ The following commands are placed into the dependency resolution sequence:
 
 Then, the validate sequence contains the following operations:
 
-- Set Component Index directive (see {{suit-directive-set-dependency-index}})
+- Set Component Index directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
 - Check Image Match condition (see Section 8.4.9.2 of {{I-D.ietf-suit-manifest}})
 - Process Dependency directive (see {{suit-directive-process-dependency}})
 
-If any dependency is declared 
+If any dependency is declared, the dependent MUST populate all command sequences for the current procedure (Update or Invoke).
 
 NOTE: Any changes made to parameters in a dependency persist in the dependent.
 
@@ -439,7 +439,7 @@ IANA is requested to allocate the following numbers in the listed registries:
 
 Label | Name | Reference
 ---|---|---
-13 | Set Dependency Index | {{suit-directive-set-dependency-index}}
+7 | Is Dependency | suit-directive-is-dependency | {{suit-directive-is-dependency}}
 18 | Process Dependency | suit-directive-process-dependency | {{suit-directive-process-dependency}}
 19 | Set Parameters | {{suit-directive-set-parameters}}
 33 | Unlink | {{suit-directive-unlink}}
