@@ -54,8 +54,9 @@ informative:
 This specification describes extensions to the SUIT manifest format (as
 defined in {{I-D.ietf-suit-manifest}}) for use in deployments with
 multiple trust domains. A device has more than one trust domain when it
-uses different trust anchors for different purposes or components in the
-context of firmware update.
+enables delegation of different rights to mutually distrustful entities
+for use with different purposes or components in the context of firmware
+update.
 
 --- middle
 
