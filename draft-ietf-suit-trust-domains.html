@@ -11,8 +11,9 @@
        This specification describes extensions to the SUIT manifest format (as
 defined in  ) for use in deployments with
 multiple trust domains. A device has more than one trust domain when it
-uses different trust anchors for different purposes or components in the
-context of firmware update. 
+enables delegation of different rights to mutually distrustful entities
+for use with different purposes or components in the context of firmware
+update. 
     " name="description">
 <meta content="xml2rfc 3.15.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
@@ -1234,8 +1235,9 @@ li > p:last-of-type {
 <p id="section-abstract-1">This specification describes extensions to the SUIT manifest format (as
 defined in <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>) for use in deployments with
 multiple trust domains. A device has more than one trust domain when it
-uses different trust anchors for different purposes or components in the
-context of firmware update.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+enables delegation of different rights to mutually distrustful entities
+for use with different purposes or components in the context of firmware
+update.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1312,10 +1314,10 @@ context of firmware update.<a href="#section-abstract-1" class="pilcrow">¶</a><
                 <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-changes-to-required-checks" class="internal xref">Changes to Required Checks</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
-                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-changes-to-abstract-machine" class="internal xref">Changes to Abstract Machine Description</a></p>
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-changes-to-manifest-structu" class="internal xref">Changes to Manifest Structure</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
-                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-changes-to-special-cases-of" class="internal xref">Changes to Special Cases of Component Index and Dependency Index</a></p>
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-changes-to-abstract-machine" class="internal xref">Changes to Abstract Machine Description</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.4">
                 <p id="section-toc.1-1.6.2.4.1"><a href="#section-6.4" class="auto internal xref">6.4</a>.  <a href="#name-processing-dependencies" class="internal xref">Processing Dependencies</a></p>
@@ -1332,13 +1334,13 @@ context of firmware update.<a href="#section-abstract-1" class="pilcrow">¶</a><
                 <p id="section-toc.1-1.6.2.6.1"><a href="#section-6.6" class="auto internal xref">6.6</a>.  <a href="#name-added-and-modified-commands" class="internal xref">Added and Modified Commands</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.6.2.1">
-                    <p id="section-toc.1-1.6.2.6.2.1.1"><a href="#section-6.6.1" class="auto internal xref">6.6.1</a>.  <a href="#name-suit-directive-set-componen" class="internal xref">suit-directive-set-component-index</a></p>
+                    <p id="section-toc.1-1.6.2.6.2.1.1"><a href="#section-6.6.1" class="auto internal xref">6.6.1</a>.  <a href="#name-suit-directive-set-paramete" class="internal xref">suit-directive-set-parameters</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.6.2.2">
-                    <p id="section-toc.1-1.6.2.6.2.2.1"><a href="#section-6.6.2" class="auto internal xref">6.6.2</a>.  <a href="#name-suit-directive-set-dependen" class="internal xref">suit-directive-set-dependency-index</a></p>
+                    <p id="section-toc.1-1.6.2.6.2.2.1"><a href="#section-6.6.2" class="auto internal xref">6.6.2</a>.  <a href="#name-suit-directive-process-depe" class="internal xref">suit-directive-process-dependency</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.6.2.3">
-                    <p id="section-toc.1-1.6.2.6.2.3.1"><a href="#section-6.6.3" class="auto internal xref">6.6.3</a>.  <a href="#name-suit-directive-process-depe" class="internal xref">suit-directive-process-dependency</a></p>
+                    <p id="section-toc.1-1.6.2.6.2.3.1"><a href="#section-6.6.3" class="auto internal xref">6.6.3</a>.  <a href="#name-suit-condition-is-dependenc" class="internal xref">suit-condition-is-dependency</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.6.2.4">
                     <p id="section-toc.1-1.6.2.6.2.4.1"><a href="#section-6.6.4" class="auto internal xref">6.6.4</a>.  <a href="#name-suit-directive-unlink" class="internal xref">suit-directive-unlink</a></p>
@@ -1346,7 +1348,7 @@ context of firmware update.<a href="#section-abstract-1" class="pilcrow">¶</a><
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.7">
-                <p id="section-toc.1-1.6.2.7.1"><a href="#section-6.7" class="auto internal xref">6.7</a>.  <a href="#name-suit_dependency-manifest-el" class="internal xref">SUIT_Dependency Manifest Element</a></p>
+                <p id="section-toc.1-1.6.2.7.1"><a href="#section-6.7" class="auto internal xref">6.7</a>.  <a href="#name-suit_dependencies-manifest-" class="internal xref">SUIT_Dependencies Manifest Element</a></p>
 </li>
             </ul>
 </li>
@@ -1366,6 +1368,9 @@ context of firmware update.<a href="#section-abstract-1" class="pilcrow">¶</a><
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
                 <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-encrypted-manifest-template" class="internal xref">Encrypted Manifest Template</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3">
+                <p id="section-toc.1-1.8.2.3.1"><a href="#section-8.3" class="auto internal xref">8.3</a>.  <a href="#name-operating-on-multiple-compo" class="internal xref">Operating on Multiple Components</a></p>
 </li>
             </ul>
 </li>
@@ -1557,7 +1562,7 @@ The Common metadata section in the Manifest also gains a list of dependencies.<a
 +-------------------------+    | |   | Digests of Envelope Elements |
 | Common Structure        | &lt;--+ |   +------------------------------+
 +-------------------------+      |
-| Dependencies            |      +-&gt; +-----------------------+
+| Dependency Indices      |      +-&gt; +-----------------------+
 | Component IDs           |          | Command Sequence      |
 | Common Command Sequence ---------&gt; +-----------------------+
 +-------------------------+          | List of ( pairs of (  |
@@ -1603,97 +1608,66 @@ The Common metadata section in the Manifest also gains a list of dependencies.<a
         <li class="normal" id="section-6-3.3">A device operator provides a device with some additional configuration. The device operator wants to test their configuration with each new firmware version before releasing it. The configuration is delivered as a binary in the same way as a firmware image. The device operator references the firmware manifest from the firmware author in their own manifest which also defines the configuration.<a href="#section-6-3.3" class="pilcrow">¶</a>
 </li>
       </ul>
-<p id="section-6-4">By using dependencies, components such as software, configuration, models, and other resoruces authenticated by different trust anchors can be delivered to devices.<a href="#section-6-4" class="pilcrow">¶</a></p>
+<p id="section-6-4">By using dependencies, components such as software, configuration, models, and other resources authenticated by different trust anchors can be delivered to devices.<a href="#section-6-4" class="pilcrow">¶</a></p>
 <div id="required-checks">
 <section id="section-6.1">
         <h3 id="name-changes-to-required-checks">
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-changes-to-required-checks" class="section-name selfRef">Changes to Required Checks</a>
         </h3>
 <p id="section-6.1-1">This section augments the definitions in Required Checks (Section 6.2) of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
-<p id="section-6.1-2">More checks are required when handling dependencies. By default, any signature of a dependency MUST be verified. However, there are some exceptions to this rule: where a device supports only one level of access (no ACLs defining which authorities have access to different componetns), it MAY choose to skip signature verification of dependencies, since they are referenced by digest. Where a device differentiates between trust levels, such as with an ACL, it MAY choose to defer the verification of signatures of dependencies until the list of affected components is known so that it can skip redundant signature verifications. For example, a dependency signed by the same author as the dependent does not require a signature verification. Similarly, if the signer of the dependent has full rights to the device, according to the ACL, then no signature verification is necessary on the dependency.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
-<p id="section-6.1-3">If the manifest contains more than one component and/or dependency, each command sequence MUST begin with a Set Component Index or Set Dependency Index command.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
-<p id="section-6.1-4">If a dependency is specified, then the manifest processor MUST perform the following checks:<a href="#section-6.1-4" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-6.1-5">
-<li id="section-6.1-5.1">At the beginning of each section in the dependent: all previous sections of each dependency have been executed.<a href="#section-6.1-5.1" class="pilcrow">¶</a>
+<p id="section-6.1-2">More checks are required when handling dependencies. By default, any signature of a dependency MUST be verified. However, there are some exceptions to this rule: where a device supports only one level of access (no ACLs defining which authorities have access to different components/commands/parameters), it MAY choose to skip signature verification of dependencies, since they are verified by digest. Where a device differentiates between trust levels, such as with an ACL, it MAY choose to defer the verification of signatures of dependencies until the list of affected components is known so that it can skip redundant signature verifications. For example, if a dependent's signer has access rights to all components specified in a dependency, then that dependency does not require a signature verification. Similarly, if the signer of the dependent has full rights to the device, according to the ACL, then no signature verification is necessary on the dependency.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.1-3">Components that should be treated as dependency manifests are identified in the suit-common metadata. See section <a href="#structure-change" class="auto internal xref">Section 6.2</a> for details.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.1-4">If the manifest contains more than one component and/or dependency, each command sequence MUST begin with a Set Component Index command.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
+<p id="section-6.1-5">If a dependency is specified, then the manifest processor MUST perform the following checks:<a href="#section-6.1-5" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-6.1-6">
+<li id="section-6.1-6.1">The dependent MUST populate all command sequences for the current procedure (Update or Invoke).<a href="#section-6.1-6.1" class="pilcrow">¶</a>
 </li>
-          <li id="section-6.1-5.2">At the end of each section in the dependent: The corresponding section in each dependency has been executed.<a href="#section-6.1-5.2" class="pilcrow">¶</a>
-</li>
-        </ol>
-<p id="section-6.1-6">If the interpreter does not support dependencies and a manifest specifies a dependency, then the interpreter MUST reject the manifest.<a href="#section-6.1-6" class="pilcrow">¶</a></p>
-<p id="section-6.1-7">If a Recipient supports groups of interdependent components (a Component Set), then it SHOULD verify that all Components in the Component Set are specified by one update, that is: a single manifest and all its dependencies that together:<a href="#section-6.1-7" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-6.1-8">
-<li id="section-6.1-8.1">have sufficient permissions imparted by their signatures<a href="#section-6.1-8.1" class="pilcrow">¶</a>
-</li>
-          <li id="section-6.1-8.2">specify a digest and a payload for every Component in the Component Set.<a href="#section-6.1-8.2" class="pilcrow">¶</a>
+          <li id="section-6.1-6.2">At the end of each section in the dependent: The corresponding section in each dependency has been executed.<a href="#section-6.1-6.2" class="pilcrow">¶</a>
 </li>
         </ol>
-<p id="section-6.1-9">The single dependent manifest is sometimes called a Root Manifest.<a href="#section-6.1-9" class="pilcrow">¶</a></p>
+<p id="section-6.1-7">If the interpreter does not support dependencies and a manifest specifies a dependency, then the interpreter MUST Abort.<a href="#section-6.1-7" class="pilcrow">¶</a></p>
+<p id="section-6.1-8">If a Recipient supports groups of interdependent components (a Component Set), then it SHOULD verify that all Components in the Component Set are specified by one update, that is: a single manifest and all its dependencies that together:<a href="#section-6.1-8" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-6.1-9">
+<li id="section-6.1-9.1">have sufficient permissions imparted by their signatures<a href="#section-6.1-9.1" class="pilcrow">¶</a>
+</li>
+          <li id="section-6.1-9.2">specify a digest and a payload for every Component in the Component Set.<a href="#section-6.1-9.2" class="pilcrow">¶</a>
+</li>
+        </ol>
+<p id="section-6.1-10">The single dependent manifest is sometimes called a Root Manifest.<a href="#section-6.1-10" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="structure-change">
+<section id="section-6.2">
+        <h3 id="name-changes-to-manifest-structu">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-changes-to-manifest-structu" class="section-name selfRef">Changes to Manifest Structure</a>
+        </h3>
+<p id="section-6.2-1">This section augments the Manifest Structure (Section 8.4) in <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="changes-to-abstract-machine-description">
-<section id="section-6.2">
+<section id="section-6.3">
         <h3 id="name-changes-to-abstract-machine">
-<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-changes-to-abstract-machine" class="section-name selfRef">Changes to Abstract Machine Description</a>
+<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-changes-to-abstract-machine" class="section-name selfRef">Changes to Abstract Machine Description</a>
         </h3>
-<p id="section-6.2-1">This section augments the Abstract Machine Description (Section 6.4) in <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>
-With the addition of dependencies, some changes are necessary to the abstract machine, outside the typical scope of added commands. These changes alter the behaviour of an existing command and way that the parser processes manifests:<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.3-1">This section augments the Abstract Machine Description (Section 6.4) in <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>
+With the addition of dependencies, some changes are necessary to the abstract machine, outside the typical scope of added commands. These changes alter the behaviour of an existing command and way that the parser processes manifests:<a href="#section-6.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.2-2.1">All commands may target dependency manifests as well as components. To support this behaviour, there is a new command instroduced: Set Dependency Index. This change works together with Set Component Index to choose the object on which the manifest is operating.<a href="#section-6.2-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6.3-2.1">
+            <p id="section-6.3-2.1.1">Two new commands are introduced.<a href="#section-6.3-2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.3-2.1.2.1">Process dependency.<a href="#section-6.3-2.1.2.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-6.2-2.2">Dependencies are processed in lock-step with the Root Manifest. This means that every dependency's current command sequence must be executed before a dependent's later command sequence may be executed. For example, every dependency's Dependency Resolution step MUST be executed before any dependent's payload fetch step.<a href="#section-6.2-2.2" class="pilcrow">¶</a>
+              <li class="normal" id="section-6.3-2.1.2.2">Is Dependency.<a href="#section-6.3-2.1.2.2" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-6.3-2.2">Dependency manifests are also components. All commands may target dependency manifests as well as components, with one exception: process dependency. Commands defined outside of this draft and <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span> MAY have additional restrictions.<a href="#section-6.3-2.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-6.3-2.3">Dependencies are processed in lock-step with the Root Manifest. This means that every dependency's current command sequence must be executed before a dependent's later command sequence may be executed. For example, every dependency's Dependency Resolution step MUST be executed before any dependent's payload fetch step.<a href="#section-6.3-2.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-6.3-2.4">When performing a suit-condition-image-match operation on a component, the manifest processor MUST first determine whether or not the component is a dependency manifest. If identified as a dependency manifest envelope, the manifest processor MUST compute the digest over only the SUIT_Manifest bstr, not the complete SUIT_Manifest_Envelope. This is so that severable elements, added or removed signatures, and delegations do not affect the integrity measurements of the manifest.<a href="#section-6.3-2.4" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-6.2-3">The logic of Set Componment Index is modified as below:<a href="#section-6.2-3" class="pilcrow">¶</a></p>
-<p id="section-6.2-4">As in <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>, To simplify the logic describing the command semantics, the object "current" is used. It represents the component identified by the Component Index or the dependency identified by the Dependency Index:<a href="#section-6.2-4" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-6.2-5">
-<pre>
-current := components\[component-index\]
-    if component-index is not false
-    else dependencies\[dependency-index\]
-</pre><a href="#section-6.2-5" class="pilcrow">¶</a>
-</div>
-<p id="section-6.2-6">As a result, Set Component Index is described as current := components[arg]. The actual operation performed for Set Component Index is described by the following pseudocode, however, because of the definition of current (above), these are semantically equivalent.<a href="#section-6.2-6" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-6.2-7">
-<pre>
-component-index := arg
-dependency-index := false
-</pre><a href="#section-6.2-7" class="pilcrow">¶</a>
-</div>
-<p id="section-6.2-8">Similarly, Set Dependency Index is semantically equivalent to current := dependencies[arg], but the actual operation performed is:<a href="#section-6.2-8" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-6.2-9">
-<pre>
-dependency-index := arg
-component-index := false
-</pre><a href="#section-6.2-9" class="pilcrow">¶</a>
-</div>
-<p id="section-6.2-10">Dependencies are identified by digest, but referenced in commands by Dependency Index, the index into the array of Dependencies.<a href="#section-6.2-10" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="index-true">
-<section id="section-6.3">
-        <h3 id="name-changes-to-special-cases-of">
-<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-changes-to-special-cases-of" class="section-name selfRef">Changes to Special Cases of Component Index and Dependency Index</a>
-        </h3>
-<p id="section-6.3-1">The considerations that apply in Special Cases of Component Index and Dependency Index (Section 6.5) of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span> are augmented to include Dependency Index as well as Component Index.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
-<p id="section-6.3-2">The target(s) assigned for each command are defined by the following pseudocode.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-6.3-3">
-<pre>
-if component-index is true:
-    current-list = components
-else if component-index is array:
-    current-list = [ components[idx] for idx in component-index ]
-else if component-index is integer:
-    current-list = [ components[component-index] ]
-else if dependency-index is true:
-    current-list = dependencies
-else if dependency-index is array:
-    current-list = [ dependencies[idx] for idx in dependency-index ]
-else:
-    current-list = [ dependencies[dependency-index] ]
-for current in current-list:
-    cmd(current)
-</pre><a href="#section-6.3-3" class="pilcrow">¶</a>
-</div>
 </section>
 </div>
 <div id="processing-dependencies">
@@ -1702,9 +1676,20 @@ for current in current-list:
 <a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-processing-dependencies" class="section-name selfRef">Processing Dependencies</a>
         </h3>
 <p id="section-6.4-1">As described in <a href="#required-checks" class="auto internal xref">Section 6.1</a>, each manifest must invoke each of its dependencies' sections from the corresponding section of the dependent. Any changes made to parameters by the dependency persist in the dependent.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
-<p id="section-6.4-2">When a Process Dependency command is encountered, the interpreter loads the dependency identified by the Current Dependency Index. The interpreter first executes the common-sequence section of the identified dependency, then it executes the section of the dependency that corresponds to the currently executing section of the dependent.<a href="#section-6.4-2" class="pilcrow">¶</a></p>
-<p id="section-6.4-3">If the specified dependency does not contain the current section, Process Dependency succeeds immediately.<a href="#section-6.4-3" class="pilcrow">¶</a></p>
-<p id="section-6.4-4">The Manifest Processor MUST also support a Dependency Index of True, which applies to every dependency, as described in <a href="#index-true" class="auto internal xref">Section 6.3</a><a href="#section-6.4-4" class="pilcrow">¶</a></p>
+<p id="section-6.4-2">When a Process Dependency command is encountered, the manifest processor:<a href="#section-6.4-2" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-6.4-3">
+<li id="section-6.4-3.1">Checks whether the map of dependencies contains an entry for the current Component Index. If not present, it causes an immediate Abort.<a href="#section-6.4-3.1" class="pilcrow">¶</a>
+</li>
+          <li id="section-6.4-3.2">Loads the specified component as a dependency manifest envelope.<a href="#section-6.4-3.2" class="pilcrow">¶</a>
+</li>
+          <li id="section-6.4-3.3">Authenticates the dependency manifest<a href="#section-6.4-3.3" class="pilcrow">¶</a>
+</li>
+          <li id="section-6.4-3.4">Executes the common-sequence section of the dependency manifest<a href="#section-6.4-3.4" class="pilcrow">¶</a>
+</li>
+          <li id="section-6.4-3.5">Executes the section of the dependency manifest that corresponds to the currently executing section of the dependent.<a href="#section-6.4-3.5" class="pilcrow">¶</a>
+</li>
+        </ol>
+<p id="section-6.4-4">If the specified dependency does not contain the current section, Process Dependency succeeds immediately.<a href="#section-6.4-4" class="pilcrow">¶</a></p>
 <p id="section-6.4-5">The interpreter also performs the checks described in <a href="#required-checks" class="auto internal xref">Section 6.1</a> to ensure that the dependent is processing the dependency correctly.<a href="#section-6.4-5" class="pilcrow">¶</a></p>
 <div id="hierarchical-interpreters">
 <section id="section-6.4.1">
@@ -1744,20 +1729,16 @@ for current in current-list:
           </thead>
           <tbody>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">Set Component Index</td>
-              <td class="text-left" rowspan="1" colspan="1">current := components[arg]</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">Set Dependency Index</td>
-              <td class="text-left" rowspan="1" colspan="1">current := dependencies[arg]</td>
-            </tr>
-            <tr>
               <td class="text-left" rowspan="1" colspan="1">Set Parameters</td>
-              <td class="text-left" rowspan="1" colspan="1">current.params[k] := v if not k in params for-each k,v in arg</td>
+              <td class="text-left" rowspan="1" colspan="1">current.params[k] := v if not k in current.params for-each k,v in arg</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">Process Dependency</td>
               <td class="text-left" rowspan="1" colspan="1">exec(current[common]); exec(current[current-segment])</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Is Dependency</td>
+              <td class="text-left" rowspan="1" colspan="1">assert(current exists in dependencies)</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">Unlink</td>
@@ -1765,55 +1746,34 @@ for current in current-list:
             </tr>
           </tbody>
         </table>
-<div id="suit-directive-set-component-index">
+<div id="suit-directive-set-parameters">
 <section id="section-6.6.1">
-          <h4 id="name-suit-directive-set-componen">
-<a href="#section-6.6.1" class="section-number selfRef">6.6.1. </a><a href="#name-suit-directive-set-componen" class="section-name selfRef">suit-directive-set-component-index</a>
+          <h4 id="name-suit-directive-set-paramete">
+<a href="#section-6.6.1" class="section-number selfRef">6.6.1. </a><a href="#name-suit-directive-set-paramete" class="section-name selfRef">suit-directive-set-parameters</a>
           </h4>
-<p id="section-6.6.1-1">Set Component Index defines the component to which successive directives and conditions will apply. The supplied argument MUST be one of three types:<a href="#section-6.6.1-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-6.6.1-2">
-<li id="section-6.6.1-2.1">An unsigned integer (REQUIRED to implement in parser)<a href="#section-6.6.1-2.1" class="pilcrow">¶</a>
-</li>
-            <li id="section-6.6.1-2.2">A boolean (REQUIRED to implement in parser ONLY IF 2 or more components supported)<a href="#section-6.6.1-2.2" class="pilcrow">¶</a>
-</li>
-            <li id="section-6.6.1-2.3">An array of unsigned integers (REQUIRED to implement in parser ONLY IF 3 or more components supported)<a href="#section-6.6.1-2.3" class="pilcrow">¶</a>
-</li>
-          </ol>
-<p id="section-6.6.1-3">If the following commands apply to ONE component, an unsigned integer index into the component list is used. If the following commands apply to ALL components, then the boolean value "True" is used instead of an index. If the following commands apply to more than one, but not all components, then an array of unsigned integer indices into the component list is used.
-See <a href="#index-true" class="auto internal xref">Section 6.3</a> for more details.<a href="#section-6.6.1-3" class="pilcrow">¶</a></p>
-<p id="section-6.6.1-4">If the following commands apply to NO components, then the boolean value "False" is used. When suit-directive-set-dependency-index is used, suit-directive-set-component-index = False is implied. When suit-directive-set-component-index is used, suit-directive-set-dependency-index = False is implied.<a href="#section-6.6.1-4" class="pilcrow">¶</a></p>
-<p id="section-6.6.1-5">If component index is set to True when a command is invoked, then the command applies to all components, in the order they appear in suit-common-components. When the Manifest Processor invokes a command while the component index is set to True, it must execute the command once for each possible component index, ensuring that the command receives the parameters corresponding to that component index.<a href="#section-6.6.1-5" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="suit-directive-set-dependency-index">
-<section id="section-6.6.2">
-          <h4 id="name-suit-directive-set-dependen">
-<a href="#section-6.6.2" class="section-number selfRef">6.6.2. </a><a href="#name-suit-directive-set-dependen" class="section-name selfRef">suit-directive-set-dependency-index</a>
-          </h4>
-<p id="section-6.6.2-1">Set Dependency Index defines the manifest to which successive directives and conditions will apply. The supplied argument MUST be either a boolean or an unsigned integer index into the dependencies, or an array of unsigned integer indices into the list of dependencies. If the following directives apply to ALL dependencies, then the boolean value "True" is used instead of an index. If the following directives apply to NO dependencies, then the boolean value "False" is used. When suit-directive-set-component-index is used, suit-directive-set-dependency-index = False is implied. When suit-directive-set-dependency-index is used, suit-directive-set-component-index = False is implied.<a href="#section-6.6.2-1" class="pilcrow">¶</a></p>
-<p id="section-6.6.2-2">If dependency index is set to True when a command is invoked, then the command applies to all dependencies, in the order they appear in suit-common-components. When the Manifest Processor invokes a command while the dependency index is set to True, the Manifest Processor MUST execute the command once for each possible dependency index, ensuring that the command receives the parameters corresponding to that dependency index. If the dependency index is set to an array of unsigned integers, then the Manifest Processor MUST execute the command once for each listed dependency index, ensuring that the command receives the parameters corresponding to that dependency index.<a href="#section-6.6.2-2" class="pilcrow">¶</a></p>
-<p id="section-6.6.2-3">See <a href="#index-true" class="auto internal xref">Section 6.3</a> for more details.<a href="#section-6.6.2-3" class="pilcrow">¶</a></p>
-<p id="section-6.6.2-4">Typical operations that require suit-directive-set-dependency-index include setting a source URI or Encryption Information, invoking "Fetch," or invoking "Process Dependency" for an individual dependency.<a href="#section-6.6.2-4" class="pilcrow">¶</a></p>
+<p id="section-6.6.1-1">Similarly to suit-directive-override-parameters, suit-directive-set-parameters allows the manifest to configure behavior of future directives by changing parameters that are read by those directives. Set Parameters is for use when dependencies are used because it allows a manifest to modify the behavior of its dependencies.<a href="#section-6.6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.6.1-2">Available parameters are defined in <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>, section 8.4.8.<a href="#section-6.6.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.6.1-3">If a parameter is already set, suit-directive-set-parameters will skip setting the parameter to its argument. This allows dependent manifests to change the behavior of a manifest, a dependency that wishes to enforce a specific value of a parameter MAY use suit-directive-override-parameters instead.<a href="#section-6.6.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.6.1-4">suit-directive-set-parameters does not specify a reporting policy.<a href="#section-6.6.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="suit-directive-process-dependency">
-<section id="section-6.6.3">
+<section id="section-6.6.2">
           <h4 id="name-suit-directive-process-depe">
-<a href="#section-6.6.3" class="section-number selfRef">6.6.3. </a><a href="#name-suit-directive-process-depe" class="section-name selfRef">suit-directive-process-dependency</a>
+<a href="#section-6.6.2" class="section-number selfRef">6.6.2. </a><a href="#name-suit-directive-process-depe" class="section-name selfRef">suit-directive-process-dependency</a>
           </h4>
-<p id="section-6.6.3-1">Execute the commands in the common section of the current dependency, followed by the commands in the equivalent section of the current dependency. For example, if the current section is "fetch payload," this will execute "common" in the current dependency, then "fetch payload" in the current dependency. Once this is complete, the command following suit-directive-process-dependency will be processed.<a href="#section-6.6.3-1" class="pilcrow">¶</a></p>
-<p id="section-6.6.3-2">If the current dependency is False, this directive has no effect. If the current dependency is True, then this directive applies to all dependencies. If the current section is "common," then the command sequence MUST be terminated with an error.<a href="#section-6.6.3-2" class="pilcrow">¶</a></p>
-<p id="section-6.6.3-3">When SUIT_Process_Dependency completes, it forwards the last status code that occurred in the dependency.<a href="#section-6.6.3-3" class="pilcrow">¶</a></p>
-<div id="suit-directive-set-parameters">
-<section id="section-6.6.3.1">
-            <h5 id="name-suit-directive-set-paramete">
-<a href="#section-6.6.3.1" class="section-number selfRef">6.6.3.1. </a><a href="#name-suit-directive-set-paramete" class="section-name selfRef">suit-directive-set-parameters</a>
-            </h5>
-<p id="section-6.6.3.1-1">suit-directive-set-parameters allows the manifest to configure behavior of future directives by changing parameters that are read by those directives. When dependencies are used, suit-directive-set-parameters also allows a manifest to modify the behavior of its dependencies.<a href="#section-6.6.3.1-1" class="pilcrow">¶</a></p>
-<p id="section-6.6.3.1-2">If a parameter is already set, suit-directive-set-parameters will skip setting the parameter to its argument. This provides the core of the override mechanism, allowing dependent manifests to change the behavior of a manifest.<a href="#section-6.6.3.1-2" class="pilcrow">¶</a></p>
-<p id="section-6.6.3.1-3">suit-directive-set-parameters does not specify a reporting policy.<a href="#section-6.6.3.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.6.2-1">Execute the commands in the common section of the current dependency, followed by the commands in the equivalent section of the current dependency. For example, if the current section is "fetch payload," this will execute "common" in the current dependency, then "fetch payload" in the current dependency. Once this is complete, the command following suit-directive-process-dependency will be processed.<a href="#section-6.6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.6.2-2">If the current component index does not have an entry in the suit-dependencies map, then this command MUST Abort.<a href="#section-6.6.2-2" class="pilcrow">¶</a></p>
+<p id="section-6.6.2-3">If the current component is True, then this directive applies to all dependencies. If the current section is "common," then the command sequence MUST Abort.<a href="#section-6.6.2-3" class="pilcrow">¶</a></p>
+<p id="section-6.6.2-4">When SUIT_Process_Dependency completes, it forwards the last status code that occurred in the dependency.<a href="#section-6.6.2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="suit-directive-is-dependency">
+<section id="section-6.6.3">
+          <h4 id="name-suit-condition-is-dependenc">
+<a href="#section-6.6.3" class="section-number selfRef">6.6.3. </a><a href="#name-suit-condition-is-dependenc" class="section-name selfRef">suit-condition-is-dependency</a>
+          </h4>
+<p id="section-6.6.3-1">Check whether or not the current component index is present in the dependency list. If the current component is in the dependency list, suit-condition-is-dependency succeeds. Otherwise, it fails. This can be used along with component-id = True to act on all dependencies or on all non-dependency components. See <a href="#creating-manifests" class="auto internal xref">Section 8</a> for more details.<a href="#section-6.6.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="suit-directive-unlink">
@@ -1828,16 +1788,29 @@ See <a href="#index-true" class="auto internal xref">Section 6.3</a> for more de
 </div>
 </section>
 </div>
-<div id="SUIT_Dependency">
+<div id="SUIT_Dependencies">
 <section id="section-6.7">
-        <h3 id="name-suit_dependency-manifest-el">
-<a href="#section-6.7" class="section-number selfRef">6.7. </a><a href="#name-suit_dependency-manifest-el" class="section-name selfRef">SUIT_Dependency Manifest Element</a>
+        <h3 id="name-suit_dependencies-manifest-">
+<a href="#section-6.7" class="section-number selfRef">6.7. </a><a href="#name-suit_dependencies-manifest-" class="section-name selfRef">SUIT_Dependencies Manifest Element</a>
         </h3>
-<p id="section-6.7-1">SUIT_Dependency specifies a manifest that describes a dependency of the current manifest. The Manifest is identified, but the Recipient should expect an Envelope when it acquires the dependency. This is because the Manifest is the one invariant element of the Envelope, where other elements may change by countersigning, adding authentication blocks, or severing elements.<a href="#section-6.7-1" class="pilcrow">¶</a></p>
-<p id="section-6.7-2">The suit-dependency-digest specifies the dependency manifest uniquely by identifying a particular Manifest structure. This is identical to the digest that would be present as the payload of any suit-authentication-block in the dependency's Envelope. The digest is calculated over the Manifest structure instead of the COSE Sig_structure or Mac_structure. This is necessary to ensure that removing a signature from a manifest does not break dependencies due to missing signature elements. This is also necessary to support the trusted intermediary use case, where an intermediary re-signs the Manifest, removing the original signature, potentially with a different algorithm, or trading COSE_Sign for COSE_Mac.<a href="#section-6.7-2" class="pilcrow">¶</a></p>
-<p id="section-6.7-3">The suit-dependency-prefix element contains a SUIT_Component_Identifier (see Section 8.4.5.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>). This specifies the scope at which the dependency operates. This allows the dependency to be forwarded on to a component that is capable of parsing its own manifests. It also allows one manifest to be deployed to multiple dependent Recipients without those Recipients needing consistent component hierarchy. This element is OPTIONAL for Recipients to implement.<a href="#section-6.7-3" class="pilcrow">¶</a></p>
-<p id="section-6.7-4">A dependency prefix can be used with a component identifier. This allows complex systems to understand where dependencies need to be applied. The dependency prefix can be used in one of two ways. The first simply prepends the prefix to all Component Identifiers in the dependency.<a href="#section-6.7-4" class="pilcrow">¶</a></p>
-<p id="section-6.7-5">A dependency prefix can also be used to indicate when a dependency manifest needs to be processed by a secondary manifest processor, as described in <a href="#hierarchical-interpreters" class="auto internal xref">Section 6.4.1</a>.<a href="#section-6.7-5" class="pilcrow">¶</a></p>
+<p id="section-6.7-1">Because some operations treat dependency manifests differently from other components, it is necessary to identify them. SUIT_Dependencies identifies which components from suit-components (See Section 8.4.5 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>) are to be treated as dependency manifest envelopes. SUIT_Dependencies is a map of Components, referenced by Component Index. Optionally, a component prefix or other metadata may be delivered with the component index. The CDDL for suit-dependencies is shown below:<a href="#section-6.7-1" class="pilcrow">¶</a></p>
+<div id="section-6.7-2">
+<pre class="lang-CDDL sourcecode">
+SUIT_Dependencies = {
+    + uint =&gt; SUIT_Dependency_Metadata
+}
+SUIT_Dependency_Metadata = {
+    ? suit-dependency-prefix =&gt; SUIT_Component_Identifier
+    $$SUIT_Dependency_Extensions
+}
+</pre><a href="#section-6.7-2" class="pilcrow">¶</a>
+</div>
+<p id="section-6.7-3">If no extended metadata is needed for an extension, SUIT_Dependency_Metadata is an empty map (this is the same encoding size as a null). SUIT_Dependencies MUST be sorted according to CBOR canonical encoding.<a href="#section-6.7-3" class="pilcrow">¶</a></p>
+<p id="section-6.7-4">The components specified by SUIT_Dependency will contain a Manifest Envelope that describes a dependency of the current manifest. The Manifest is identified, but the Recipient should expect an Envelope when it acquires the dependency. This is because the Manifest is the one invariant element of the Envelope, where other elements may change by countersigning, adding authentication blocks, or severing elements.<a href="#section-6.7-4" class="pilcrow">¶</a></p>
+<p id="section-6.7-5">When executing suit-condition-image-match over a component that is designated in SUIT_Dependency, the digest MUST be computed over just the bstr-wrapped SUIT_Manifest contained in the Manifest Envelope designated by the Component Index. This enables a dependency reference to uniquely identify a particular Manifest structure. This is identical to the digest that is present as the first element of the suit-authentication-block in the dependency's Envelope. The digest is calculated over the Manifest structure to ensure that removing a signature from a manifest does not break dependencies due to missing signature elements. This is also necessary to support the trusted intermediary use case, where an intermediary re-signs the Manifest, removing the original signature, potentially with a different algorithm, or trading COSE_Sign for COSE_Mac.<a href="#section-6.7-5" class="pilcrow">¶</a></p>
+<p id="section-6.7-6">The suit-dependency-prefix element contains a SUIT_Component_Identifier (see Section 8.4.5.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>). This specifies the scope at which the dependency operates. This allows the dependency to be forwarded on to a component that is capable of parsing its own manifests. It also allows one manifest to be deployed to multiple dependent Recipients without those Recipients needing consistent component hierarchy. This element is OPTIONAL for Recipients to implement.<a href="#section-6.7-6" class="pilcrow">¶</a></p>
+<p id="section-6.7-7">A dependency prefix can be used with a component identifier. This allows complex systems to understand where dependencies need to be applied. The dependency prefix can be used in one of two ways. The first simply prepends the prefix to all Component Identifiers in the dependency.<a href="#section-6.7-7" class="pilcrow">¶</a></p>
+<p id="section-6.7-8">A dependency prefix can also be used to indicate when a dependency manifest needs to be processed by a secondary manifest processor, as described in <a href="#hierarchical-interpreters" class="auto internal xref">Section 6.4.1</a>.<a href="#section-6.7-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1864,36 +1837,43 @@ See <a href="#index-true" class="auto internal xref">Section 6.3</a> for more de
 <a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-dependency-template" class="section-name selfRef">Dependency Template</a>
         </h3>
 <p id="section-8.1-1">The goal of the Dependency template is to obtain, verify, and process a dependency manifest as appropriate.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
-<p id="section-8.1-2">The following commands are placed into the dependency resolution sequence:<a href="#section-8.1-2" class="pilcrow">¶</a></p>
+<p id="section-8.1-2">The following commands are added to the shared sequence:<a href="#section-8.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.1-3.1">Set Dependency Index directive (see <a href="#suit-directive-set-dependency-index" class="auto internal xref">Section 6.6.2</a>)<a href="#section-8.1-3.1" class="pilcrow">¶</a>
+<li class="normal" id="section-8.1-3.1">Set Component Index directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.1-3.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.1-3.2">Set Parameters directive (see <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.3.1</a>) for URI (see Section 8.4.8.9 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.1-3.2" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-8.1-3.3">Fetch directive (see Section 8.4.10.4 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.1-3.3" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-8.1-3.4">Check Image Match condition (see Section 8.4.9.2 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span> of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.1-3.4" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-8.1-3.5">Process Dependency directive (see <a href="#suit-directive-process-dependency" class="auto internal xref">Section 6.6.3</a>)<a href="#section-8.1-3.5" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.1-3.2">Set Parameters directive (see <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.1</a>) for digest (see Section 8.4.8.6 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>). Note that the digest MUST match the SUIT_Digest in the dependency's suit-authentication-block (See Section 8.3 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>).<a href="#section-8.1-3.2" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-8.1-4">Then, the validate sequence contains the following operations:<a href="#section-8.1-4" class="pilcrow">¶</a></p>
+<p id="section-8.1-4">The following commands are placed into the dependency resolution sequence:<a href="#section-8.1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.1-5.1">Set Dependency Index directive (see <a href="#suit-directive-set-dependency-index" class="auto internal xref">Section 6.6.2</a>)<a href="#section-8.1-5.1" class="pilcrow">¶</a>
+<li class="normal" id="section-8.1-5.1">Set Component Index directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.1-5.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.1-5.2">Check Image Match condition (see Section 8.4.9.2 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.1-5.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.1-5.2">Set Parameters directive (see <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.1</a>) for URI (see Section 8.4.8.10 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.1-5.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.1-5.3">Process Dependency directive (see <a href="#suit-directive-process-dependency" class="auto internal xref">Section 6.6.3</a>)<a href="#section-8.1-5.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.1-5.3">Fetch directive (see Section 8.4.10.4 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.1-5.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.1-5.4">Check Image Match condition (see Section 8.4.9.2 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span> of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.1-5.4" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.1-5.5">Process Dependency directive (see <a href="#suit-directive-process-dependency" class="auto internal xref">Section 6.6.2</a>)<a href="#section-8.1-5.5" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-8.1-6">NOTE: Any changes made to parameters in a dependency persist in the dependent.<a href="#section-8.1-6" class="pilcrow">¶</a></p>
+<p id="section-8.1-6">Then, the validate sequence contains the following operations:<a href="#section-8.1-6" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.1-7.1">Set Component Index directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.1-7.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.1-7.2">Check Image Match condition (see Section 8.4.9.2 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.1-7.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.1-7.3">Process Dependency directive (see <a href="#suit-directive-process-dependency" class="auto internal xref">Section 6.6.2</a>)<a href="#section-8.1-7.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-8.1-8">If any dependency is declared, the dependent MUST populate all command sequences for the current procedure (Update or Invoke).<a href="#section-8.1-8" class="pilcrow">¶</a></p>
+<p id="section-8.1-9">NOTE: Any changes made to parameters in a dependency persist in the dependent.<a href="#section-8.1-9" class="pilcrow">¶</a></p>
 <div id="composite-manifests">
 <section id="section-8.1.1">
           <h4 id="name-composite-manifests">
 <a href="#section-8.1.1" class="section-number selfRef">8.1.1. </a><a href="#name-composite-manifests" class="section-name selfRef">Composite Manifests</a>
           </h4>
-<p id="section-8.1.1-1">An implementer MAY choose to place a dependency's envelope in the envelope of its dependent. The dependent envelope key for the dependency envelope MUST NOT be a value between 0 and 24 and it MUST NOT be used by any other envelope element in the dependent manifest.<a href="#section-8.1.1-1" class="pilcrow">¶</a></p>
-<p id="section-8.1.1-2">The URI for a dependency enclosed in this way MUST be expressed as a fragment-only reference, as defined in <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>, Section 4.4. The fragment identifier is the stringified envelope key of the dependency. For example, an envelope that contains a dependency at key 42 would use a URI "#42", key -73 would use a URI "#-73".<a href="#section-8.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-8.1.1-1">An implementer MAY choose to place a dependency's envelope in the envelope of its dependent. The dependent envelope key for the dependency envelope MUST be a text string. The URI for the dependency MUST match the text string key of the dependent's envelope key. It is RECOMMENDED to make the text string key a resolvable URI so that a dependency manifest that is removed from the envelope can still be fetched.<a href="#section-8.1.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1905,36 +1885,142 @@ See <a href="#index-true" class="auto internal xref">Section 6.3</a> for more de
         </h3>
 <p id="section-8.2-1">The goal of the Encrypted Manifest template is to fetch and decrypt a manifest so that it can be used as a dependency. To use an encrypted manifest, create a plaintext dependent, and add the encrypted manifest as a dependency. The dependent can include very little information.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
 <p id="section-8.2-2">NOTE: This template also requires the extensions defined in <span>[<a href="#I-D.ietf-suit-firmware-encryption" class="cite xref">I-D.ietf-suit-firmware-encryption</a>]</span><a href="#section-8.2-2" class="pilcrow">¶</a></p>
-<p id="section-8.2-3">The following operations are placed into the dependency resolution block:<a href="#section-8.2-3" class="pilcrow">¶</a></p>
+<p id="section-8.2-3">The following commands are added to the shared sequence:<a href="#section-8.2-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.2-4.1">Set Dependency Index directive (see <a href="#suit-directive-set-dependency-index" class="auto internal xref">Section 6.6.2</a>)<a href="#section-8.2-4.1" class="pilcrow">¶</a>
+<li class="normal" id="section-8.2-4.1">Set Component Index directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.2-4.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.2-4.2">
-            <p id="section-8.2-4.2.1">Set Parameters directive (see <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.3.1</a>) for<a href="#section-8.2-4.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.2-4.2">Set Parameters directive (see <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.1</a>) for digest (see Section 8.4.8.6 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>). Note that the digest MUST match the SUIT_Digest in the dependency's suit-authentication-block (See Section 8.3 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>).<a href="#section-8.2-4.2" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-8.2-5">The following operations are placed into the dependency resolution block:<a href="#section-8.2-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.2-4.2.2.1">URI (see Section 8.4.8.9 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.2-4.2.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-8.2-6.1">Set Component Index directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.2-6.1" class="pilcrow">¶</a>
 </li>
-              <li class="normal" id="section-8.2-4.2.2.2">Encryption Info (See <span>[<a href="#I-D.ietf-suit-firmware-encryption" class="cite xref">I-D.ietf-suit-firmware-encryption</a>]</span>)<a href="#section-8.2-4.2.2.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.2-6.2">
+            <p id="section-8.2-6.2.1">Set Parameters directive (see <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.1</a>) for<a href="#section-8.2-6.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.2-6.2.2.1">URI (see Section 8.4.8.9 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.2-6.2.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="normal" id="section-8.2-6.2.2.2">Encryption Info (See <span>[<a href="#I-D.ietf-suit-firmware-encryption" class="cite xref">I-D.ietf-suit-firmware-encryption</a>]</span>)<a href="#section-8.2-6.2.2.2" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-8.2-4.3">Fetch directive (see Section 8.4.10.4 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.2-4.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.2-6.3">Fetch directive (see Section 8.4.10.4 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.2-6.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.2-4.4">Check Image Match condition (see Section 8.4.9.2 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.2-4.4" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.2-6.4">Check Image Match condition (see Section 8.4.9.2 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.2-6.4" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.2-4.5">Process Dependency directive (see <a href="#suit-directive-process-dependency" class="auto internal xref">Section 6.6.3</a>)<a href="#section-8.2-4.5" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.2-6.5">Process Dependency directive (see <a href="#suit-directive-process-dependency" class="auto internal xref">Section 6.6.2</a>)<a href="#section-8.2-6.5" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-8.2-5">Then, the validate block contains the following operations:<a href="#section-8.2-5" class="pilcrow">¶</a></p>
+<p id="section-8.2-7">Then, the validate block contains the following operations:<a href="#section-8.2-7" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.2-6.1">Set Dependency Index directive (see <a href="#suit-directive-set-dependency-index" class="auto internal xref">Section 6.6.2</a>)<a href="#section-8.2-6.1" class="pilcrow">¶</a>
+<li class="normal" id="section-8.2-8.1">Set Component Index directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.2-8.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.2-6.2">Check Image Match condition (see Section 8.4.9.2 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.2-6.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.2-8.2">Check Image Match condition (see Section 8.4.9.2 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.2-8.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.2-6.3">Process Dependency directive (see <a href="#suit-directive-process-dependency" class="auto internal xref">Section 6.6.3</a>)<a href="#section-8.2-6.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.2-8.3">Process Dependency directive (see <a href="#suit-directive-process-dependency" class="auto internal xref">Section 6.6.2</a>)<a href="#section-8.2-8.3" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-8.2-7">A plaintext manifest and its encrypted dependency may also form a composite manifest (<a href="#composite-manifests" class="auto internal xref">Section 8.1.1</a>).<a href="#section-8.2-7" class="pilcrow">¶</a></p>
+<p id="section-8.2-9">A plaintext manifest and its encrypted dependency may also form a composite manifest (<a href="#composite-manifests" class="auto internal xref">Section 8.1.1</a>).<a href="#section-8.2-9" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="operating-on-multiple-components">
+<section id="section-8.3">
+        <h3 id="name-operating-on-multiple-compo">
+<a href="#section-8.3" class="section-number selfRef">8.3. </a><a href="#name-operating-on-multiple-compo" class="section-name selfRef">Operating on Multiple Components</a>
+        </h3>
+<p id="section-8.3-1">In order to produce compact encoding, it is efficient to perform operations on multiple components simultaneously. Because Dependency Manifests and Component Images are processed at different times, there is a mechanism to distinguish between these elements: suit-condition-is-manifest. This can be used with suit-directive-try-each to perform operations just on Dependency Manifests or just on Component Images.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
+<p id="section-8.3-2">For example, to fetch all dependency manifests, the following commands are added to the dependency resolution block:<a href="#section-8.3-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.3-3.1">Set Component Index directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-3.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.3-3.2">
+            <p id="section-8.3-3.2.1">Set Parameters directive (see <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.1</a>) for<a href="#section-8.3-3.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.3-3.2.2.1">URI (see Section 8.4.8.9 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-3.2.2.1" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-8.3-3.3">Set Component Index directive, with argument "True" (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-3.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.3-3.4">
+            <p id="section-8.3-3.4.1">Try Each Directive<a href="#section-8.3-3.4.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.3-3.4.2.1">
+                <p id="section-8.3-3.4.2.1.1">Sequence 0<a href="#section-8.3-3.4.2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.3-3.4.2.1.2.1">Condition Is Manifest<a href="#section-8.3-3.4.2.1.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="normal" id="section-8.3-3.4.2.1.2.2">Fetch<a href="#section-8.3-3.4.2.1.2.2" class="pilcrow">¶</a>
+</li>
+                  <li class="normal" id="section-8.3-3.4.2.1.2.3">Condition Image Match<a href="#section-8.3-3.4.2.1.2.3" class="pilcrow">¶</a>
+</li>
+                  <li class="normal" id="section-8.3-3.4.2.1.2.4">Process Dependency<a href="#section-8.3-3.4.2.1.2.4" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="normal" id="section-8.3-3.4.2.2">Sequence 1 (Empty; no commands, succeeds immediately)<a href="#section-8.3-3.4.2.2" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+        </ul>
+<p id="section-8.3-4">Another example is to fetch and validate all Component Images. The image fetch sequence contains the following commands:<a href="#section-8.3-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.3-5.1">Set Component Index directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-5.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.3-5.2">
+            <p id="section-8.3-5.2.1">Set Parameters directive (see <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.1</a>) for<a href="#section-8.3-5.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.3-5.2.2.1">URI (see Section 8.4.8.9 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-5.2.2.1" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-8.3-5.3">Set Component Index directive, with argument "True" (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-5.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.3-5.4">
+            <p id="section-8.3-5.4.1">Try Each Directive<a href="#section-8.3-5.4.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.3-5.4.2.1">
+                <p id="section-8.3-5.4.2.1.1">Sequence 0<a href="#section-8.3-5.4.2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.3-5.4.2.1.2.1">Condition Is Manifest<a href="#section-8.3-5.4.2.1.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="normal" id="section-8.3-5.4.2.1.2.2">Process Dependency<a href="#section-8.3-5.4.2.1.2.2" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="normal" id="section-8.3-5.4.2.2">
+                <p id="section-8.3-5.4.2.2.1">Sequence 1 (Empty; no commands, succeeds immediately)<a href="#section-8.3-5.4.2.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.3-5.4.2.2.2.1">Fetch<a href="#section-8.3-5.4.2.2.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="normal" id="section-8.3-5.4.2.2.2.2">Condition Image Match<a href="#section-8.3-5.4.2.2.2.2" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+        </ul>
+<p id="section-8.3-6">When some components are "installed" or "loaded" it is more productive to use lists of component indices rather than Component Index = True. For example, to install several components, the following commands should be placed in the image install sequence:<a href="#section-8.3-6" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.3-7.1">Set Component Index directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-7.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.3-7.2">
+            <p id="section-8.3-7.2.1">Set Parameters directive (see <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.1</a>) for<a href="#section-8.3-7.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.3-7.2.2.1">Source Component (see Section 8.4.8.11 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-7.2.2.1" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-8.3-7.3">Set Component Index directive, with argument containing list of destination component indices (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-7.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.3-7.4">Copy<a href="#section-8.3-7.4" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.3-7.5">Set Component Index directive, with argument containing list dependency component indices (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-7.5" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.3-7.6">Process Dependency<a href="#section-8.3-7.6" class="pilcrow">¶</a>
+</li>
+        </ul>
 </section>
 </div>
 </section>
@@ -1993,26 +2079,26 @@ See <a href="#index-true" class="auto internal xref">Section 6.3</a> for more de
           </thead>
           <tbody>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">13</td>
-              <td class="text-left" rowspan="1" colspan="1">Set Dependency Index</td>
+              <td class="text-left" rowspan="1" colspan="1">7</td>
+              <td class="text-left" rowspan="1" colspan="1">Is Dependency</td>
+              <td class="text-left" rowspan="1" colspan="1">suit-directive-is-dependency</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <a href="#suit-directive-set-dependency-index" class="auto internal xref">Section 6.6.2</a>
+                <a href="#suit-directive-is-dependency" class="auto internal xref">Section 6.6.3</a>
 </td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">18</td>
               <td class="text-left" rowspan="1" colspan="1">Process Dependency</td>
               <td class="text-left" rowspan="1" colspan="1">suit-directive-process-dependency</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <a href="#suit-directive-process-dependency" class="auto internal xref">Section 6.6.3</a>
+                <a href="#suit-directive-process-dependency" class="auto internal xref">Section 6.6.2</a>
 </td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">19</td>
               <td class="text-left" rowspan="1" colspan="1">Set Parameters</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.3.1</a>
+                <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.1</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
@@ -2138,17 +2224,17 @@ $$severable-manifest-members-choice-extensions //= (
 $$SUIT_Common-extensions //= (
         suit-dependencies =&gt; SUIT_Dependencies
 )
-
-SUIT_Dependencies         = [ + SUIT_Dependency ]
-
-SUIT_Dependency = {
-    suit-dependency-digest =&gt; SUIT_Digest,
-    ? suit-dependency-prefix =&gt; SUIT_Component_Identifier,
-    * $$SUIT_Dependency-extensions,
+SUIT_Dependencies = {
+    + uint =&gt; SUIT_Dependency_Metadata
+}
+SUIT_Dependency_Metadata = {
+    ? suit-dependency-prefix =&gt; SUIT_Component_Identifier
+    $$SUIT_Dependency_Extensions
 }
 
-SUIT_Directive //= (
-    suit-directive-set-dependency-index, IndexArg)
+SUIT_Condition //= (
+    suit-condition-is-dependency, SUIT_Rep_Policy)
+
 SUIT_Directive //= (
     suit-directive-process-dependency, SUIT_Rep_Policy)
 SUIT_Directive //= (suit-directive-set-parameters,
@@ -2162,10 +2248,9 @@ suit-uninstall = 24
 
 suit-dependencies = 1
 
-suit-dependency-digest = 1
-suit-dependency-prefix = 2
+suit-dependency-prefix = 1
 
-suit-directive-set-dependency-index     = 13
+suit-condition-is-dependency            = 7
 suit-directive-process-dependency       = 18
 suit-directive-set-parameters           = 19
 suit-directive-unlink                   = 33
