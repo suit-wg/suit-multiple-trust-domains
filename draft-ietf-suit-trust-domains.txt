@@ -10,7 +10,7 @@ Expires: 27 April 2023                                   SECOM CO., LTD.
 
 
           SUIT Manifest Extensions for Multiple Trust Domains
-                    draft-ietf-suit-trust-domains-00
+                    draft-ietf-suit-trust-domains-01
 
 Abstract
 
