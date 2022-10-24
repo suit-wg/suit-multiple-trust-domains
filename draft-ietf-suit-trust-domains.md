@@ -274,9 +274,20 @@ All commands are modified in that they can also target dependencies. However, Se
 
 | Command Name | Semantic of the Operation
 |------|----
+| Set Parameters | current.params\[k\] := v if not k in current.params for-each k,v in arg
 | Process Dependency | exec(current\[common\]); exec(current\[current-segment\])
 | Is Dependency | assert(current exists in dependencies)
 | Unlink | unlink(current)
+
+### suit-directive-set-parameters {#suit-directive-set-parameters}
+
+Similarly to suit-directive-override-parameters, suit-directive-set-parameters allows the manifest to configure behavior of future directives by changing parameters that are read by those directives. Set Parameters is for use when dependencies are used because it allows a manifest to modify the behavior of its dependencies.
+
+Available parameters are defined in {{I-D.ietf-suit-manifest}}, section 8.4.8.
+
+If a parameter is already set, suit-directive-set-parameters will skip setting the parameter to its argument. This allows dependent manifests to change the behavior of a manifest, a dependency that wishes to enforce a specific value of a parameter MAY use suit-directive-override-parameters instead.
+
+suit-directive-set-parameters does not specify a reporting policy.
 
 
 ### suit-directive-process-dependency {#suit-directive-process-dependency}
