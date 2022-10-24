@@ -28,7 +28,7 @@ author:
       ins: B. Moran
       name: Brendan Moran
       organization: Arm Limited
-      email: Brendan.Moran@arm.com
+      email: brendan.moran.ietf@gmail.com
 
  -
       ins: K. Takayama
@@ -42,10 +42,11 @@ normative:
   RFC8392:
   RFC8747:
   RFC9019:
+  RFC9124:
   I-D.ietf-suit-manifest:
 
 informative:
-  I-D.ietf-suit-information-model:
+  I-D.ietf-suit-update-management:
   I-D.ietf-suit-firmware-encryption:
   I-D.ietf-teep-architecture:
 
@@ -263,6 +264,10 @@ When the first manifest processor encounters a dependency prefix, that informs t
 
 This mechanism ensures that the two or more manifest processors do not need to trust each other, except in a very limited case. When parameter setting across security domains is used, it must be very carefully considered. Only parameters that do not have an effect on security properties should be allowed. The dependency manifest MAY control which parameters are allowed to be set by using the Override Parameters directive. The second manifest processor MAY also control which parameters may be set by the first manifest processor by means of an ACL that lists the allowed parameters. For example, a URI may be set by a dependent without a substantial impact on the security properties of the manifest.
 
+##  Dependency Resolution {#suit-dependency-resolution}
+
+The Dependency Resolution Command Sequence is a container for the commands needed to acquire and process the dependencies of the current manifest. Ideally, all dependency manifests should be fetched before any payload is fetched to ensure that all manifests are available and authenticated before any of the (larger) payloads are acquired.
+
 ##  Added and Modified Commands
 
 All commands are modified in that they can also target dependencies. However, Set Component Index has a larger modification.
@@ -290,13 +295,9 @@ Check whether or not the current component index is present in the dependency li
 
 ### suit-directive-unlink {#suit-directive-unlink}
 
-suit-directive-unlink marks the current component as unused in the current manifest. This can be used to remove temporary storage or remove components that are no longer needed. Example use cases:
+suit-directive-unlink applies to manifests. When the components defined by a manifest are no longer needed, the manifest processor unlinks the manifest to inform the manifest processor that they are no longer needed. The unlink command decrements an implementation-defined reference counter. This reference counter MUST persist across restarts. The reference counter MUST NOT be decremented by a given manifest more than once, and the manifest processor must enforce this. The manifest processor MAY choose to ignore a Unlink directive depending on device policy.
 
-* Temporary storage for encrypted download
-* Temporary storage for verifying decompressed file before writing to flash
-* Removing Trusted Service no longer needed by Trusted Application
-
-Once the current Command Sequence is complete, the manifest processors checks each marked component to see whether any other manifests have referenced it. Those marked components with no other references are deleted. The manifest processor MAY choose to ignore a Unlink directive depending on device policy.
+When the reference counter reaches zero, the suit-uninstall command sequence is invoked (see {{suit-uninstall}}).
 
 suit-directive-unlink is OPTIONAL to implement in manifest processors.
 
@@ -325,6 +326,14 @@ The suit-dependency-prefix element contains a SUIT_Component_Identifier (see Sec
 A dependency prefix can be used with a component identifier. This allows complex systems to understand where dependencies need to be applied. The dependency prefix can be used in one of two ways. The first simply prepends the prefix to all Component Identifiers in the dependency.
 
 A dependency prefix can also be used to indicate when a dependency manifest needs to be processed by a secondary manifest processor, as described in {{hierarchical-interpreters}}.
+
+# Uninstall {#suit-uninstall}
+
+In some systems, particularly with multiple, independent, optional components, it may be that there is a need to uninstall the components that have been installed by a manifest. Where this is expected, the uninstall command sequence can provide the sequence needed to cleanly remove the components defined by the manifest and its dependencies. In general, suit uninstall will contain primarily unlink directives.
+
+WARNING: This can cause faults where there are loose dependencies (e.g., version range matching, see {{I-D.ietf-suit-update-management}}), since a component can be removed while it is depended upon by another component. To avoid dependency faults, a manifest author MAY use explicit dependencies where possible, or a manifest processor MAY track references to loose dependencies via reference counting in the same way as explicit dependencies, as described in {{suit-directive-unlink}}.
+
+The Uninstall command sequence is not severable, since it must always be available to enable uninstalling.
 
 # Creating Manifests {#creating-manifests}
 
@@ -436,6 +445,13 @@ When some components are "installed" or "loaded" it is more productive to use li
 
 IANA is requested to allocate the following numbers in the listed registries:
 
+## SUIT Command Sequences
+
+Label | Name | Reference
+---|---|---
+7  | Dependency Resolution | 
+24 | Uninstall | {{suit-uninstall}}
+
 ## SUIT Commands
 
 Label | Name | Reference
@@ -447,7 +463,7 @@ Label | Name | Reference
 
 #  Security Considerations
 
-This document is about a manifest format protecting and describing how to retrieve, install, and invoke firmware images and as such it is part of a larger solution for delivering firmware updates to IoT devices. A detailed security treatment can be found in the architecture {{RFC9019}} and in the information model {{I-D.ietf-suit-information-model}} documents.
+This document is about a manifest format protecting and describing how to retrieve, install, and invoke firmware images and as such it is part of a larger solution for delivering firmware updates to IoT devices. A detailed security treatment can be found in the architecture {{RFC9019}} and in the information model {{RFC9124}} documents.
 
 
 --- back

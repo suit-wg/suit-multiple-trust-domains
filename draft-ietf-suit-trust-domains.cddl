@@ -9,6 +9,9 @@ CWT = SUIT_Authentication_Block
 $$SUIT_severable-members-extensions //= 
     (suit-dependency-resolution => bstr .cbor SUIT_Command_Sequence)
 
+$$unseverable-manifest-member-extensions //= 
+    (suit-uninstall => bstr .cbor SUIT_Command_Sequence)
+
 SUIT_Integrated_Dependency = (
     suit-integrated-dependency-key => bstr .cbor SUIT_Envelope)
 suit-integrated-dependency-key = tstr
@@ -40,6 +43,7 @@ SUIT_Directive //= (
 
 suit-delegation = 1
 suit-dependency-resolution = 7
+suit-uninstall = 24
 
 suit-dependencies = 1
 
