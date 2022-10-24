@@ -845,7 +845,7 @@ SUIT_Dependency_Metadata = {
       <author fullname='Dave Wheeler' initials='D. M.' surname='Wheeler'>
          <organization>Amazon</organization>
       </author>
-      <date day='11' month='July' year='2022'/>
+      <date day='24' month='October' year='2022'/>
       <abstract>
 	 <t>   A Trusted Execution Environment (TEE) is an environment that enforces
    that any code within that environment cannot be tampered with, and
@@ -857,8 +857,8 @@ SUIT_Dependency_Metadata = {
 	 </t>
       </abstract>
    </front>
-   <seriesInfo name='Internet-Draft' value='draft-ietf-teep-architecture-18'/>
-   <format target='https://www.ietf.org/archive/id/draft-ietf-teep-architecture-18.txt' type='TXT'/>
+   <seriesInfo name='Internet-Draft' value='draft-ietf-teep-architecture-19'/>
+   <format target='https://www.ietf.org/archive/id/draft-ietf-teep-architecture-19.txt' type='TXT'/>
 </reference>
 
 
@@ -936,7 +936,7 @@ suit-directive-unlink                   = 33
   </back>
 
 <!-- ##markdown-source:
-H4sIAGvIVmMAA+09a3Pb2HXf+Stu7c5EWpO05XWyttJNK1vaRFM/tpbcbZrN
+H4sIAIXiVmMAA+09a3Pb2HXf+Stu7c5EWpO05XWyttJNK1vaRFM/tpbcbZrN
 eEDgkkIEAiwASmZk5bf0t/SX9TzvAwBJJ01mkml2JhOZwL333HPP+3ExmUxG
 bd4W9thcfDi/NG+SMp/bpjVnn1pbNnlVNmZe1ebNumjzVWHNZb2Gp6fVMsnL
 ZpTMZrW9kbHxo6xKy2QJ82Z1Mm8nuW3nk2adt5MWX5tk/NrkydEoTVq7qOrN

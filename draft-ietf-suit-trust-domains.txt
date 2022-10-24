@@ -1215,9 +1215,9 @@ Internet-Draft             SUIT Trust Domains               October 2022
               Pei, M., Tschofenig, H., Thaler, D., and D. M. Wheeler,
               "Trusted Execution Environment Provisioning (TEEP)
               Architecture", Work in Progress, Internet-Draft, draft-
-              ietf-teep-architecture-18, 11 July 2022,
+              ietf-teep-architecture-19, 24 October 2022,
               <https://www.ietf.org/archive/id/draft-ietf-teep-
-              architecture-18.txt>.
+              architecture-19.txt>.
 
 Appendix A.  A.  Full CDDL
 
