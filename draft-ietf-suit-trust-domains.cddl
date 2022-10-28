@@ -42,7 +42,7 @@ SUIT_Directive //= (
     suit-directive-unlink, SUIT_Rep_Policy)
 
 suit-delegation = 1
-suit-dependency-resolution = 7
+suit-dependency-resolution = 15
 suit-uninstall = 24
 
 suit-dependencies = 1
@@ -50,7 +50,7 @@ suit-dependencies = 1
 suit-dependency-prefix = 1
 
 suit-condition-is-dependency            = 7
-suit-directive-process-dependency       = 18
 suit-directive-set-parameters           = 19
 suit-directive-unlink                   = 33
+suit-directive-process-dependency       = 34
 
