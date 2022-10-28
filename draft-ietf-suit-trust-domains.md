@@ -300,7 +300,7 @@ If the current component is True, then this directive applies to all dependencie
 
 When SUIT_Process_Dependency completes, it forwards the last status code that occurred in the dependency.
 
-### suit-condition-is-dependency {#suit-directive-is-dependency}
+### suit-condition-is-dependency {#suit-condition-is-dependency}
 
 Check whether or not the current component index is present in the dependency list. If the current component is in the dependency list, suit-condition-is-dependency succeeds. Otherwise, it fails. This can be used along with component-id = True to act on all dependencies or on all non-dependency components. See {{creating-manifests}} for more details.
 
@@ -467,7 +467,7 @@ Label | Name | Reference
 
 Label | Name | Reference
 ---|---|---
-7 | Is Dependency | suit-directive-is-dependency | {{suit-directive-is-dependency}}
+7 | Is Dependency | suit-condition-is-dependency | {{suit-condition-is-dependency}}
 19 | Set Parameters | {{suit-directive-set-parameters}}
 33 | Unlink | {{suit-directive-unlink}}
 34 | Process Dependency | suit-directive-process-dependency | {{suit-directive-process-dependency}}
