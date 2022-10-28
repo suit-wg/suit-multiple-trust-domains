@@ -460,7 +460,7 @@ IANA is requested to allocate the following numbers in the listed registries:
 
 Label | Name | Reference
 ---|---|---
-7  | Dependency Resolution | 
+15 | Dependency Resolution |
 24 | Uninstall | {{suit-uninstall}}
 
 ## SUIT Commands
@@ -468,9 +468,9 @@ Label | Name | Reference
 Label | Name | Reference
 ---|---|---
 7 | Is Dependency | suit-directive-is-dependency | {{suit-directive-is-dependency}}
-18 | Process Dependency | suit-directive-process-dependency | {{suit-directive-process-dependency}}
 19 | Set Parameters | {{suit-directive-set-parameters}}
 33 | Unlink | {{suit-directive-unlink}}
+34 | Process Dependency | suit-directive-process-dependency | {{suit-directive-process-dependency}}
 
 #  Security Considerations
 
