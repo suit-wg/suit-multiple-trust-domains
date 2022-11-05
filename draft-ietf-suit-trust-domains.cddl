@@ -50,7 +50,7 @@ suit-dependencies = 1
 suit-dependency-prefix = 1
 
 suit-condition-is-dependency            = 7
+suit-directive-process-dependency       = 8
 suit-directive-set-parameters           = 19
 suit-directive-unlink                   = 33
-suit-directive-process-dependency       = 34
 
