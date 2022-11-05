@@ -469,9 +469,9 @@ Label | Name | Reference
 Label | Name | Reference
 ---|---|---
 7 | Is Dependency | {{suit-condition-is-dependency}}
+8 | Process Dependency | {{suit-directive-process-dependency}}
 19 | Set Parameters | {{suit-directive-set-parameters}}
 33 | Unlink | {{suit-directive-unlink}}
-34 | Process Dependency | {{suit-directive-process-dependency}}
 
 #  Security Considerations
 
