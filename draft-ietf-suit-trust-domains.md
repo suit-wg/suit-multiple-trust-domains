@@ -55,15 +55,15 @@ informative:
 This specification describes extensions to the SUIT manifest format (as
 defined in {{I-D.ietf-suit-manifest}}) for use in deployments with
 multiple trust domains. A device has more than one trust domain when it
-enables delegation of different rights to mutually distrustful entities
-for use with different purposes or components in the context of firmware
-update.
+enables delegation of different rights to mutually distrusting entities
+for use for different purposes or components in the context of firmware
+or software update.
 
 --- middle
 
 #  Introduction
 
-Devices that go beyond single-signer update require more complex rules for deploying firmware updates. For example, devices may require:
+Devices that go beyond single-signer update require more complex rules for deploying software updates. For example, devices may require:
 
 * long-term trust anchors with a mechanism to delegate trust to short term keys. 
 * software components from multiple software signing authorities.
@@ -82,14 +82,14 @@ This specification extends the SUIT Manifest specification ({{I-D.ietf-suit-mani
 Additionally, the following terminology is used throughout this document:
 
 * SUIT: Software Update for the Internet of Things, also the IETF working group for this standard.
-* Payload: A piece of information to be delivered. Typically Firmware for the purposes of SUIT.
+* Payload: A piece of information to be delivered. Typically Software for the purposes of SUIT.
 * Resource: A piece of information that is used to construct a payload.
-* Manifest: A manifest is a bundle of metadata about the firmware for an IoT device, where to
-find the firmware, and the devices to which it applies.
+* Manifest: A manifest is a bundle of metadata about one or more Components for a device, where to
+find them, and the devices to which they apply.
 * Envelope: A container with the manifest, an authentication wrapper with cryptographic information protecting the manifest, authorization information, and severable elements (see: TBD).
 * Update: One or more manifests that describe one or more payloads.
 * Update Authority: The owner of a cryptographic key used to sign updates, trusted by Recipients.
-* Recipient: The system, typically an IoT device, that receives and processes a manifest.
+* Recipient: The system that receives and processes a manifest.
 * Manifest Processor: A component of the Recipient that consumes Manifests and executes the commands in the Manifest.
 * Component: An updatable logical block of the Firmware, Software, configuration, or data of the Recipient.
 * Component Set: A group of interdependent Components that must be updated simultaneously.
@@ -105,7 +105,7 @@ find the firmware, and the devices to which it applies.
 * Invocation Procedure: A procedure in which a Recipient verifies dependencies and images, loading images, and invokes one or more image.
 * Software: Instructions and data that allow a Recipient to perform a useful function.
 * Firmware: Software that is typically changed infrequently, stored in nonvolatile memory, and small enough to apply to {{RFC7228}} Class 0-2 devices.
-* Image: Information that a Recipient uses to perform its function, typically firmware/software, configuration, or resource data such as text or images. Also, a Payload, once installed is an Image.
+* Image: Information that a Recipient uses to perform its function, typically Firmware/Software, configuration, or resource data such as text or images. Also, a Payload, once installed is an Image.
 * Slot: One of several possible storage locations for a given Component, typically used in A/B image systems
 * Abort: An event in which the Manifest Processor immediately halts execution of the current Procedure. It creates a Record of an error condition.
 
@@ -115,7 +115,7 @@ The use of the features presented for use with multiple trust domains requires s
 
 One additional assumption is added for the Update Procedure: 
 
-* All dependency manifests should be present before any payload is fetched.
+* All dependency manifests must be present before any payload is fetched.
 
 One additional assumption is added to the Invocation Procedure:
 
@@ -150,7 +150,7 @@ The new metadata structure is shown below.
 | Manifest           --------------> +------------------------------+
 | Severable Elements      |          | Manifest                     |
 | Human-Readable Text     |          +------------------------------+
-| COSWID                  |          | Structure Version            |
+| CoSWID                  |          | Structure Version            |
 | Integrated Dependencies |          | Sequence Number              |
 | Integrated Payloads     |          | Reference to Full Manifest   |
 +-------------------------+    +------ Common Structure             |
@@ -188,11 +188,11 @@ A dependency is another SUIT_Envelope that describes additional components.
 
 Dependency manifests enable several additional use cases. In particular, they enable two or more entities who are trusted for different privileges to coordinate. This can be used in many scenarios, for example:
 
-* An IoT device may contain a processor in its radio in addition to the primary processor. These two processors may have separate firmware with separate signing authorities. Dependencies allow the firmware for the primary processor to reference a manifest signed by a different authority.
-* A network operator may wish to provide local caching of update payloads. The network operator overrides the URI of payload by providing a dependent manifest that references the original manifest, but replaces its URI.
+* A device may contain a processor in its radio in addition to the primary processor. These two processors may have separate firmware with separate signing authorities. Dependencies allow the firmware for the primary processor to reference a manifest signed by a different authority.
+* A network operator may wish to provide local caching of update payloads. The network operator overrides the URI of a payload by providing a dependent manifest that references the original manifest, but replaces its URI.
 * A device operator provides a device with some additional configuration. The device operator wants to test their configuration with each new firmware version before releasing it. The configuration is delivered as a binary in the same way as a firmware image. The device operator references the firmware manifest from the firmware author in their own manifest which also defines the configuration.
 
-By using dependencies, components such as software, configuration, models, and other resources authenticated by different trust anchors can be delivered to devices.
+By using dependencies, components such as Software, configuration, models, and other resources authenticated by different trust anchors can be delivered to devices.
 
 ##  Changes to Required Checks {#required-checks}
 
@@ -224,7 +224,7 @@ This section augments the Manifest Structure (Section 8.4) in {{I-D.ietf-suit-ma
 
 ##  Changes to Abstract Machine Description
 
-This section augments the Abstract Machine Description (Section 6.4) in {{I-D.ietf-suit-manifest}}
+This section augments the Abstract Machine Description (Section 6.4) in {{I-D.ietf-suit-manifest}}.
 With the addition of dependencies, some changes are necessary to the abstract machine, outside the typical scope of added commands. These changes alter the behaviour of an existing command and way that the parser processes manifests:
 
 * Two new commands are introduced.
@@ -232,7 +232,7 @@ With the addition of dependencies, some changes are necessary to the abstract ma
     * Process dependency.
     * Is Dependency.
 
-* Dependency manifests are also components. All commands may target dependency manifests as well as components, with one exception: process dependency. Commands defined outside of this draft and {{I-D.ietf-suit-manifest}} MAY have additional restrictions.
+* Dependency manifests are also Components. All commands may target dependency manifests as well as Components, with one exception: process dependency. Commands defined outside of this draft and {{I-D.ietf-suit-manifest}} MAY have additional restrictions.
 * Dependencies are processed in lock-step with the Root Manifest. This means that every dependency's current command sequence must be executed before a dependent's later command sequence may be executed. For example, every dependency's Dependency Resolution step MUST be executed before any dependent's payload fetch step.
 * When performing a suit-condition-image-match operation on a component, the manifest processor MUST first determine whether or not the component is a dependency manifest. If identified as a dependency manifest envelope, the manifest processor MUST compute the digest over only the SUIT_Manifest bstr, not the complete SUIT_Manifest_Envelope. This is so that severable elements, added or removed signatures, and delegations do not affect the integrity measurements of the manifest.
 
@@ -244,8 +244,8 @@ When a Process Dependency command is encountered, the manifest processor:
 
 1. Checks whether the map of dependencies contains an entry for the current Component Index. If not present, it causes an immediate Abort.
 2. Loads the specified component as a dependency manifest envelope.
-3. Authenticates the dependency manifest
-4. Executes the common-sequence section of the dependency manifest
+3. Authenticates the dependency manifest.
+4. Executes the common-sequence section of the dependency manifest.
 5. Executes the section of the dependency manifest that corresponds to the currently executing section of the dependent.
 
 If the specified dependency does not contain the current section, Process Dependency succeeds immediately.
@@ -254,15 +254,15 @@ The interpreter also performs the checks described in {{required-checks}} to ens
 
 ###  Multiple Manifest Processors {#hierarchical-interpreters}
 
-When a system has multiple security domains, each domain might require independent verification of authenticity or security policies. Security domains might be divided by separation technology such as Arm TrustZone, Intel SGX, or another TEE technology. Security domains might also be divided into separate processors and memory spaces, with a communication interface between them.
+When a system has multiple trust domains, each domain might require independent verification of authenticity or security policies. Trust domains might be divided by separation technology such as Arm TrustZone, Intel SGX, or another TEE technology. Trust domains might also be divided into separate processors and memory spaces, with a communication interface between them.
 
 For example, an application processor may have an attached communications module that contains a processor. The communications module might require metadata signed by a specific Trust Authority for regulatory approval. This may be a different Trust Authority than the application processor.
 
-When there are two or more security domains (see {{I-D.ietf-teep-architecture}}), a manifest processor might be required in each. The first manifest processor is the normal manifest processor as described for the Recipient in Section 6 of {{I-D.ietf-suit-manifest}}. The second manifest processor only executes sections when the first manifest processor requests it. An API interface is provided from the second manifest processor to the first. This allows the first manifest processor to request a limited set of operations from the second. These operations are limited to: setting parameters, inserting an Envelope, invoking a Manifest Command Sequence. The second manifest processor declares a prefix to the first, which tells the first manifest processor when it should delegate to the second. These rules are enforced by underlying separation of privilege infrastructure, such as TEEs, or physical separation.
+When there are two or more trust domains, a manifest processor might be required in each. The first manifest processor is the normal manifest processor as described for the Recipient in Section 6 of {{I-D.ietf-suit-manifest}}. The second manifest processor only executes sections when the first manifest processor requests it. An API interface is provided from the second manifest processor to the first. This allows the first manifest processor to request a limited set of operations from the second. These operations are limited to: setting parameters, inserting an Envelope, and invoking a Manifest Command Sequence. The second manifest processor declares a prefix to the first, which tells the first manifest processor when it should delegate to the second. These rules are enforced by underlying separation of privilege infrastructure, such as TEEs, or physical separation.
 
 When the first manifest processor encounters a dependency prefix, that informs the first manifest processor that it should provide the second manifest processor with the corresponding dependency Envelope. This is done when the dependency is fetched. The second manifest processor immediately verifies any authentication information in the dependency Envelope. When a parameter is set for any component that matches the prefix, this parameter setting is passed to the second manifest processor via an API. As the first manifest processor works through the Procedure (set of command sequences) it is executing, each time it sees a Process Dependency command that is associated with the prefix declared by the second manifest processor, it uses the API to ask the second manifest processor to invoke that dependency section instead.
 
-This mechanism ensures that the two or more manifest processors do not need to trust each other, except in a very limited case. When parameter setting across security domains is used, it must be very carefully considered. Only parameters that do not have an effect on security properties should be allowed. The dependency manifest MAY control which parameters are allowed to be set by using the Override Parameters directive. The second manifest processor MAY also control which parameters may be set by the first manifest processor by means of an ACL that lists the allowed parameters. For example, a URI may be set by a dependent without a substantial impact on the security properties of the manifest.
+This mechanism ensures that the two or more manifest processors do not need to trust each other, except in a very limited case. When parameter setting across trust domains is used, it must be very carefully considered. Only parameters that do not have an effect on security properties should be allowed. The dependency manifest MAY control which parameters are allowed to be set by using the Override Parameters directive. The second manifest processor MAY also control which parameters may be set by the first manifest processor by means of an ACL that lists the allowed parameters. For example, a URI may be set by a dependent without a substantial impact on the security properties of the manifest.
 
 ##  Dependency Resolution {#suit-dependency-resolution}
 
@@ -385,7 +385,7 @@ An implementer MAY choose to place a dependency's envelope in the envelope of it
 
 The goal of the Encrypted Manifest template is to fetch and decrypt a manifest so that it can be used as a dependency. To use an encrypted manifest, create a plaintext dependent, and add the encrypted manifest as a dependency. The dependent can include very little information.
 
-NOTE: This template also requires the extensions defined in {{I-D.ietf-suit-firmware-encryption}}
+NOTE: This template also requires the extensions defined in {{I-D.ietf-suit-firmware-encryption}}.
 
 The following commands are added to the shared sequence:
 
@@ -475,7 +475,7 @@ Label | Name | Reference
 
 #  Security Considerations
 
-This document is about a manifest format protecting and describing how to retrieve, install, and invoke firmware images and as such it is part of a larger solution for delivering firmware updates to IoT devices. A detailed security treatment can be found in the architecture {{RFC9019}} and in the information model {{RFC9124}} documents.
+This document is about a manifest format protecting and describing how to retrieve, install, and invoke firmware images and as such it is part of a larger solution for delivering software updates to devices. A detailed security treatment can be found in the architecture {{RFC9019}} and in the information model {{RFC9124}} documents.
 
 
 --- back
