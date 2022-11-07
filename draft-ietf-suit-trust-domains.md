@@ -300,7 +300,7 @@ If the current component is True, then this directive applies to all dependencie
 
 When SUIT_Process_Dependency completes, it forwards the last status code that occurred in the dependency.
 
-### suit-condition-is-dependency {#suit-directive-is-dependency}
+### suit-condition-is-dependency {#suit-condition-is-dependency}
 
 Check whether or not the current component index is present in the dependency list. If the current component is in the dependency list, suit-condition-is-dependency succeeds. Otherwise, it fails. This can be used along with component-id = True to act on all dependencies or on all non-dependency components. See {{creating-manifests}} for more details.
 
@@ -460,15 +460,16 @@ IANA is requested to allocate the following numbers in the listed registries:
 
 Label | Name | Reference
 ---|---|---
-7  | Dependency Resolution | 
+1  | Delegation | {{ovr-delegation}}
+15 | Dependency Resolution | {{suit-dependency-resolution}}
 24 | Uninstall | {{suit-uninstall}}
 
 ## SUIT Commands
 
 Label | Name | Reference
 ---|---|---
-7 | Is Dependency | suit-directive-is-dependency | {{suit-directive-is-dependency}}
-18 | Process Dependency | suit-directive-process-dependency | {{suit-directive-process-dependency}}
+7 | Is Dependency | {{suit-condition-is-dependency}}
+8 | Process Dependency | {{suit-directive-process-dependency}}
 19 | Set Parameters | {{suit-directive-set-parameters}}
 33 | Unlink | {{suit-directive-unlink}}
 
