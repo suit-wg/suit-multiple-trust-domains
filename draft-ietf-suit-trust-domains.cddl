@@ -1,6 +1,7 @@
 $$SUIT_Envelope_Extensions //= 
     (suit-delegation => bstr .cbor SUIT_Delegation)
-$$SUIT_Envelope_Extensions //= SUIT_Integrated_Dependency
+$$SUIT_Envelope_Extensions //= (
+    suit-integrated-dependency-key => bstr .cbor SUIT_Envelope)
 
 SUIT_Delegation = [ + [ + bstr .cbor CWT ] ]
 
@@ -12,8 +13,6 @@ $$SUIT_severable-members-extensions //=
 $$unseverable-manifest-member-extensions //= 
     (suit-uninstall => bstr .cbor SUIT_Command_Sequence)
 
-SUIT_Integrated_Dependency = (
-    suit-integrated-dependency-key => bstr .cbor SUIT_Envelope)
 suit-integrated-dependency-key = tstr
 
 $$severable-manifest-members-choice-extensions //= (
@@ -28,7 +27,7 @@ SUIT_Dependencies = {
 }
 SUIT_Dependency_Metadata = {
     ? suit-dependency-prefix => SUIT_Component_Identifier
-    $$SUIT_Dependency_Extensions
+    * $$SUIT_Dependency_Extensions
 }
 
 SUIT_Condition //= (
@@ -37,7 +36,7 @@ SUIT_Condition //= (
 SUIT_Directive //= (
     suit-directive-process-dependency, SUIT_Rep_Policy)
 SUIT_Directive //= (suit-directive-set-parameters,
-    {+ SUIT_Parameters})
+    {+ $$SUIT_Parameters})
 SUIT_Directive //= (
     suit-directive-unlink, SUIT_Rep_Policy)
 
