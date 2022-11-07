@@ -37,7 +37,7 @@ SUIT_Condition //= (
 SUIT_Directive //= (
     suit-directive-process-dependency, SUIT_Rep_Policy)
 SUIT_Directive //= (suit-directive-set-parameters,
-    {+ SUIT_Parameters})
+    {+ $$SUIT_Parameters})
 SUIT_Directive //= (
     suit-directive-unlink, SUIT_Rep_Policy)
 
