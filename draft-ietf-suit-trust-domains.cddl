@@ -16,7 +16,7 @@ $$unseverable-manifest-member-extensions //=
 suit-integrated-dependency-key = tstr
 
 $$severable-manifest-members-choice-extensions //= (
-    suit-dependency-resolution => \
+    suit-dependency-resolution =>
         bstr .cbor SUIT_Command_Sequence / SUIT_Digest)
 
 $$SUIT_Common-extensions //= (
@@ -48,8 +48,9 @@ suit-dependencies = 1
 
 suit-dependency-prefix = 1
 
-suit-condition-is-dependency            = 7
-suit-directive-process-dependency       = 8
+suit-condition-dependency-integrity     = 7
+suit-condition-is-dependency            = 8
+suit-directive-process-dependency       = 11
 suit-directive-set-parameters           = 19
 suit-directive-unlink                   = 33
 

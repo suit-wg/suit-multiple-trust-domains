@@ -67,7 +67,7 @@ Devices that go beyond single-signer update require more complex rules for deplo
 
 * long-term trust anchors with a mechanism to delegate trust to short term keys. 
 * software components from multiple software signing authorities.
-* a mechanism to remove an uneeded component
+* a mechanism to remove an unneeded component
 * single-object dependencies
 * a partly encrypted manifest so that distribution does not reveal private information
 
@@ -134,7 +134,7 @@ In addition, when multiple manifests are used for an update, each manifest's ste
 
 #  Changes to Manifest Metadata Structure {#metadata-structure-overview}
 
-To accomodate the additional metadata needed to enable these features, the envelope and manifest have several new elements added.
+To accommodate the additional metadata needed to enable these features, the envelope and manifest have several new elements added.
 
 The Envelope gains two more elements: Delegation chains and Integrated Dependencies
 The Common metadata section in the Manifest also gains a list of dependencies.
@@ -227,14 +227,14 @@ This section augments the Manifest Structure (Section 8.4) in {{I-D.ietf-suit-ma
 This section augments the Abstract Machine Description (Section 6.4) in {{I-D.ietf-suit-manifest}}.
 With the addition of dependencies, some changes are necessary to the abstract machine, outside the typical scope of added commands. These changes alter the behaviour of an existing command and way that the parser processes manifests:
 
-* Two new commands are introduced.
+* Three new commands are introduced.
 
-    * Process dependency.
-    * Is Dependency.
+    * Process dependency
+    * Is Dependency
+    * Dependency Integrity
 
 * Dependency manifests are also Components. All commands may target dependency manifests as well as Components, with one exception: process dependency. Commands defined outside of this draft and {{I-D.ietf-suit-manifest}} MAY have additional restrictions.
 * Dependencies are processed in lock-step with the Root Manifest. This means that every dependency's current command sequence must be executed before a dependent's later command sequence may be executed. For example, every dependency's Dependency Resolution step MUST be executed before any dependent's payload fetch step.
-* When performing a suit-condition-image-match operation on a component, the manifest processor MUST first determine whether or not the component is a dependency manifest. If identified as a dependency manifest envelope, the manifest processor MUST compute the digest over only the SUIT_Manifest bstr, not the complete SUIT_Manifest_Envelope. This is so that severable elements, added or removed signatures, and delegations do not affect the integrity measurements of the manifest.
 
 ##  Processing Dependencies {#processing-dependencies}
 
@@ -243,6 +243,7 @@ As described in {{required-checks}}, each manifest must invoke each of its depen
 When a Process Dependency command is encountered, the manifest processor:
 
 1. Checks whether the map of dependencies contains an entry for the current Component Index. If not present, it causes an immediate Abort.
+2. Checks whether the dependency has been the target of a dependency integrity check. If not, it causes an immediate Abort.
 2. Loads the specified component as a dependency manifest envelope.
 3. Authenticates the dependency manifest.
 4. Executes the common-sequence section of the dependency manifest.
@@ -276,6 +277,7 @@ All commands are modified in that they can also target dependencies. However, Se
 |------|----
 | Set Parameters | current.params\[k\] := v if not k in current.params for-each k,v in arg
 | Process Dependency | exec(current\[common\]); exec(current\[current-segment\])
+| Dependency Integrity | verify(current, current.params\[image-digest\])
 | Is Dependency | assert(current exists in dependencies)
 | Unlink | unlink(current)
 
@@ -296,6 +298,8 @@ Execute the commands in the common section of the current dependency, followed b
 
 If the current component index does not have an entry in the suit-dependencies map, then this command MUST Abort.
 
+If the current component index has not been the target of a suit-condition-dependency-integrity, then this command MUST Abort.
+
 If the current component is True, then this directive applies to all dependencies. If the current section is "common," then the command sequence MUST Abort.
 
 When SUIT_Process_Dependency completes, it forwards the last status code that occurred in the dependency.
@@ -303,6 +307,19 @@ When SUIT_Process_Dependency completes, it forwards the last status code that oc
 ### suit-condition-is-dependency {#suit-condition-is-dependency}
 
 Check whether or not the current component index is present in the dependency list. If the current component is in the dependency list, suit-condition-is-dependency succeeds. Otherwise, it fails. This can be used along with component-id = True to act on all dependencies or on all non-dependency components. See {{creating-manifests}} for more details.
+
+### suit-condition-dependency-integrity {#suit-condition-dependency-integrity}
+
+Verify the integrity of a dependency manifest. When a Manifest Processor executes suit-condition-dependency-integrity, it performs the following operations:
+
+1. Evaluate any delegation chains
+2. Verify the signature of the manifest hash
+3. Compare the manifest hash to the provided hash
+4. Verify the manifest against the manifest hash
+
+If any of these steps fails, the Manifest Process MUST immediately Abort.
+
+The Manifest Processor MAY cache the results of these operations for later use from the context of the current manifest. The Manifest Processor MUST NOT use cached results from any other manifest context. If the Manifest Processor caches the results of these checks, it MUST eliminate this cache if any Fetch, or Copy operation targets the Dependency Manifest's component ID. 
 
 ### suit-directive-unlink {#suit-directive-unlink}
 
@@ -364,13 +381,13 @@ The following commands are placed into the dependency resolution sequence:
 - Set Component Index directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
 - Set Parameters directive (see {{suit-directive-set-parameters}}) for URI (see Section 8.4.8.10 of {{I-D.ietf-suit-manifest}})
 - Fetch directive (see Section 8.4.10.4 of {{I-D.ietf-suit-manifest}})
-- Check Image Match condition (see Section 8.4.9.2 of {{I-D.ietf-suit-manifest}} of {{I-D.ietf-suit-manifest}})
+- Dependency Integrity condition (see {{suit-condition-dependency-integrity}})
 - Process Dependency directive (see {{suit-directive-process-dependency}})
 
 Then, the validate sequence contains the following operations:
 
 - Set Component Index directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
-- Check Image Match condition (see Section 8.4.9.2 of {{I-D.ietf-suit-manifest}})
+- Dependency Integrity condition (see {{suit-condition-dependency-integrity}})
 - Process Dependency directive (see {{suit-directive-process-dependency}})
 
 If any dependency is declared, the dependent MUST populate all command sequences for the current procedure (Update or Invoke).
@@ -399,7 +416,7 @@ The following operations are placed into the dependency resolution block:
     - URI (see Section 8.4.8.9 of {{I-D.ietf-suit-manifest}})
     - Encryption Info (See {{I-D.ietf-suit-firmware-encryption}})
 - Fetch directive (see Section 8.4.10.4 of {{I-D.ietf-suit-manifest}})
-- Check Image Match condition (see Section 8.4.9.2 of {{I-D.ietf-suit-manifest}})
+- Dependency Integrity condition (see {{suit-condition-dependency-integrity}})
 - Process Dependency directive (see {{suit-directive-process-dependency}})
 
 Then, the validate block contains the following operations:
@@ -424,7 +441,7 @@ For example, to fetch all dependency manifests, the following commands are added
     - Sequence 0
         - Condition Is Manifest
         - Fetch
-        - Condition Image Match
+        - Dependency Integrity condition (see {{suit-condition-dependency-integrity}})
         - Process Dependency
     - Sequence 1 (Empty; no commands, succeeds immediately)
 
@@ -438,7 +455,7 @@ Another example is to fetch and validate all Component Images. The image fetch s
     - Sequence 0
         - Condition Is Manifest
         - Process Dependency
-    - Sequence 1 (Empty; no commands, succeeds immediately)
+    - Sequence 1
         - Fetch
         - Condition Image Match
 
@@ -468,8 +485,9 @@ Label | Name | Reference
 
 Label | Name | Reference
 ---|---|---
-7 | Is Dependency | {{suit-condition-is-dependency}}
-8 | Process Dependency | {{suit-directive-process-dependency}}
+7 | Dependency Integrity | {{su}}
+8 | Is Dependency | {{suit-condition-is-dependency}}
+11 | Process Dependency | {{suit-directive-process-dependency}}
 19 | Set Parameters | {{suit-directive-set-parameters}}
 33 | Unlink | {{suit-directive-unlink}}
 
