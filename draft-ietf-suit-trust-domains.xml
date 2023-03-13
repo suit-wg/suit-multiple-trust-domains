@@ -17,7 +17,7 @@
 <?rfc docmapping="yes"?>
 <?rfc toc_levels="4"?>
 
-<rfc ipr="trust200902" docName="draft-ietf-suit-trust-domains-01" category="std">
+<rfc ipr="trust200902" docName="draft-ietf-suit-trust-domains-02" category="std">
 
   <front>
     <title abbrev="SUIT Trust Domains">SUIT Manifest Extensions for Multiple Trust Domains</title>
@@ -35,7 +35,7 @@
       </address>
     </author>
 
-    <date year="2022" month="October" day="24"/>
+    <date year="2023" month="March" day="13"/>
 
     <area>Security</area>
     <workgroup>SUIT</workgroup>
@@ -47,9 +47,9 @@
 <t>This specification describes extensions to the SUIT manifest format (as
 defined in <xref target="I-D.ietf-suit-manifest"/>) for use in deployments with
 multiple trust domains. A device has more than one trust domain when it
-enables delegation of different rights to mutually distrustful entities
-for use with different purposes or components in the context of firmware
-update.</t>
+enables delegation of different rights to mutually distrusting entities
+for use for different purposes or components in the context of firmware
+or software update.</t>
 
 
 
@@ -63,12 +63,12 @@ update.</t>
 
 <section anchor="introduction"><name>Introduction</name>
 
-<t>Devices that go beyond single-signer update require more complex rules for deploying firmware updates. For example, devices may require:</t>
+<t>Devices that go beyond single-signer update require more complex rules for deploying software updates. For example, devices may require:</t>
 
 <t><list style="symbols">
   <t>long-term trust anchors with a mechanism to delegate trust to short term keys.</t>
   <t>software components from multiple software signing authorities.</t>
-  <t>a mechanism to remove an uneeded component</t>
+  <t>a mechanism to remove an unneeded component</t>
   <t>single-object dependencies</t>
   <t>a partly encrypted manifest so that distribution does not reveal private information</t>
 </list></t>
@@ -90,14 +90,14 @@ appear in all capitals, as shown here.</t>
 
 <t><list style="symbols">
   <t>SUIT: Software Update for the Internet of Things, also the IETF working group for this standard.</t>
-  <t>Payload: A piece of information to be delivered. Typically Firmware for the purposes of SUIT.</t>
+  <t>Payload: A piece of information to be delivered. Typically Software for the purposes of SUIT.</t>
   <t>Resource: A piece of information that is used to construct a payload.</t>
-  <t>Manifest: A manifest is a bundle of metadata about the firmware for an IoT device, where to
-find the firmware, and the devices to which it applies.</t>
+  <t>Manifest: A manifest is a bundle of metadata about one or more Components for a device, where to
+find them, and the devices to which they apply.</t>
   <t>Envelope: A container with the manifest, an authentication wrapper with cryptographic information protecting the manifest, authorization information, and severable elements (see: TBD).</t>
   <t>Update: One or more manifests that describe one or more payloads.</t>
   <t>Update Authority: The owner of a cryptographic key used to sign updates, trusted by Recipients.</t>
-  <t>Recipient: The system, typically an IoT device, that receives and processes a manifest.</t>
+  <t>Recipient: The system that receives and processes a manifest.</t>
   <t>Manifest Processor: A component of the Recipient that consumes Manifests and executes the commands in the Manifest.</t>
   <t>Component: An updatable logical block of the Firmware, Software, configuration, or data of the Recipient.</t>
   <t>Component Set: A group of interdependent Components that must be updated simultaneously.</t>
@@ -113,7 +113,7 @@ find the firmware, and the devices to which it applies.</t>
   <t>Invocation Procedure: A procedure in which a Recipient verifies dependencies and images, loading images, and invokes one or more image.</t>
   <t>Software: Instructions and data that allow a Recipient to perform a useful function.</t>
   <t>Firmware: Software that is typically changed infrequently, stored in nonvolatile memory, and small enough to apply to <xref target="RFC7228"/> Class 0-2 devices.</t>
-  <t>Image: Information that a Recipient uses to perform its function, typically firmware/software, configuration, or resource data such as text or images. Also, a Payload, once installed is an Image.</t>
+  <t>Image: Information that a Recipient uses to perform its function, typically Firmware/Software, configuration, or resource data such as text or images. Also, a Payload, once installed is an Image.</t>
   <t>Slot: One of several possible storage locations for a given Component, typically used in A/B image systems</t>
   <t>Abort: An event in which the Manifest Processor immediately halts execution of the current Procedure. It creates a Record of an error condition.</t>
 </list></t>
@@ -126,7 +126,7 @@ find the firmware, and the devices to which it applies.</t>
 <t>One additional assumption is added for the Update Procedure:</t>
 
 <t><list style="symbols">
-  <t>All dependency manifests should be present before any payload is fetched.</t>
+  <t>All dependency manifests must be present before any payload is fetched.</t>
 </list></t>
 
 <t>One additional assumption is added to the Invocation Procedure:</t>
@@ -151,7 +151,7 @@ find the firmware, and the devices to which it applies.</t>
 </section>
 <section anchor="metadata-structure-overview"><name>Changes to Manifest Metadata Structure</name>
 
-<t>To accomodate the additional metadata needed to enable these features, the envelope and manifest have several new elements added.</t>
+<t>To accommodate the additional metadata needed to enable these features, the envelope and manifest have several new elements added.</t>
 
 <t>The Envelope gains two more elements: Delegation chains and Integrated Dependencies
 The Common metadata section in the Manifest also gains a list of dependencies.</t>
@@ -167,7 +167,7 @@ The Common metadata section in the Manifest also gains a list of dependencies.</
 | Manifest           --------------> +------------------------------+
 | Severable Elements      |          | Manifest                     |
 | Human-Readable Text     |          +------------------------------+
-| COSWID                  |          | Structure Version            |
+| CoSWID                  |          | Structure Version            |
 | Integrated Dependencies |          | Sequence Number              |
 | Integrated Payloads     |          | Reference to Full Manifest   |
 +-------------------------+    +------ Common Structure             |
@@ -208,12 +208,12 @@ The Common metadata section in the Manifest also gains a list of dependencies.</
 <t>Dependency manifests enable several additional use cases. In particular, they enable two or more entities who are trusted for different privileges to coordinate. This can be used in many scenarios, for example:</t>
 
 <t><list style="symbols">
-  <t>An IoT device may contain a processor in its radio in addition to the primary processor. These two processors may have separate firmware with separate signing authorities. Dependencies allow the firmware for the primary processor to reference a manifest signed by a different authority.</t>
-  <t>A network operator may wish to provide local caching of update payloads. The network operator overrides the URI of payload by providing a dependent manifest that references the original manifest, but replaces its URI.</t>
+  <t>A device may contain a processor in its radio in addition to the primary processor. These two processors may have separate firmware with separate signing authorities. Dependencies allow the firmware for the primary processor to reference a manifest signed by a different authority.</t>
+  <t>A network operator may wish to provide local caching of update payloads. The network operator overrides the URI of a payload by providing a dependent manifest that references the original manifest, but replaces its URI.</t>
   <t>A device operator provides a device with some additional configuration. The device operator wants to test their configuration with each new firmware version before releasing it. The configuration is delivered as a binary in the same way as a firmware image. The device operator references the firmware manifest from the firmware author in their own manifest which also defines the configuration.</t>
 </list></t>
 
-<t>By using dependencies, components such as software, configuration, models, and other resources authenticated by different trust anchors can be delivered to devices.</t>
+<t>By using dependencies, components such as Software, configuration, models, and other resources authenticated by different trust anchors can be delivered to devices.</t>
 
 <section anchor="required-checks"><name>  Changes to Required Checks</name>
 
@@ -248,20 +248,64 @@ The Common metadata section in the Manifest also gains a list of dependencies.</
 
 <t>This section augments the Manifest Structure (Section 8.4) in <xref target="I-D.ietf-suit-manifest"/>.</t>
 
+<section anchor="manifest-id"><name>Manifest Component ID</name>
+
+<t>In complex systems, it may not always be clear where the root manifest should be stored; this is particularly complex when a system has multiple, independent root manifests. The manifest component ID resolves this contention. The manifest-component-id is intended to be used by the root manifest. When a dependency manifest also declares a component ID, the dependency manifest's component ID is overridden by the component ID declared by the dependent.</t>
+
+<t>The following CDDL describes the manifest component ID:</t>
+
+<figure><sourcecode type="CDDL"><![CDATA[
+$$SUIT_Manifest_Extensions //= 
+    (suit-manifest-component-id => SUIT_Component_Identifier)
+]]></sourcecode></figure>
+
+</section>
+<section anchor="SUIT_Dependencies"><name>SUIT_Dependencies Manifest Element</name>
+
+<t>The suit-common section, as described in <xref target="I-D.ietf-suit-manifest"/>, Section 8.4.5 is extended with a map of component indices that indicate a dependency manifest. The key of the map are the component indices and the values of the map are any extra metadata needed to describe those dependency manifests.</t>
+
+<t>Because some operations treat dependency manifests differently from other components, it is necessary to identify them. SUIT_Dependencies identifies which components from suit-components (See Section 8.4.5 of <xref target="I-D.ietf-suit-manifest"/>) are to be treated as dependency manifest envelopes. SUIT_Dependencies is a map of Components, referenced by Component Index. Optionally, a component prefix or other metadata may be delivered with the component index. The CDDL for suit-dependencies is shown below:</t>
+
+<figure><sourcecode type="CDDL"><![CDATA[
+$$SUIT_Common-extensions //= (
+        suit-dependencies => SUIT_Dependencies
+)
+SUIT_Dependencies = {
+    + uint => SUIT_Dependency_Metadata
+}
+SUIT_Dependency_Metadata = {
+    ? suit-dependency-prefix => SUIT_Component_Identifier
+    $$SUIT_Dependency_Extensions
+}
+]]></sourcecode></figure>
+
+<t>If no extended metadata is needed for an extension, SUIT_Dependency_Metadata is an empty map (this is the same encoding size as a null). SUIT_Dependencies MUST be sorted according to CBOR canonical encoding.</t>
+
+<t>The components specified by SUIT_Dependency will contain a Manifest Envelope that describes a dependency of the current manifest. The Manifest is identified, but the Recipient should expect an Envelope when it acquires the dependency. This is because the Manifest is the one invariant element of the Envelope, where other elements may change by countersigning, adding authentication blocks, or severing elements.</t>
+
+<t>When executing suit-condition-image-match over a component that is designated in SUIT_Dependency, the digest MUST be computed over just the bstr-wrapped SUIT_Manifest contained in the Manifest Envelope designated by the Component Index. This enables a dependency reference to uniquely identify a particular Manifest structure. This is identical to the digest that is present as the first element of the suit-authentication-block in the dependency's Envelope. The digest is calculated over the Manifest structure to ensure that removing a signature from a manifest does not break dependencies due to missing signature elements. This is also necessary to support the trusted intermediary use case, where an intermediary re-signs the Manifest, removing the original signature, potentially with a different algorithm, or trading COSE_Sign for COSE_Mac.</t>
+
+<t>The suit-dependency-prefix element contains a SUIT_Component_Identifier (see Section 8.4.5.1 of <xref target="I-D.ietf-suit-manifest"/>). This specifies the scope at which the dependency operates. This allows the dependency to be forwarded on to a component that is capable of parsing its own manifests. It also allows one manifest to be deployed to multiple dependent Recipients without those Recipients needing consistent component hierarchy. This element is OPTIONAL for Recipients to implement.</t>
+
+<t>A dependency prefix can be used with a component identifier. This allows complex systems to understand where dependencies need to be applied. The dependency prefix can be used in one of two ways. The first simply prepends the prefix to all Component Identifiers in the dependency.</t>
+
+<t>A dependency prefix can also be used to indicate when a dependency manifest needs to be processed by a secondary manifest processor, as described in <xref target="hierarchical-interpreters"/>.</t>
+
+</section>
 </section>
 <section anchor="changes-to-abstract-machine-description"><name>Changes to Abstract Machine Description</name>
 
-<t>This section augments the Abstract Machine Description (Section 6.4) in <xref target="I-D.ietf-suit-manifest"/>
+<t>This section augments the Abstract Machine Description (Section 6.4) in <xref target="I-D.ietf-suit-manifest"/>.
 With the addition of dependencies, some changes are necessary to the abstract machine, outside the typical scope of added commands. These changes alter the behaviour of an existing command and way that the parser processes manifests:</t>
 
 <t><list style="symbols">
-  <t>Two new commands are introduced.  <list style="symbols">
-      <t>Process dependency.</t>
-      <t>Is Dependency.</t>
+  <t>Three new commands are introduced.  <list style="symbols">
+      <t>Process dependency</t>
+      <t>Is Dependency</t>
+      <t>Dependency Integrity</t>
     </list></t>
-  <t>Dependency manifests are also components. All commands may target dependency manifests as well as components, with one exception: process dependency. Commands defined outside of this draft and <xref target="I-D.ietf-suit-manifest"/> MAY have additional restrictions.</t>
+  <t>Dependency manifests are also Components. All commands may target dependency manifests as well as Components, with one exception: process dependency. Commands defined outside of this draft and <xref target="I-D.ietf-suit-manifest"/> MAY have additional restrictions.</t>
   <t>Dependencies are processed in lock-step with the Root Manifest. This means that every dependency's current command sequence must be executed before a dependent's later command sequence may be executed. For example, every dependency's Dependency Resolution step MUST be executed before any dependent's payload fetch step.</t>
-  <t>When performing a suit-condition-image-match operation on a component, the manifest processor MUST first determine whether or not the component is a dependency manifest. If identified as a dependency manifest envelope, the manifest processor MUST compute the digest over only the SUIT_Manifest bstr, not the complete SUIT_Manifest_Envelope. This is so that severable elements, added or removed signatures, and delegations do not affect the integrity measurements of the manifest.</t>
 </list></t>
 
 </section>
@@ -273,9 +317,10 @@ With the addition of dependencies, some changes are necessary to the abstract ma
 
 <t><list style="numbers">
   <t>Checks whether the map of dependencies contains an entry for the current Component Index. If not present, it causes an immediate Abort.</t>
+  <t>Checks whether the dependency has been the target of a dependency integrity check. If not, it causes an immediate Abort.</t>
   <t>Loads the specified component as a dependency manifest envelope.</t>
-  <t>Authenticates the dependency manifest</t>
-  <t>Executes the common-sequence section of the dependency manifest</t>
+  <t>Authenticates the dependency manifest.</t>
+  <t>Executes the common-sequence section of the dependency manifest.</t>
   <t>Executes the section of the dependency manifest that corresponds to the currently executing section of the dependent.</t>
 </list></t>
 
@@ -285,15 +330,15 @@ With the addition of dependencies, some changes are necessary to the abstract ma
 
 <section anchor="hierarchical-interpreters"><name>Multiple Manifest Processors</name>
 
-<t>When a system has multiple security domains, each domain might require independent verification of authenticity or security policies. Security domains might be divided by separation technology such as Arm TrustZone, Intel SGX, or another TEE technology. Security domains might also be divided into separate processors and memory spaces, with a communication interface between them.</t>
+<t>When a system has multiple trust domains, each domain might require independent verification of authenticity or security policies. Trust domains might be divided by separation technology such as Arm TrustZone, Intel SGX, or another TEE technology. Trust domains might also be divided into separate processors and memory spaces, with a communication interface between them.</t>
 
 <t>For example, an application processor may have an attached communications module that contains a processor. The communications module might require metadata signed by a specific Trust Authority for regulatory approval. This may be a different Trust Authority than the application processor.</t>
 
-<t>When there are two or more security domains (see <xref target="I-D.ietf-teep-architecture"/>), a manifest processor might be required in each. The first manifest processor is the normal manifest processor as described for the Recipient in Section 6 of <xref target="I-D.ietf-suit-manifest"/>. The second manifest processor only executes sections when the first manifest processor requests it. An API interface is provided from the second manifest processor to the first. This allows the first manifest processor to request a limited set of operations from the second. These operations are limited to: setting parameters, inserting an Envelope, invoking a Manifest Command Sequence. The second manifest processor declares a prefix to the first, which tells the first manifest processor when it should delegate to the second. These rules are enforced by underlying separation of privilege infrastructure, such as TEEs, or physical separation.</t>
+<t>When there are two or more trust domains, a manifest processor might be required in each. The first manifest processor is the normal manifest processor as described for the Recipient in Section 6 of <xref target="I-D.ietf-suit-manifest"/>. The second manifest processor only executes sections when the first manifest processor requests it. An API interface is provided from the second manifest processor to the first. This allows the first manifest processor to request a limited set of operations from the second. These operations are limited to: setting parameters, inserting an Envelope, and invoking a Manifest Command Sequence. The second manifest processor declares a prefix to the first, which tells the first manifest processor when it should delegate to the second. These rules are enforced by underlying separation of privilege infrastructure, such as TEEs, or physical separation.</t>
 
 <t>When the first manifest processor encounters a dependency prefix, that informs the first manifest processor that it should provide the second manifest processor with the corresponding dependency Envelope. This is done when the dependency is fetched. The second manifest processor immediately verifies any authentication information in the dependency Envelope. When a parameter is set for any component that matches the prefix, this parameter setting is passed to the second manifest processor via an API. As the first manifest processor works through the Procedure (set of command sequences) it is executing, each time it sees a Process Dependency command that is associated with the prefix declared by the second manifest processor, it uses the API to ask the second manifest processor to invoke that dependency section instead.</t>
 
-<t>This mechanism ensures that the two or more manifest processors do not need to trust each other, except in a very limited case. When parameter setting across security domains is used, it must be very carefully considered. Only parameters that do not have an effect on security properties should be allowed. The dependency manifest MAY control which parameters are allowed to be set by using the Override Parameters directive. The second manifest processor MAY also control which parameters may be set by the first manifest processor by means of an ACL that lists the allowed parameters. For example, a URI may be set by a dependent without a substantial impact on the security properties of the manifest.</t>
+<t>This mechanism ensures that the two or more manifest processors do not need to trust each other, except in a very limited case. When parameter setting across trust domains is used, it must be very carefully considered. Only parameters that do not have an effect on security properties should be allowed. The dependency manifest MAY control which parameters are allowed to be set by using the Override Parameters directive. The second manifest processor MAY also control which parameters may be set by the first manifest processor by means of an ACL that lists the allowed parameters. For example, a URI may be set by a dependent without a substantial impact on the security properties of the manifest.</t>
 
 </section>
 </section>
@@ -313,6 +358,8 @@ With the addition of dependencies, some changes are necessary to the abstract ma
       <c>current.params[k] := v if not k in current.params for-each k,v in arg</c>
       <c>Process Dependency</c>
       <c>exec(current[common]); exec(current[current-segment])</c>
+      <c>Dependency Integrity</c>
+      <c>verify(current, current.params[image-digest])</c>
       <c>Is Dependency</c>
       <c>assert(current exists in dependencies)</c>
       <c>Unlink</c>
@@ -336,14 +383,32 @@ With the addition of dependencies, some changes are necessary to the abstract ma
 
 <t>If the current component index does not have an entry in the suit-dependencies map, then this command MUST Abort.</t>
 
+<t>If the current component index has not been the target of a suit-condition-dependency-integrity, then this command MUST Abort.</t>
+
 <t>If the current component is True, then this directive applies to all dependencies. If the current section is "common," then the command sequence MUST Abort.</t>
 
 <t>When SUIT_Process_Dependency completes, it forwards the last status code that occurred in the dependency.</t>
 
 </section>
-<section anchor="suit-directive-is-dependency"><name>suit-condition-is-dependency</name>
+<section anchor="suit-condition-is-dependency"><name>suit-condition-is-dependency</name>
 
 <t>Check whether or not the current component index is present in the dependency list. If the current component is in the dependency list, suit-condition-is-dependency succeeds. Otherwise, it fails. This can be used along with component-id = True to act on all dependencies or on all non-dependency components. See <xref target="creating-manifests"/> for more details.</t>
+
+</section>
+<section anchor="suit-condition-dependency-integrity"><name>suit-condition-dependency-integrity</name>
+
+<t>Verify the integrity of a dependency manifest. When a Manifest Processor executes suit-condition-dependency-integrity, it performs the following operations:</t>
+
+<t><list style="numbers">
+  <t>Evaluate any delegation chains</t>
+  <t>Verify the signature of the manifest hash</t>
+  <t>Compare the manifest hash to the provided hash</t>
+  <t>Verify the manifest against the manifest hash</t>
+</list></t>
+
+<t>If any of these steps fails, the Manifest Process MUST immediately Abort.</t>
+
+<t>The Manifest Processor MAY cache the results of these operations for later use from the context of the current manifest. The Manifest Processor MUST NOT use cached results from any other manifest context. If the Manifest Processor caches the results of these checks, it MUST eliminate this cache if any Fetch, or Copy operation targets the Dependency Manifest's component ID.</t>
 
 </section>
 <section anchor="suit-directive-unlink"><name>suit-directive-unlink</name>
@@ -355,33 +420,6 @@ With the addition of dependencies, some changes are necessary to the abstract ma
 <t>suit-directive-unlink is OPTIONAL to implement in manifest processors.</t>
 
 </section>
-</section>
-<section anchor="SUIT_Dependencies"><name>SUIT_Dependencies Manifest Element</name>
-
-<t>Because some operations treat dependency manifests differently from other components, it is necessary to identify them. SUIT_Dependencies identifies which components from suit-components (See Section 8.4.5 of <xref target="I-D.ietf-suit-manifest"/>) are to be treated as dependency manifest envelopes. SUIT_Dependencies is a map of Components, referenced by Component Index. Optionally, a component prefix or other metadata may be delivered with the component index. The CDDL for suit-dependencies is shown below:</t>
-
-<figure><sourcecode type="CDDL"><![CDATA[
-SUIT_Dependencies = {
-    + uint => SUIT_Dependency_Metadata
-}
-SUIT_Dependency_Metadata = {
-    ? suit-dependency-prefix => SUIT_Component_Identifier
-    $$SUIT_Dependency_Extensions
-}
-]]></sourcecode></figure>
-
-<t>If no extended metadata is needed for an extension, SUIT_Dependency_Metadata is an empty map (this is the same encoding size as a null). SUIT_Dependencies MUST be sorted according to CBOR canonical encoding.</t>
-
-<t>The components specified by SUIT_Dependency will contain a Manifest Envelope that describes a dependency of the current manifest. The Manifest is identified, but the Recipient should expect an Envelope when it acquires the dependency. This is because the Manifest is the one invariant element of the Envelope, where other elements may change by countersigning, adding authentication blocks, or severing elements.</t>
-
-<t>When executing suit-condition-image-match over a component that is designated in SUIT_Dependency, the digest MUST be computed over just the bstr-wrapped SUIT_Manifest contained in the Manifest Envelope designated by the Component Index. This enables a dependency reference to uniquely identify a particular Manifest structure. This is identical to the digest that is present as the first element of the suit-authentication-block in the dependency's Envelope. The digest is calculated over the Manifest structure to ensure that removing a signature from a manifest does not break dependencies due to missing signature elements. This is also necessary to support the trusted intermediary use case, where an intermediary re-signs the Manifest, removing the original signature, potentially with a different algorithm, or trading COSE_Sign for COSE_Mac.</t>
-
-<t>The suit-dependency-prefix element contains a SUIT_Component_Identifier (see Section 8.4.5.1 of <xref target="I-D.ietf-suit-manifest"/>). This specifies the scope at which the dependency operates. This allows the dependency to be forwarded on to a component that is capable of parsing its own manifests. It also allows one manifest to be deployed to multiple dependent Recipients without those Recipients needing consistent component hierarchy. This element is OPTIONAL for Recipients to implement.</t>
-
-<t>A dependency prefix can be used with a component identifier. This allows complex systems to understand where dependencies need to be applied. The dependency prefix can be used in one of two ways. The first simply prepends the prefix to all Component Identifiers in the dependency.</t>
-
-<t>A dependency prefix can also be used to indicate when a dependency manifest needs to be processed by a secondary manifest processor, as described in <xref target="hierarchical-interpreters"/>.</t>
-
 </section>
 </section>
 <section anchor="suit-uninstall"><name>Uninstall</name>
@@ -414,7 +452,7 @@ SUIT_Dependency_Metadata = {
   <t>Set Component Index directive (see Section 8.4.10.1 of <xref target="I-D.ietf-suit-manifest"/>)</t>
   <t>Set Parameters directive (see <xref target="suit-directive-set-parameters"/>) for URI (see Section 8.4.8.10 of <xref target="I-D.ietf-suit-manifest"/>)</t>
   <t>Fetch directive (see Section 8.4.10.4 of <xref target="I-D.ietf-suit-manifest"/>)</t>
-  <t>Check Image Match condition (see Section 8.4.9.2 of <xref target="I-D.ietf-suit-manifest"/> of <xref target="I-D.ietf-suit-manifest"/>)</t>
+  <t>Dependency Integrity condition (see <xref target="suit-condition-dependency-integrity"/>)</t>
   <t>Process Dependency directive (see <xref target="suit-directive-process-dependency"/>)</t>
 </list></t>
 
@@ -422,7 +460,7 @@ SUIT_Dependency_Metadata = {
 
 <t><list style="symbols">
   <t>Set Component Index directive (see Section 8.4.10.1 of <xref target="I-D.ietf-suit-manifest"/>)</t>
-  <t>Check Image Match condition (see Section 8.4.9.2 of <xref target="I-D.ietf-suit-manifest"/>)</t>
+  <t>Dependency Integrity condition (see <xref target="suit-condition-dependency-integrity"/>)</t>
   <t>Process Dependency directive (see <xref target="suit-directive-process-dependency"/>)</t>
 </list></t>
 
@@ -440,7 +478,7 @@ SUIT_Dependency_Metadata = {
 
 <t>The goal of the Encrypted Manifest template is to fetch and decrypt a manifest so that it can be used as a dependency. To use an encrypted manifest, create a plaintext dependent, and add the encrypted manifest as a dependency. The dependent can include very little information.</t>
 
-<t>NOTE: This template also requires the extensions defined in <xref target="I-D.ietf-suit-firmware-encryption"/></t>
+<t>NOTE: This template also requires the extensions defined in <xref target="I-D.ietf-suit-firmware-encryption"/>.</t>
 
 <t>The following commands are added to the shared sequence:</t>
 
@@ -459,7 +497,7 @@ SUIT_Dependency_Metadata = {
       <t>Encryption Info (See <xref target="I-D.ietf-suit-firmware-encryption"/>)</t>
     </list></t>
   <t>Fetch directive (see Section 8.4.10.4 of <xref target="I-D.ietf-suit-manifest"/>)</t>
-  <t>Check Image Match condition (see Section 8.4.9.2 of <xref target="I-D.ietf-suit-manifest"/>)</t>
+  <t>Dependency Integrity condition (see <xref target="suit-condition-dependency-integrity"/>)</t>
   <t>Process Dependency directive (see <xref target="suit-directive-process-dependency"/>)</t>
 </list></t>
 
@@ -493,7 +531,7 @@ SUIT_Dependency_Metadata = {
       <list style="symbols">
           <t>Condition Is Manifest</t>
           <t>Fetch</t>
-          <t>Condition Image Match</t>
+          <t>Dependency Integrity condition (see <xref target="suit-condition-dependency-integrity"/>)</t>
           <t>Process Dependency</t>
         </list></t>
       <t>Sequence 1 (Empty; no commands, succeeds immediately)</t>
@@ -516,7 +554,7 @@ SUIT_Dependency_Metadata = {
           <t>Condition Is Manifest</t>
           <t>Process Dependency</t>
         </list></t>
-      <t>Sequence 1 (Empty; no commands, succeeds immediately)
+      <t>Sequence 1
       <list style="symbols">
           <t>Fetch</t>
           <t>Condition Image Match</t>
@@ -550,9 +588,12 @@ SUIT_Dependency_Metadata = {
       <ttcol align='left'>Label</ttcol>
       <ttcol align='left'>Name</ttcol>
       <ttcol align='left'>Reference</ttcol>
-      <c>7</c>
+      <c>1</c>
+      <c>Delegation</c>
+      <c><xref target="ovr-delegation"/></c>
+      <c>15</c>
       <c>Dependency Resolution</c>
-      <c>&#160;</c>
+      <c><xref target="suit-dependency-resolution"/></c>
       <c>24</c>
       <c>Uninstall</c>
       <c><xref target="suit-uninstall"/></c>
@@ -565,30 +606,28 @@ SUIT_Dependency_Metadata = {
       <ttcol align='left'>Label</ttcol>
       <ttcol align='left'>Name</ttcol>
       <ttcol align='left'>Reference</ttcol>
-      <ttcol align='left'>&#160;</ttcol>
       <c>7</c>
+      <c>Dependency Integrity</c>
+      <c><xref target="suit-condition-dependency-integrity"/></c>
+      <c>8</c>
       <c>Is Dependency</c>
-      <c>suit-directive-is-dependency</c>
-      <c><xref target="suit-directive-is-dependency"/></c>
-      <c>18</c>
+      <c><xref target="suit-condition-is-dependency"/></c>
+      <c>11</c>
       <c>Process Dependency</c>
-      <c>suit-directive-process-dependency</c>
       <c><xref target="suit-directive-process-dependency"/></c>
       <c>19</c>
       <c>Set Parameters</c>
       <c><xref target="suit-directive-set-parameters"/></c>
-      <c>&#160;</c>
       <c>33</c>
       <c>Unlink</c>
       <c><xref target="suit-directive-unlink"/></c>
-      <c>&#160;</c>
 </texttable>
 
 </section>
 </section>
 <section anchor="security-considerations"><name>Security Considerations</name>
 
-<t>This document is about a manifest format protecting and describing how to retrieve, install, and invoke firmware images and as such it is part of a larger solution for delivering firmware updates to IoT devices. A detailed security treatment can be found in the architecture <xref target="RFC9019"/> and in the information model <xref target="RFC9124"/> documents.</t>
+<t>This document is about a manifest format protecting and describing how to retrieve, install, and invoke firmware images and as such it is part of a larger solution for delivering software updates to devices. A detailed security treatment can be found in the architecture <xref target="RFC9019"/> and in the information model <xref target="RFC9124"/> documents.</t>
 
 </section>
 
@@ -697,7 +736,7 @@ SUIT_Dependency_Metadata = {
 </reference>
 
 
-<reference anchor='I-D.ietf-suit-manifest'>
+<reference anchor='I-D.ietf-suit-manifest' target='https://datatracker.ietf.org/doc/html/draft-ietf-suit-manifest-22'>
    <front>
       <title>A Concise Binary Object Representation (CBOR)-based Serialization Format for the Software Updates for Internet of Things (SUIT) Manifest</title>
       <author fullname='Brendan Moran' initials='B.' surname='Moran'>
@@ -715,7 +754,7 @@ SUIT_Dependency_Metadata = {
       <author fullname='Øyvind Rønningstad' initials='O.' surname='Rønningstad'>
          <organization>Nordic Semiconductor</organization>
       </author>
-      <date day='7' month='October' year='2022'/>
+      <date day='27' month='February' year='2023'/>
       <abstract>
 	 <t>   This specification describes the format of a manifest.  A manifest is
    a bundle of metadata about code/data obtained by a recipient (chiefly
@@ -729,8 +768,8 @@ SUIT_Dependency_Metadata = {
 	 </t>
       </abstract>
    </front>
-   <seriesInfo name='Internet-Draft' value='draft-ietf-suit-manifest-20'/>
-   <format target='https://www.ietf.org/archive/id/draft-ietf-suit-manifest-20.txt' type='TXT'/>
+   <seriesInfo name='Internet-Draft' value='draft-ietf-suit-manifest-22'/>
+   
 </reference>
 
 
@@ -771,7 +810,7 @@ SUIT_Dependency_Metadata = {
 
 
 
-<reference anchor='I-D.ietf-suit-update-management'>
+<reference anchor='I-D.ietf-suit-update-management' target='https://datatracker.ietf.org/doc/html/draft-ietf-suit-update-management-01'>
    <front>
       <title>Update Management Extensions for Software Updates for Internet of Things (SUIT) Manifests</title>
       <author fullname='Brendan Moran' initials='B.' surname='Moran'>
@@ -791,16 +830,15 @@ SUIT_Dependency_Metadata = {
       </abstract>
    </front>
    <seriesInfo name='Internet-Draft' value='draft-ietf-suit-update-management-01'/>
-   <format target='https://www.ietf.org/archive/id/draft-ietf-suit-update-management-01.txt' type='TXT'/>
+   
 </reference>
 
 
-<reference anchor='I-D.ietf-suit-firmware-encryption'>
+<reference anchor='I-D.ietf-suit-firmware-encryption' target='https://datatracker.ietf.org/doc/html/draft-ietf-suit-firmware-encryption-11'>
    <front>
       <title>Encrypted Payloads in SUIT Manifests</title>
       <author fullname='Hannes Tschofenig' initials='H.' surname='Tschofenig'>
-         <organization>Arm Limited</organization>
-      </author>
+         </author>
       <author fullname='Russ Housley' initials='R.' surname='Housley'>
          <organization>Vigil Security, LLC</organization>
       </author>
@@ -813,24 +851,25 @@ SUIT_Dependency_Metadata = {
       <author fullname='Ken Takayama' initials='K.' surname='Takayama'>
          <organization>SECOM CO., LTD.</organization>
       </author>
-      <date day='24' month='October' year='2022'/>
+      <date day='13' month='March' year='2023'/>
       <abstract>
 	 <t>   This document specifies techniques for encrypting software, firmware
    and personalization data by utilizing the IETF SUIT manifest.  Key
-   establishment is provided by hybrid public-key encryption (HPKE) and
-   AES Key Wrap (AES-KW).  HPKE uses public key cryptography while AES-
-   KW uses a pre-shared key-encryption key.  Encryption of the plaintext
-   is accomplished with conventional symmetric key cryptography.
+   agreement is provided by ephemeral-static (ES) Diffie-Hellman (DH)
+   and AES Key Wrap (AES-KW).  ES-DH uses public key cryptography while
+   AES-KW uses a pre-shared key-encryption key.  Encryption of the
+   plaintext is accomplished with conventional symmetric key
+   cryptography.
 
 	 </t>
       </abstract>
    </front>
-   <seriesInfo name='Internet-Draft' value='draft-ietf-suit-firmware-encryption-09'/>
-   <format target='https://www.ietf.org/archive/id/draft-ietf-suit-firmware-encryption-09.txt' type='TXT'/>
+   <seriesInfo name='Internet-Draft' value='draft-ietf-suit-firmware-encryption-11'/>
+   
 </reference>
 
 
-<reference anchor='I-D.ietf-teep-architecture'>
+<reference anchor='I-D.ietf-teep-architecture' target='https://datatracker.ietf.org/doc/html/draft-ietf-teep-architecture-19'>
    <front>
       <title>Trusted Execution Environment Provisioning (TEEP) Architecture</title>
       <author fullname='Mingliang Pei' initials='M.' surname='Pei'>
@@ -858,7 +897,7 @@ SUIT_Dependency_Metadata = {
       </abstract>
    </front>
    <seriesInfo name='Internet-Draft' value='draft-ietf-teep-architecture-19'/>
-   <format target='https://www.ietf.org/archive/id/draft-ietf-teep-architecture-19.txt' type='TXT'/>
+   
 </reference>
 
 
@@ -874,11 +913,15 @@ SUIT_Dependency_Metadata = {
 <figure><sourcecode type="CDDL"><![CDATA[
 $$SUIT_Envelope_Extensions //= 
     (suit-delegation => bstr .cbor SUIT_Delegation)
-$$SUIT_Envelope_Extensions //= SUIT_Integrated_Dependency
+$$SUIT_Envelope_Extensions //= (
+    suit-integrated-dependency-key => bstr .cbor SUIT_Envelope)
 
 SUIT_Delegation = [ + [ + bstr .cbor CWT ] ]
 
 CWT = SUIT_Authentication_Block
+
+$$SUIT_Manifest_Extensions //= 
+    (suit-manifest-component-id => SUIT_Component_Identifier)
 
 $$SUIT_severable-members-extensions //= 
     (suit-dependency-resolution => bstr .cbor SUIT_Command_Sequence)
@@ -886,12 +929,10 @@ $$SUIT_severable-members-extensions //=
 $$unseverable-manifest-member-extensions //= 
     (suit-uninstall => bstr .cbor SUIT_Command_Sequence)
 
-SUIT_Integrated_Dependency = (
-    suit-integrated-dependency-key => bstr .cbor SUIT_Envelope)
 suit-integrated-dependency-key = tstr
 
 $$severable-manifest-members-choice-extensions //= (
-    suit-dependency-resolution => \
+    suit-dependency-resolution =>
         bstr .cbor SUIT_Command_Sequence / SUIT_Digest)
 
 $$SUIT_Common-extensions //= (
@@ -902,7 +943,7 @@ SUIT_Dependencies = {
 }
 SUIT_Dependency_Metadata = {
     ? suit-dependency-prefix => SUIT_Component_Identifier
-    $$SUIT_Dependency_Extensions
+    * $$SUIT_Dependency_Extensions
 }
 
 SUIT_Condition //= (
@@ -911,20 +952,23 @@ SUIT_Condition //= (
 SUIT_Directive //= (
     suit-directive-process-dependency, SUIT_Rep_Policy)
 SUIT_Directive //= (suit-directive-set-parameters,
-    {+ SUIT_Parameters})
+    {+ $$SUIT_Parameters})
 SUIT_Directive //= (
     suit-directive-unlink, SUIT_Rep_Policy)
 
+suit-manifest-component-id = 5
+
 suit-delegation = 1
-suit-dependency-resolution = 7
+suit-dependency-resolution = 15
 suit-uninstall = 24
 
 suit-dependencies = 1
 
 suit-dependency-prefix = 1
 
-suit-condition-is-dependency            = 7
-suit-directive-process-dependency       = 18
+suit-condition-dependency-integrity     = 7
+suit-condition-is-dependency            = 8
+suit-directive-process-dependency       = 11
 suit-directive-set-parameters           = 19
 suit-directive-unlink                   = 33
 
@@ -936,241 +980,251 @@ suit-directive-unlink                   = 33
   </back>
 
 <!-- ##markdown-source:
-H4sIAIXiVmMAA+09a3Pb2HXf+Stu7c5EWpO05XWyttJNK1vaRFM/tpbcbZrN
-eEDgkkIEAiwASmZk5bf0t/SX9TzvAwBJJ01mkml2JhOZwL333HPP+3ExmUxG
-bd4W9thcfDi/NG+SMp/bpjVnn1pbNnlVNmZe1ebNumjzVWHNZb2Gp6fVMsnL
-ZpTMZrW9kbHxo6xKy2QJ82Z1Mm8nuW3nk2adt5MWX5tk/NrkydEoTVq7qOrN
-sWnabDTKV/WxoZeePnny4snTUVLbBJaw6brO283otqqvF3W1XvGyo2u7gZ+y
-Y3NetrYubTs5xRVHo6ZNyuxjUlQlQLGxzWiVH4+MqeepzZp2U8ivxrRVGvyZ
-l5ktW/2hqeq2tvPG/XuzjP7Z1nnqXk6r5RLGuqd5WeSlX8Z+aidFDpuHSWZV
-Aa9Nqq8ewRPA1TJZrfJyEcDxsbA3Fl96Nhol6/aqqgH6CTzD/wB1x+bl1Lyp
-6qSU3xjdL2tbZkkZPanqBZzr75MWzvPYnNRL8zpf5q3N5LmFsyiOzYyHTpc4
-dIon9i8LfDKFfY06a//r1Fwm18kmWSbR8v9qy+6DePWLs1fv3phX76Zj8/ry
-dBpDcG3LaSujewCUVb2ESW4snuL77159/eL5z+TPb54+fS5/Pv/6xVP985tn
-38ifL54cvdA/j54+wz/PJ6dTT5VLIfxjIMByHq4Uv7deZUCu+HqysHjY/Vfm
-eb28BaKd2DKtNyvadvhSa+1qktTpFZxA2q5rWGU0mUxMMgNqSlKg3MurvDHN
-yqb5PE8JbyazTVrnM9sY6zmzrUx7ZZn7dAOGgTcHCfCgnQP9ZXBi5u5ueL/3
-94fE4OvG4muZXRXVhojY3Obt1WipjE8caYRtp+YEXr3JU2uuksYAwcALV0B1
-wGvRm+b2Cggib0e2TGYFQJ/Zwi54S9XcZPl8boHqWlPni6uWdrRct+ukKDbw
-sKGp5uvCwCt5mwNrKKwIXDB8ta5XVQPzw2MglhXAgVsAABBBaVUi8+GKejgj
-Psgpo36ZZ1lhR6OHBqVIXWXrFEEcjU5pkw1urjWLyszspioz0wCrFnbS5IvS
-Ajw0lantf61zQARhA4Eo7CdTr3HXCDWjFgY6GGQgYPM7eG4/JThkLIgFrCYb
-nRMo5CsDgmwBxAPcyxhOyhSEAp+TSczSpnACebNEJAqa9TDglwbehT9wOEhM
-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
-048dTnz0YktrVv+/b83XX/OnVv8XW+Z5yzCPAAA=
+H4sIAFmVD2QAA+19a3fbyJXgd/6KWnvOieQm2ZbbnbaVdXZlST3RGT96bHl7
+Z5McHxAoUhiBABcAJTOy8lvmt8wvm/usBwCS2mRyNjkZn+Q0RaKqbt2670dh
+MpmM2rwt7LH5+Oni0rxNynxum9acf2lt2eRV2Zh5VZu366LNV4U1l/Uafj2r
+lkleNqNkNqvtjYyNf8qqtEyWMG9WJ/N2ktt2PmnWeTtp8bFJxo9Nnj4bpUlr
+F1W9OTZNm41G+ao+NvTQs6dPX8LvSW0TWMKm6zpvN6Pbqr5e1NV6xcuOru0G
+vsqOzUXZ2rq07eQMVxyNmjYps89JUZUAxcY2o1V+PDKmnqc2a9pNId8a01Zp
+8DEvM1u2+kVT1W1t5437e7OM/mzrPHUPp9VyCWPdr3lZ5KVfxn5pJ0UOm4dJ
+ZlUBj02qJ9/AL4CrZbJa5eUigONzYW8sPvR8NErW7VVVA/QT+A3/AeqOzeup
+eVvVSSnfMbpf17bMkjL6paoXcK5/SFo4z2NzUi/Nm3yZtzaT3y2cRXFsZjx0
+usShUzyx/7nAX6awr1Fn7X+amsvkOtkkyyRa/p9s2f0hXv3j+en7t+b0/XRs
+3lyeTWMIrm05bWV0D4CyqpcwyY3FU/zw4+l3L1/8Uj7+8OzZC/n44ruXz/Tj
+D89/kI8vnx691I9Hz57jx4vJ2dRT5VII/xgIsJyHK8XPrVcZkCs+niwsHnb/
+kXleL2+BaCe2TOvNirYdPtRau5okdXoFJ5C26xpWGU0mE5PMgJqSFCj38ipv
+TLOyaT7PU8KbyWyT1vnMNsZ6zmwr015Z5j7dgGHgzUECPGjnQH8ZnJi5uxve
+7/39ITH4urH4WGZXRbUhIja3eXs1WirjE0caYdupOYFHb/LUmqukMUAw8MAV
+UB3wWvSkub0CgsjbkS2TWQHQZ7awC95SNTdZPp9boLrW1PniqqUdLdftOimK
+DfzY0FTAFgYeydscWENhxf/60at1vaoamB6+BVpZARi4A1gf8ZNWJfIeLqhn
+M4IHm2re4mfDZzrlU1jmWVbY0eixQYFSV9k6RWhHozPab4P7bM2iMjO7qcrM
+NABeYSdNvihtLVOZ2v7fdQ4zE2IQoMJ+MfUaEUCAE5ZxXx0YALE/wu/2S4JD
+xoJjQHCy0TmBWJ4YkGkLoCNgZEZ2UqYgH/jITGKWNoXDyJsl4lMwrucC3zTw
+LHzA4SA8YU2Y0QESoG9eV0vjCMA9gVtF2Fko0bFMYYbOsrVdVjcWIDPrsrQ2
+AzJ0U+N6jLZq9q/AA4gQi2I3xSPGqVZJ3QIJCAfBWEfeTcUnQNSRz9bMHRUg
+qayAjEBmJoVZ1fkNbtmxMh7g5ZUFwnFANgY3g4NwMSQOphU8NrdYyINjA6vh
+QxseyZvC86RjTrIbOAb4BskzTYAax6ZZp3AeDc0ccrxj5y5v9mTD/f10UB6Q
+FMgaz/9vB2E2BzsYf0pUflqVN8heKFBAYZpLoIu8rIpqsSGcIY0Y1LCNefT2
+08fLR2P+r3n3nj5/OP/nTxcfzs/w88ffnLx54z6M5ImPv3n/6c2Z/+RHgip4
+e/7ujAfDtyb6avTo7cm/wC8I1aP3P11evH938uYRczUgBLTmGiUVnUaLDAk/
+AVWvaosUQ/IvwPLr05/+/d+OngO2/xtogWdHRy/v7+WPF0c/PIc/UFbxalUJ
+xMd/4nmPQDnbpMZZQDLB4a7yNingfOFogZluS3MFcgjQOTrJshxRiQKMxgJ9
+FEV1i/zSesQaAB/IJIMnwJJZXFVEWMGeiMvxXEFhKt99YtmCBIcTq7mDlAsE
+Ui4QnqJhlXBxfvkjHto1LkzWkoxDQkK7KKkzZNqfkk1RJWA8nZhVbkGcw2QB
+0whaQYSAMqxtBkp/swLSQvHs4FKAvBCeE+g4/wfbVOs6tdsXQF522KhQVqPU
+B5mAQoCAw3mUunEex50wLAGeLEFe47RL2yaAoQQUKeITVZHy5mkg1OC7RATr
+GM+YiGcEihJPwy6ZAHA/KnwBqturHBiZWX+1KjYI0jmwTVGtaGuoYUDbgQIg
+CYyjFUqcj0Ql8pgw5W2NBCUPk4SrFvAVLBLhZlVXKAWIduIZWfKySRUOYeAb
+EII1qlsDop91+UFjAdDL12eHCDpT0rF5H6BIZxcFp6wToVEOpPFzmBNRAmC9
+o6wAXoB9wWEknX2hENEzRgWiCm/Magl+mG2AWtIcqAQAZtqRv3jqZgOPLRm6
+GigJKJIFFqAJjgkJL3G7CGnG/MQPgAFNRyWkoBLfLcNTIwECCzZuOC9iv4D/
+0dpGlMQSFsqcgfE2WNWRGiwmu6SjALZHxjGzokqvde0fxRwZO24aIwDzfLGu
+5UDRXECi7kIbrQXeEbEGczqxGAgH1aptSP+0ySVaAjO1OtCIQTWflLZaN0zd
+p7xFnBQUBAs1Q6xzBkZIisYxPya/4YOtmJ/IujVwRt1u+kiGn3MAw0OE07g5
+CWkJWVxOrgQHVBmYFakdB10K4VyUN1Wqvo1SA5ITc22ilANWMyhUwQBJeCW9
+tMosShM55GxMa4sVBuyUosqeVRVBXyRrsLbIAHIgnIBQEOZGyE6+fW3yJTgI
+4Cid5Td5xk+7jfwChTA4WQvSWCCxbyvHY7gMEQxPABzdBoZuNZ83tlXLgnZC
+tgUhj4eAekIJk7dW/YO8DH8/aA6Fu8hrRtYCrMDxM9vKwRv+/6YrVfOWB6/A
+hER0oz+LA3k6Okxitwz9GppcD4So8qYijRQKlQbsWrDzWG8oZwUSJphOThf/
+4L2LEAlxiwc/ty2fUGhX0o4cUvEzaBrQZCJeiaQ8KW1bllwaJiu/JIhbsLjI
+u9myHopNXCheH7CB2w6QQb8jJCoPMKzBCtEZaHQatP0ETYsIEs8h8DXI2/m6
+MHOgV6VMFTiBWaEauHWaHQ3kBRlN85oOp0VjBimWLakSLMaqADQVaE4D3BvR
+O0u0jmyJFg1CQqoSP9zdiY8ORtZpkQAxPJ08U/1KeMdt41Y7hkG4tXXDulj3
+h1JEtzYOoNctfrtLpNZilzAynZlOXmItpwROLphTsDW1kmAk0KnSDeICD4SB
+pzMrqlaU6lyUMLgiVdPkyM/K8YVQmJoiC+DM0svDcCukMAHhTp6IKEMf6WTG
+HAiuAJrvnjBDheRVH4xf2iwHboF5r5KiVWknnjiptXVNQsaR/tRcgEKsrecx
+4HESE7BqXZOzLfJffAmiHDomckp+Bgt0jjT6FiRswe4Eukey4BxmJpEMJnsD
+K4s7hU+QaTQcfFBPGIRotQTZt16gjZOEO7nVdf3Eoqr/VF8JDHI82MTZ90Av
+YCes2AJr8AeBHlfpiy6050+AO5yE2AQWl6pjgRY+zsmjBPErJhcuQVINbPAH
+QSKif1Cg9WBBaaUw3CRFzkYBONG4nUqFFzqioKiAAFfsO0cr2S+AS0Y0sYdY
+unoQpFu8RTcaHU3Nkyf/CwXnJgwKgeyBCZ48GT2bGvkVZ0eTkWhFT9gbet9F
+DyasiWd5kXvrwz/8HFdFp6S4sdH+p7Dk91PzI+JYkU6a8pdTksAo2cKvRxel
+O4IxR7kctfqDpchOI4SRqNE7NjaBVfQxsgYQp1UKHEhOJgqJa/zSzJPmCpb4
+FTmefuKrJIR/Q/KsYGYW+YgWtScj5zPJr413r5iuAKY27TGxY5S3agV8JF2E
+B3H3WE2DSaNfTioQeje5vb0HWgEFkKI+r4gX6HA8zTqzQsIosBiHCPHBxosG
+dqKt+FqkZtxeCAkqZ0t7690doswpyxv108yChAfaWqRq9WEw0brkR8ugfw3e
+C5L0WRiewjnRSIKn3SYam4orFotf8sd53cSZShHZMYwIvJ/MoTjX8MIMdnAL
+z/7xj38cfTPZ9u+b0Ve/286/r3vGBTg4ZRzouK/k4wXe62vyYOQ3t1X/L578
+12b7wm71j85jPdcj5NWDDQwtFe7vq/nNGkhj8sECGnGqS9TmnVkeAMtp9fHn
+i7OBFcKPng1A9mAwvgvLFurpzCKmr3m3Xs7Ab+7tKJhFbJCmD8sHS85BSvb+
+j2uQEwGmdp57gBElab+xGJZBpIdQfONmQeb56Iz6aJY9sHyljQEx5guScsAs
+jp4dYXylMxoG9qv57zjV14ec9B5Y+ADOvIi9AEvHbUgO4Jsd5M20pA76xVmI
+iuj8ujjzq8s2ew+4NXatvnd/vPobkUoHoA/yuuGP+w/c7+OJOm3sRgvw/w/D
+k3rBcdxv3fcPHw7/anJG0btaVaD7Nw8ffng4+P3Dhm/HPEppVKR9mXr3uLqp
+J97cuce0UvehQa8O+AGEWt6g40lKimwbMospTSOxCPAHMBOkRplkpcj4cmoT
+HGQx8thF9sqvSPIluD3naJ10v+doK3lymGJFT+71+w/mZzszl+DGAtwHpz9f
+gmlETv8cSKnVgSXbO6T/UKUhUBTvi4GWhZv1jEMCwfhkYDCHnAEnHFykZ72d
+v8IQIbncNFKUPQMHHqj7JoaOMYC2kZ+Yo4JJSfEyiWDesMGZBHaprDuoKw8+
+WosFDIDwynw/fYYHsjsvgwPu7vwZTDDICzh32aYMrIW8QINtC6F1x7KhQUsF
+R6tYeHvyL7DHut7EYfPBEw6JYMyOGn/zw/MfAMS0nDtKusSIeQd36r/b8orz
+ZXE0OwOqp+w2nxWuyM5GXWtUAkMLzprC/yrN0nfAKHXrUqEw3i0wRHQcuZjn
+JbCWdaPCaHUQu7exdYdBdT5WgPvF9Lt9x2ooj0fsTYGDbgg9ytYKV2Oml1O1
+MdQZmoWSPeJoL7n3dU4mc0UpDpkJ94ShO/QD4L+Taj6ZSdz8hlBNEbl5tABl
+0oNpN5wpHo1OArFERHNVVQ1ZHimcgO2Agsj9lhLeDAsc1MU82PqZJnHhmesS
+0SJhHzjDBWXx/GpYaEBrZOz3d1YKVxmbvAsdrrMiFMgcO4Yz7vGo+4yFgrfO
+bM0p7mwN2hiReZtnSDiYKACBu9hgLpAYMzD9EHmBy0bBowpWqSko8dlZOlH+
+pQmdJp+bnxrUHAOhBHGi1CsKBru0NDq0lPPO03WR1JzidN5XEIrWogtwbytO
+skq4u1N8Uec3OeCJXca0AvzkJRZUML2H7A/YW+IZNCksV+dVE0XaOTChhSVY
+8yB5NU4oaCCrpNBfnWR5RbpBtqg6D8BZIsG6ESRIGt6a+5JrKsSDBGQQy0nk
+kKWA+3qo3iE+WdbY7VUwhUuKdqFhwlGLPVDLoVr0yNVFKSlzAo5iiyEVg9mV
+BLkGd3GLZkFbMUNnHGEsiM6Fs6UqxaXvDPucnanQd69hPOe4Pn24YLtBwwSz
+jSzAyQyfXHI7kNSc7I2nAdgXOTn8LnuJVRRgsxUJPoNHCUtNw5N3EMmGGpew
+lZOhsF/IFkF4lzfXnek2Kbm6qGVAbV7Hw3hmsgTQGXfneCPuncRSahAISUOR
+fDEm4lnyxifLMaKcmBnsHs5fzIMmAdBv4czoN7cKh/0HIe/g0w3x9V4qrNxP
+TDOyJGwUVYV7XLIXGJjg8jBNaYY4HI1eowLsplDGYXWQBs23htmXGPOVXAfL
+OY26N5FSJdLyFB9XNIn08EglHSmJAzB+/v3fwnjVB44MZ/CdTa/RDJJYcTZJ
+6Zt7LaYRrS3B40YS/mgHcGwekNed7EBV/S+nzw5363oA7S2VfvHIpHYlYRnH
+CgHkrOiid2peYyx0nqwLKhvYxGHPJNQeVIEzs5p6yqbmN9UtCn0S52QvWWYU
++yW1q9bXC8LusRLtWGofHGs16xX6UQ2nRtEMpAJUWjmlDN4BWK8np28aQRRA
+L8TkBSNLVHkej8odq6ecbzXJ9y0K2CWo+bo5HFLZ16CxPQZ4p6mvHYwIE2g1
+tb44S9HCpIXRhKn5Od6vAy0nnT8DcWjhZJj8uPbWF3CxXVji9gcgzZBHiYS6
+QDrwmy7IZg0rFzRITdkEAErbsFCuQYGChlHp6t5ydkYIOWiAYMVuuwVN3XLC
+PCQiijuzf4imlZyZr8OkSqeA3TlVwko8JEUiuFKtFkegQUke10ImW4Ccmo/5
+MgdDBJOM+bzjtzJfqqpBQOcY4fJg+kqdMcWba9JP8gMdF4FXVttICTBcWtx7
+Qt5PtGKKhly3eKIBa7rA6DrQik241Gw4r0OiHQF3iGvVB0vjCDIgwVonle7u
+fESdk7Hi+rHXh5LvIs5sqKXUrcX11S7OEvfnRtpOgzeahlfJsshL9YY+2jaM
+ZMHwLzqMIUk6dq2jFUcbAaTeEqKV1B2Ma+VYcHKa6DIiAR5UrcB0BZNGiDTa
+QeOML01o+vT9gTge8MAFpd/B2X42NSetpBkou0l46YT0HQDHovVh5maF2U+s
+4vXPWo6dOGwgxc5QrmhtiT87X6xYe24RKdyvJEh6ValiF/X4MJ6Z8EXJYj0r
+71I5kU91Q81A4VAgAA6SuN7oUBYEgSRlnTeahuPShLDqSLAYTcAqyomVGSsd
+TZFJWcIxyQ2sFfb7J3TA/Gg7RnjiepgKPEcQ9Uw8bOGv58DutOUVFmE2XD6f
+L9ELctEksJS8uEaqYNjYHl+4hX3eDEUr7HkTbGton5LjkV0M2M05Z7LbHMvO
+Ui4tgGPCeiNfWUaBnqHUXJiR64mNXebOwAwHPprx/HB32wB6oI8BJjdLGOvG
+5KB8P8mze8qWahm8lDCQGkXvBak+KcAmRkYxaYGFtlKWiaVJiAVP+U70cjXK
+r9iegf95fxYLWGQpMrVc/Rd1KkiOFlYv/UlEi4h7FEjWYF81p44bXpcaC0rv
+dbg9uzGwe4QOuaqUNKf6whLCjNYmIyVWrwHZs82ewh6J9UPAxh21FSaXow0A
+MOLnwXMKQ/SErOAAdGgSOvZC+vTs7E0QqGi3Ye2YEpf49Ogf/oFiHUo0n4M2
+s2+/fWUo8n4QUVqMy1e/5mCJI7bPF6pf60MJvANR0jORi+4b2yTiefe491AY
+IxX9LIwzZhU/XLPfYYxxEBJ8Pv2e6wrl+LU/I1lJsZsTG5nvLaE/SLkNHShT
+GgYoXXHDioMz0UHqjFrMfJMUazZCwzHoYwBwdTKUj3clwGDdN4PEhYbIa5sm
+GFoiX4O9VvY10DYaNouc5Q2sSt4re4de15BsiOwyAEcMqQ0X6w0csbO0GvFL
+uq0serBOo32M4rd4WLsjuEGnwW7TzxUsNIOANp4GToNNO1efeK9jcU3N+5Xv
+LAi5HxT9PP+CJg3j0R0lStfId3bF6RGd4NwUakd2RqUmSYIY4qAQoc/PnKic
+2JibD1wirT+jMnJUWnE46iPrlbmjab4xa5Ci/XGbz1qbMrofbfvJzfI/OqBs
+JoK9XYKFRspOg8m97IKVSfSAeQV+huN2dxBEyq5bKCl9D994626kuNAuV+2G
+iOVAVZ2LI8HzFduf+R8sR5RKcI4Oh2hO4wXYz4pkG3pKlOYBp7IqqUJdpxV5
+P+gDAn12AAfiIltcA7Ze4G6La4eM06lAjIXd28BQ8u6Ua8cKDVq2D7gWDdHn
+Fpc+RNi41A523DyOVedog7A8azsLUzCzRNv6Jqlz9Lk1dyaw61LaVMLM6EqS
+KJxNRhkiL63WaGhLaHlM0UwJMQfZQ+oVaKhglQL61AkpE8LpkK0gVZxIBSze
+pCBzQjFFkF5Y0IYqP5IZWvQLx0EmLyu1zpGKUcG2rxIQzoF+DM/5r2sOpxrs
+XZ1wX0tmIh3vmmOcA9wnjQAMsTp60o/OR7tII9qpw/qXdZmDFwiKxamLJLAN
+g8pPtXn9yfMI5AANK/DOFVdanZm4SGzTIwI6g/gUJ9zxkXcjC2CZ6f7Fx+Xl
+KGVSpOTfCpYjpPnyMKqZa1wxPHVccnDehzokjegUk3M0Z6DArmP3KVvTnOQf
+kVTRSRzNOVyRLRqpZ3VcEVbNE0UJRM0/KX8kZfx7zU20sW8y9ruKsgkOtrFZ
+VWSDU8G02FdB+qRYYGTyaklM1NZchX/6/uP554/YhYTymP56m6TTKEXeVRB6
+0C7QkmxXGN3MMFgW06OHZYe9b0/klFLRYxuUdodCk6wt28SJ5c5DbK7APm+T
+GjUQJ8qGZEGarCgFCHACx0iSo4myBw1VhNPhy2ooEn0CSLoFsbuZbUhXE+ud
+Ld/k5TLTbGAGP6C2pDAQKNe8aaNIhLkCDGOLrAptV8nRGG0SpXMN5kPzEV3C
+JbsxUR5WzjdMUwoZBVaSO9oY1x2flgVQBnIdWyyFziMWw40JmqhSmVoq4wMb
+gCfnYB7KmNsK00dNWGXT4NZo3Mq1BMskEsYNhKnbSNOXSDswQ0ceFHE4H+V2
+u7+Ke21ks9qjJ/lNcKsq7EHdDIQFh3wtPXKUzpMgutVQqqUTGTmRexRAiGAG
+FLP4ONlKu8C3xUN2jQuTP3sjI6Of1c52uel+vgLdpVSA5nbyQJjSWAVnyeCM
+sXijwfwuiVhuEhEJgcmDTFrsuX9Kct5uhaIVPTKzV8lNXq1r7eP4kvMVC2nQ
++IUZStdchsLA1kGbpZMGlLC/vKotVzC7tkiKe8vlCRTxRAP6iTajBMQiP1w0
+QaGlfBdVXmIVLN79Moq+jwPtRKJBWyG1ODiQ0PziopItoXqQRrbAXorIJSNJ
+gLznsmjHrqEttB5PdR29ckPPiuwCNLTwThrC7XbCoawSJ9B8chuMDrpjhtI5
+4f5zIRzPWkCVaGpMqHHA+XpxHJHF19ImpUQbOIIZmSVqhfdSA9ojorFs12EQ
+JZXQcKkHBrM36uLgcWpqAIzgpD/49gbanBqjPUDKTQRK1OJAQ0VcCCki3UcI
+vXu8cr9EDus9yMaeWOoml+87nR2MMO7z418wwt6JWv9CpVFQdzScXuimw4DE
+y41j8WWSkfnmk6rdCB6KdPQ5mraX1VBvInFMGmBfj5IMcPFcJLczIL857i45
+c1AP5AZp0KmbBPXWVInlRkAC3dxNzxEgJ7tVa3zMCVFqDkSLUrvcNOXxbBCU
+oQQNSVWWEN1ke64CiPNSCsMD1n5DJftkyjnfOcjJNVtUp4aPqLspKCnt+a1x
+a9N5t0kdvA/Hf1uoKJrj+84c+8dIeayjV5eTlfPDS1y8h7qNkF1OzGNpKJWs
+0YWQPlyEdoBwm3WakhESND+KlR+myEhzuMYompxJZh+7dz2wOFlNLqMTMx38
+EcbSluDBiLW/Ya3fu4liabsF5Dh3IM0RN06KdJKbmZaYQnfZ+TAd0i1icP4s
+tdTV3BCPn6nengpXLqMGTZ4aXQFsfmejT8rpqFDPpldyD4rWV5xogev/qdDS
+QY1fmI//+L/JbdMyycvz82Ds8KJqqOrKVC3sSvmC8j/qJKPmZSA6LEUbB2b/
+cl268gDE9TzBOk+tEKFm8VGkvtBE9ncABDluV2WIT7Qt155GK2DKPlsXVjnJ
+uZdxAeOWQfEp+h6yoJhQm1y1wNeVG8+pvGyBkQZEA2ygrm6SQm0E1tehN92d
+gMoMyFYd2rvqFF+PFBaXdigzGdAkno5c8ZRk2EP3Z2CchOvowrhi6IHIw+jf
+M4GhMDX39xR68dUk5M4MLUS1VO7uEKfobzVTv3UL1HiPhmlOat6c/HQRkCKL
+FqZwZzRsh0JEMi3WDxZshYEqVQkMqrenGwNhFdKPQaanA4C6HsETePY6vq2O
+cQ7u13GmCuZjwcmgb4OwbXBRAge2wmxz1BO17yCCvKn3jd3uxxpgARdgD1I0
+kCyhZn+7WjWAA77yLaFaaiAzyexQiKDg+9+8VMSwi1ZS09ULiYv0+To0EIEc
+D15dbRp2AN0MAb9tB98ZcB3Tg5GiZRelV4XbqUOq0QQRWny8mxKDDFRo4QaA
+hDFRjjVm6H85jokrjbQnfs/ph5cfuMs60FnoBNzD25d64ZEANNG4jn4pQWbl
+8pty0w2uURDehpGZMXuFfgJlCfqyaXxf/fZN3eQJlST+dAESYh/VVvU1PsL9
+Iviouw4Ag5VtcPeKr6M6lDSsM+DEgMBCFTp5S/y0w2PQ0CLsqEpzCmg7ChA2
+7JYbbN0vWdt8CQgGa0AeYnSrud4v+8QB61Yo+qotsJuSTO/Z87cYRhcGkXsQ
+6K/+UkipZKZqkI9VHPt9qATHEkXgCkpyeFUqYmBcyKpPE0laV1hOG5k7cmca
+l9Ho3Q04ZQrYxBrJDUdPM7637T0qosA1ZGQwvGqfWKo/NVz2IBYe3+OE7OJr
+b0h3DEQuHUqoOrbCAFAhgjVYmWM1NIMEB5H+Zlpvjnh+L50I5ic/LHPXTu3h
+dVycrMCtEIhlI8vu5JvZRmIlHCw7OX3DmKOuMzZ9ZCt+/k5kI6FWinjNsH3C
+tWdR52ObUC6DatP4LIS8e+fRu9tCWgGHgiZ3j7tZDX9hhFS9DA/stR7nXHmk
+1905b13jX758RDKt4RVtsUANNtHP+15kViodtl2a4ulRlMDua1O6vlp8nwYR
+5U2SF5QBoTBo3KHgpxaQDwqMFdSHrquG5+BNZ3IaJxSUxeneVhn7tRopHI2i
++CS1dOgzeelkzsaH37vhS3K8XNX/UJEu1XUbBlRm10vKRr7v/B3WEuBlBEuk
+vVQ3+F7tt9FXbmym/9BlDW3ImF/19KbEAs3vfnv9u9+b41fmBqu5Ub5Q8jN+
+CAlnQpLxenxD8rBewNQDquQrqZ8DGf6733JY43e/P/xV9wf+MGksxfThiW7/
+vgZxvkqlqo4d93bAuXNOyPJEFx2gUEfXrc7AUfRGblB2x4MDP+Ed4NcwYk0f
+dMQhu/3MliraAPZ2EggqZdstvwPnutJ5TsFGD2s/1yQ0s3cvGHgFYVJPG3tc
+9oCSB/M1X2Wrk1G8kaKRsW0v/EY9MInoeSoocwOnXZrKG38RFOrEuBpaL9XR
+Uo28dU21EdhE8Zsw61EPBWAx7eVYv6OoHnSD9tiZEpjqfaF11pF1mBS4eTQ6
+2n2HQIU03PwiBoBkYWQ2tGhIZPG1CbFD1y8v5q5MrjzposLjaxy7A3Rkt9wT
+TYKTvJcwmEAFhdohqKCh7qViwL2UGFhdu7HhK+NdNXb3wgdqtu0zkyidQOv1
+Gar/DDCVhEBjxebuEg/rQrv6K6zG5zpZb9h2Z8KQBiAxiGFun63fxzMQAkUy
+ezQPL7AaP2I3gyhKohDmEW/hkekEUnudBPFcO55H65Kar9hf46Q41/C7bQdl
+w/uPieANs8Y+QBzkpsIKRk8mzpilbELYchMJkWWycg0TDDNB2e2W2LUkaleq
+pBnKHnSKsQLLyyUT/oz1GwzF2XACh0+pK3AtXLG5cLGdcpgsiGRsGR1d3Bqk
+0JGzQiUworU/xw4g0QCX8kr1CSsWun0D7Nx23fCNMXwfa0owZX23exowd1Dd
+NsTXW34GlqYckEsBAS/hwe063KDeqx8IQOu/h8voeIbHjHfvQtMVwE8IJohf
+y+ijnq9+N31Cl0PwJdJRkTxRB9vg5EJ06YBqhfnrMiLO6IYBvoOErn/EbKjT
+J/1rSJrhMxoi+v5RDT0FJxbc6ecHdxNzvb6JfvIkiL4+hCXzNs4EebHl45mc
+4TxHDUhl+uXADYYPvb8QpcgVZvnQdtcy/uhHf6+BBHxpxPNoet8jQpfNtQNL
+kE3i3BfU0XTnINEWS+ou7pjdw9CZsv7lwNPiefMtIDgdXyrc+AXDkDHdo4wW
+A73Lw6e93Ys6hr3CbQvL6wikxpDcPV2eCyBx48T6UcMkrOXYeGBamqkZ3gyn
+ALkXGFe3GMkp+YqYvNHLUBjlP/IFi1hqWK02Hg+iMHiFQHgqKJ3eHe246uhP
+9iv6pg1/f9+zr+T5QE0E1X0/B7Jfq77VBqa4hac0enkG3U8DaGW3f1tJgPg+
+fceC463bRnkfeGgxpgbZjaqqzIK8kjsgS1/zlwjH80Z8wbDEwkW29r53HapU
+MyFhOCzIwRuGpnJ19uAYJEYqhRRwFH182a+vDwmadVPrXz0wlAujWKLY4Uhj
+nTa1OADme9NB8HCJjjii3lBgAcjXcWtTvDOoHSH0N1hb5os/2Loae/NqXcrN
+r327gRQixmAzroy9u4tH8J1Xw3QaVnWGZZxyl0w3BktXmH5yoAhX+JWoFZGK
+71wfYtQ6GN07HHUJAgOvevfwuC7GmS8BqCVKpmFgj5gOY9EAslfJhPT3Skec
+phcXqHmtF+0y6ndgHU2FOCsjP/gYHXZbYmBYXtaznfFjJYM5ua4TjZcKLfDy
+o6RgMycALWoN4RtxcrzeukOR1NNw8uHdxbt/PPbWDvv4dClG4xtDJaNcVFFr
+Ggq0AztdTMfu4ha6NYwzMJTBYPrb81IvIEi9UiIsAxbji7GF9b14A3oujRQr
+bvpZryrqq9SiBTca+BUMspsqj2pbeF9R/luub1FfGs4bqyw6LeGMCL1cnMsk
+tgkDLCO9ji6SqYYQh/mkDrdTRqp/c80gSEN1u8Mq6V5MiE87JQb5/HovrJ6G
+Jjt8w7CP2vorhB3lcRfTY3MqRmzwUo+7xwOWbac8WKxbKlhmq8SC+OErwtA+
+0FkDBcp5X/8coipxd7OHkTiNB8gFOXipWPQKhH5VMNYB2xuKwrQUlV5UiVwB
+GFgPl7I27FDBiH0hRD2OVDMrGKsDqIKiMtUMOXYs4dJxFMrf0qPccBkJMDm/
+Uu0ysqGjvUXXhzdXlARUAsBX4g2GtL366vVYHD3d22Qhkw6llSLNtDXiKm/L
+k1adHggvpnvqRQ6n5l3VhuViQXcV92rht9yIJf1AA41D29uMOj2te+8k3HlC
+dEeX1FB13NngwvG/kTPDLNzAgR093b8+3wq/exvP908zmIxwDmm0mT3uMU03
+kCzZh5mBcCdMhSTAbzpzt/8HVoQWpO3whv9Cx/5Xiy9xpeNSFC1kiK9i+Etc
+WIPv1Ts/3lf83bmmaVfpN3qVdHoNvjUo0pH6baQkTwLXynYdDhIa0dK/aPwF
+/hr81r87+Zi2e92PexBvPFA0Bbtyv2tLQMJvccGmCVD+NBty/sDQjswNhoXX
+K4TtBCEw1AkHxx68sZB96Ws7OF0id4eQgYIQ6YVew4pUK2fU1nQxEgcD3QLW
+SqTcvxsEjvLcvTXTBTWGjAKrj3m26xsHA3N1jATOEqjzDc9GVxXFt5a5yGVs
+P5BpjLYuxe27r/wcyytoMNOEthRhNnDLKFufZYKd3gtD+2tFBJZSH2parDOr
+JTltW0SvDnUcR8ah2z4l5d27aGh1f//BjsThwPuBnUn8X6bS346p1ClwfZix
+REv/dR8ZNeBNttlLL/cBwaPPHW3TW70Y2Q/ihL9Tg4tp8v+jtcUpMnqZGcj6
+lu7PiTAVTvly7yX2/6n4Ogkkfy8M5WV+pEg3LKDlXXjOkPHjD+7uhswbfi/y
+Y61/4vCo687xzaEUSXR3ga+42ZXWwayblUtU9Coj626gC67ADyRIFbw/Krxx
+JX4xp9HblgayBdzSEpAFvcSu0yIavUySLpzT+2L5UqLoxeHcGLzG26WD3pcm
+fHVSP58ZJms6+Uq+vDk+8LbecB3YMFrofhHAzeB+q9r93t12tz/H2ylbygm7
+L2vern7/XuX6np1p+5S+zOUR5qAf/an7vQRDjF7p4N4MK9C7QtSn7nKpSfCG
+2gt/01vwO6mT4O//VL3gp+3Luy7QR+bgHC90+hVms3wAcKhPEaWehJD1RbRd
+e9vpjs4dD/L2SrRW+K2R0v68x6VXeP6Liv86qfgB5LWD5oPZvYqXPB9fRuG1
+Dsq8Ry4d9QgF7SOsAcPPrM74deCk8+gAW/bfuCx+8GpDkOjcfZ2UPfRzwUqn
+yI3Sw5we0LdZhHm3LeLaV4U7e5xrSJb8tmWd8G/Bd9Lj5TfVehCHopgPBOnB
+hC8ywr1AiRr30R6QIpfe+f6pVme12vy5sA3VL/25cA0wG77Q5eLkHb0Qnfpq
+xEa5e5wnZYKZZfwxb7RpUtogCnrhr+0QbElv/HOFYrgPqkxY0BtxLAphuce0
+/0690ehNMrOF+aql++4NgCMp08f/j47oVXq+MOkrbLnz+rH70dH35uuW3o+v
+jkwH20buR8+em69BEs89H+T1e7t4KPA/mK3F+w/UzKMXpl+23xsbFwoCPo7M
+ljaEB/kqo6OXZqBDYi+/j777zgS9Alszp0SEH7UbKCZESV5mVbrW+7D4ne1B
+PI5jWii5W3od2UICd5S1xT+v8EU2GNZCKryhCgg6yvCV5Z33lsj95PJGENYP
+WFPB1XrSfeKoiq+xpxtJqRhYX0Our3IP3u9Bb4TBDCxFu2TPdPHqMsjGz6t1
+6cQ8XZGAW6P7sPGtZC+fHr28vxfopZzQN3nSO0rkwaNnz+FBRR+6EEiRZpak
+14j2kym/XJOuSb17jC12kzTLCn7Vrb45uauY6GkXm15JkYC4EvHLqPFRttqY
+YXBkHkUST2h8/gUQs1OA0f2sJrygVVtXd1y4HJQwvvo13edopumsqvVWSP31
+cN+cfO0rzZm795eGTIrh8IEldD6wfDtLgoHwW/MN/T8YhK92+735/WiEH17x
+HPHr9z7T6/dGf+Fbp3V6V6wwWVoS7t37cCNkD4jUIaSI2Pyswp+WW5fBWgox
+L7pjTV+P87B19p2gaWEOBGcrMM0kvaqAlYcvBt6JCGe57gPUfBuGgP1p/B1c
+Sfxk36XEIxmvln8H91u0oNxJ/MGuPv9E5YCOIZ0R2z3EHTpxYLahyXbqxzEt
+dfeN7tfr1vvh2YZAYxU6tLldnG++18LEUBodjXYRrzn6ftTlOPPs+Wg0QHMw
+VW8uPX/3256Sevz3yvzQfTZuLgj+vTIvusWWA004+uzR0Z4OrXDio5dbyjj7
+/16Z777jN5r/B3aEEHqFlgAA
 
 -->
 

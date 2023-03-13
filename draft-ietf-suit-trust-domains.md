@@ -501,7 +501,7 @@ Label | Name | Reference
 
 Label | Name | Reference
 ---|---|---
-7 | Dependency Integrity | {{su}}
+7 | Dependency Integrity | {{suit-condition-dependency-integrity}}
 8 | Is Dependency | {{suit-condition-is-dependency}}
 11 | Process Dependency | {{suit-directive-process-dependency}}
 19 | Set Parameters | {{suit-directive-set-parameters}}

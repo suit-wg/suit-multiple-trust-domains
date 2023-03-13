@@ -11,13 +11,13 @@
        This specification describes extensions to the SUIT manifest format (as
 defined in  ) for use in deployments with
 multiple trust domains. A device has more than one trust domain when it
-enables delegation of different rights to mutually distrustful entities
-for use with different purposes or components in the context of firmware
-update. 
+enables delegation of different rights to mutually distrusting entities
+for use for different purposes or components in the context of firmware
+or software update. 
     " name="description">
 <meta content="xml2rfc 3.15.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
-<meta content="draft-ietf-suit-trust-domains-01" name="ietf.draft">
+<meta content="draft-ietf-suit-trust-domains-02" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.15.0
     Python 3.9.6
@@ -36,7 +36,7 @@ update.
     setuptools 58.0.4
     six 1.15.0
 -->
-<link href="./draft-ietf-suit-trust-domains.xml" rel="alternate" type="application/rfc+xml">
+<link href="draft-ietf-suit-trust-domains.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
 <style type="text/css">/*
 
@@ -1186,6 +1186,7 @@ li > p:last-of-type {
 }
 </style>
 <link href="rfc-local.css" rel="stylesheet" type="text/css">
+<script type="application/javascript">async function addMetadata(){try{const e=document.styleSheets[0].cssRules;for(let t=0;t<e.length;t++)if(/#identifiers/.exec(e[t].selectorText)){const a=e[t].cssText.replace("#identifiers","#external-updates");document.styleSheets[0].insertRule(a,document.styleSheets[0].cssRules.length)}}catch(e){console.log(e)}const e=document.getElementById("external-metadata");if(e)try{var t,a="",o=function(e){const t=document.getElementsByTagName("meta");for(let a=0;a<t.length;a++)if(t[a].getAttribute("name")===e)return t[a].getAttribute("content");return""}("rfc.number");if(o){t="https://www.rfc-editor.org/rfc/rfc"+o+".json";try{const e=await fetch(t);a=await e.json()}catch(e){t=document.URL.indexOf("html")>=0?document.URL.replace(/html$/,"json"):document.URL+".json";const o=await fetch(t);a=await o.json()}}if(!a)return;e.style.display="block";const s="",d="https://datatracker.ietf.org/doc",n="https://datatracker.ietf.org/ipr/search",c="https://www.rfc-editor.org/info",l=a.doc_id.toLowerCase(),i=a.doc_id.slice(0,3).toLowerCase(),f=a.doc_id.slice(3).replace(/^0+/,""),u={status:"Status",obsoletes:"Obsoletes",obsoleted_by:"Obsoleted By",updates:"Updates",updated_by:"Updated By",see_also:"See Also",errata_url:"Errata"};let h="<dl style='overflow:hidden' id='external-updates'>";["status","obsoletes","obsoleted_by","updates","updated_by","see_also","errata_url"].forEach(e=>{if("status"==e){a[e]=a[e].toLowerCase();var t=a[e].split(" "),o=t.length,w="",p=1;for(let e=0;e<o;e++)p<o?w=w+r(t[e])+" ":w+=r(t[e]),p++;a[e]=w}else if("obsoletes"==e||"obsoleted_by"==e||"updates"==e||"updated_by"==e){var g,m="",b=1;g=a[e].length;for(let t=0;t<g;t++)a[e][t]&&(a[e][t]=String(a[e][t]).toLowerCase(),m=b<g?m+"<a href='"+s+"/rfc/".concat(a[e][t])+"'>"+a[e][t].slice(3)+"</a>, ":m+"<a href='"+s+"/rfc/".concat(a[e][t])+"'>"+a[e][t].slice(3)+"</a>",b++);a[e]=m}else if("see_also"==e){var y,L="",C=1;y=a[e].length;for(let t=0;t<y;t++)if(a[e][t]){a[e][t]=String(a[e][t]);var _=a[e][t].slice(0,3),v=a[e][t].slice(3).replace(/^0+/,"");L=C<y?"RFC"!=_?L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+_+" "+v+"</a>, ":L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+v+"</a>, ":"RFC"!=_?L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+_+" "+v+"</a>":L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+v+"</a>",C++}a[e]=L}else if("errata_url"==e){var R="";R=a[e]?R+"<a href='"+a[e]+"'>Errata exist</a> | <a href='"+d+"/"+l+"'>Datatracker</a>| <a href='"+n+"/?"+i+"="+f+"&submit="+i+"'>IPR</a> | <a href='"+c+"/"+l+"'>Info page</a>":"<a href='"+d+"/"+l+"'>Datatracker</a> | <a href='"+n+"/?"+i+"="+f+"&submit="+i+"'>IPR</a> | <a href='"+c+"/"+l+"'>Info page</a>",a[e]=R}""!=a[e]?"Errata"==u[e]?h+=`<dt>More info:</dt><dd>${a[e]}</dd>`:h+=`<dt>${u[e]}:</dt><dd>${a[e]}</dd>`:"Errata"==u[e]&&(h+=`<dt>More info:</dt><dd>${a[e]}</dd>`)}),h+="</dl>",e.innerHTML=h}catch(e){console.log(e)}else console.log("Could not locate metadata <div> element");function r(e){return e.charAt(0).toUpperCase()+e.slice(1)}}window.removeEventListener("load",addMetadata),window.addEventListener("load",addMetadata);</script>
 </head>
 <body class="xml2rfc">
 <script src="metadata.min.js"></script>
@@ -1193,11 +1194,11 @@ li > p:last-of-type {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">SUIT Trust Domains</td>
-<td class="right">October 2022</td>
+<td class="right">March 2023</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Moran &amp; Takayama</td>
-<td class="center">Expires 27 April 2023</td>
+<td class="center">Expires 14 September 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1207,15 +1208,15 @@ li > p:last-of-type {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">SUIT</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-ietf-suit-trust-domains-01</dd>
+<dd class="internet-draft">draft-ietf-suit-trust-domains-02</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-10-24" class="published">24 October 2022</time>
+<time datetime="2023-03-13" class="published">13 March 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-04-27">27 April 2023</time></dd>
+<dd class="expires"><time datetime="2023-09-14">14 September 2023</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1235,9 +1236,9 @@ li > p:last-of-type {
 <p id="section-abstract-1">This specification describes extensions to the SUIT manifest format (as
 defined in <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>) for use in deployments with
 multiple trust domains. A device has more than one trust domain when it
-enables delegation of different rights to mutually distrustful entities
-for use with different purposes or components in the context of firmware
-update.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+enables delegation of different rights to mutually distrusting entities
+for use for different purposes or components in the context of firmware
+or software update.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1258,7 +1259,7 @@ update.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 27 April 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 14 September 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1267,7 +1268,7 @@ update.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2022 IETF Trust and the persons identified as the
+            Copyright (c) 2023 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1315,6 +1316,14 @@ update.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
                 <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-changes-to-manifest-structu" class="internal xref">Changes to Manifest Structure</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2.2.1">
+                    <p id="section-toc.1-1.6.2.2.2.1.1"><a href="#section-6.2.1" class="auto internal xref">6.2.1</a>.  <a href="#name-manifest-component-id" class="internal xref">Manifest Component ID</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2.2.2">
+                    <p id="section-toc.1-1.6.2.2.2.2.1"><a href="#section-6.2.2" class="auto internal xref">6.2.2</a>.  <a href="#name-suit_dependencies-manifest-" class="internal xref">SUIT_Dependencies Manifest Element</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
                 <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-changes-to-abstract-machine" class="internal xref">Changes to Abstract Machine Description</a></p>
@@ -1343,12 +1352,12 @@ update.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
                     <p id="section-toc.1-1.6.2.6.2.3.1"><a href="#section-6.6.3" class="auto internal xref">6.6.3</a>.  <a href="#name-suit-condition-is-dependenc" class="internal xref">suit-condition-is-dependency</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.6.2.4">
-                    <p id="section-toc.1-1.6.2.6.2.4.1"><a href="#section-6.6.4" class="auto internal xref">6.6.4</a>.  <a href="#name-suit-directive-unlink" class="internal xref">suit-directive-unlink</a></p>
+                    <p id="section-toc.1-1.6.2.6.2.4.1"><a href="#section-6.6.4" class="auto internal xref">6.6.4</a>.  <a href="#name-suit-condition-dependency-i" class="internal xref">suit-condition-dependency-integrity</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.6.2.5">
+                    <p id="section-toc.1-1.6.2.6.2.5.1"><a href="#section-6.6.5" class="auto internal xref">6.6.5</a>.  <a href="#name-suit-directive-unlink" class="internal xref">suit-directive-unlink</a></p>
 </li>
                 </ul>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.7">
-                <p id="section-toc.1-1.6.2.7.1"><a href="#section-6.7" class="auto internal xref">6.7</a>.  <a href="#name-suit_dependencies-manifest-" class="internal xref">SUIT_Dependencies Manifest Element</a></p>
 </li>
             </ul>
 </li>
@@ -1414,13 +1423,13 @@ update.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">Devices that go beyond single-signer update require more complex rules for deploying firmware updates. For example, devices may require:<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-1">Devices that go beyond single-signer update require more complex rules for deploying software updates. For example, devices may require:<a href="#section-1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-1-2.1">long-term trust anchors with a mechanism to delegate trust to short term keys.<a href="#section-1-2.1" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-1-2.2">software components from multiple software signing authorities.<a href="#section-1-2.2" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-1-2.3">a mechanism to remove an uneeded component<a href="#section-1-2.3" class="pilcrow">¶</a>
+        <li class="normal" id="section-1-2.3">a mechanism to remove an unneeded component<a href="#section-1-2.3" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-1-2.4">single-object dependencies<a href="#section-1-2.4" class="pilcrow">¶</a>
 </li>
@@ -1445,12 +1454,12 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <ul class="normal">
 <li class="normal" id="section-2-3.1">SUIT: Software Update for the Internet of Things, also the IETF working group for this standard.<a href="#section-2-3.1" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-2-3.2">Payload: A piece of information to be delivered. Typically Firmware for the purposes of SUIT.<a href="#section-2-3.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-2-3.2">Payload: A piece of information to be delivered. Typically Software for the purposes of SUIT.<a href="#section-2-3.2" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-2-3.3">Resource: A piece of information that is used to construct a payload.<a href="#section-2-3.3" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-2-3.4">Manifest: A manifest is a bundle of metadata about the firmware for an IoT device, where to
-find the firmware, and the devices to which it applies.<a href="#section-2-3.4" class="pilcrow">¶</a>
+        <li class="normal" id="section-2-3.4">Manifest: A manifest is a bundle of metadata about one or more Components for a device, where to
+find them, and the devices to which they apply.<a href="#section-2-3.4" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-2-3.5">Envelope: A container with the manifest, an authentication wrapper with cryptographic information protecting the manifest, authorization information, and severable elements (see: TBD).<a href="#section-2-3.5" class="pilcrow">¶</a>
 </li>
@@ -1458,7 +1467,7 @@ find the firmware, and the devices to which it applies.<a href="#section-2-3.4" 
 </li>
         <li class="normal" id="section-2-3.7">Update Authority: The owner of a cryptographic key used to sign updates, trusted by Recipients.<a href="#section-2-3.7" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-2-3.8">Recipient: The system, typically an IoT device, that receives and processes a manifest.<a href="#section-2-3.8" class="pilcrow">¶</a>
+        <li class="normal" id="section-2-3.8">Recipient: The system that receives and processes a manifest.<a href="#section-2-3.8" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-2-3.9">Manifest Processor: A component of the Recipient that consumes Manifests and executes the commands in the Manifest.<a href="#section-2-3.9" class="pilcrow">¶</a>
 </li>
@@ -1490,7 +1499,7 @@ find the firmware, and the devices to which it applies.<a href="#section-2-3.4" 
 </li>
         <li class="normal" id="section-2-3.23">Firmware: Software that is typically changed infrequently, stored in nonvolatile memory, and small enough to apply to <span>[<a href="#RFC7228" class="cite xref">RFC7228</a>]</span> Class 0-2 devices.<a href="#section-2-3.23" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-2-3.24">Image: Information that a Recipient uses to perform its function, typically firmware/software, configuration, or resource data such as text or images. Also, a Payload, once installed is an Image.<a href="#section-2-3.24" class="pilcrow">¶</a>
+        <li class="normal" id="section-2-3.24">Image: Information that a Recipient uses to perform its function, typically Firmware/Software, configuration, or resource data such as text or images. Also, a Payload, once installed is an Image.<a href="#section-2-3.24" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-2-3.25">Slot: One of several possible storage locations for a given Component, typically used in A/B image systems<a href="#section-2-3.25" class="pilcrow">¶</a>
 </li>
@@ -1507,7 +1516,7 @@ find the firmware, and the devices to which it applies.<a href="#section-2-3.4" 
 <p id="section-3-1">The use of the features presented for use with multiple trust domains requires some augmentation of the workflow presented in the SUIT Manifest specification (<span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>):<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2">One additional assumption is added for the Update Procedure:<a href="#section-3-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3-3.1">All dependency manifests should be present before any payload is fetched.<a href="#section-3-3.1" class="pilcrow">¶</a>
+<li class="normal" id="section-3-3.1">All dependency manifests must be present before any payload is fetched.<a href="#section-3-3.1" class="pilcrow">¶</a>
 </li>
       </ul>
 <p id="section-3-4">One additional assumption is added to the Invocation Procedure:<a href="#section-3-4" class="pilcrow">¶</a></p>
@@ -1540,7 +1549,7 @@ find the firmware, and the devices to which it applies.<a href="#section-2-3.4" 
       <h2 id="name-changes-to-manifest-metadat">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-changes-to-manifest-metadat" class="section-name selfRef">Changes to Manifest Metadata Structure</a>
       </h2>
-<p id="section-4-1">To accomodate the additional metadata needed to enable these features, the envelope and manifest have several new elements added.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-1">To accommodate the additional metadata needed to enable these features, the envelope and manifest have several new elements added.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <p id="section-4-2">The Envelope gains two more elements: Delegation chains and Integrated Dependencies
 The Common metadata section in the Manifest also gains a list of dependencies.<a href="#section-4-2" class="pilcrow">¶</a></p>
 <p id="section-4-3">The new metadata structure is shown below.<a href="#section-4-3" class="pilcrow">¶</a></p>
@@ -1554,7 +1563,7 @@ The Common metadata section in the Manifest also gains a list of dependencies.<a
 | Manifest           --------------&gt; +------------------------------+
 | Severable Elements      |          | Manifest                     |
 | Human-Readable Text     |          +------------------------------+
-| COSWID                  |          | Structure Version            |
+| CoSWID                  |          | Structure Version            |
 | Integrated Dependencies |          | Sequence Number              |
 | Integrated Payloads     |          | Reference to Full Manifest   |
 +-------------------------+    +------ Common Structure             |
@@ -1601,14 +1610,14 @@ The Common metadata section in the Manifest also gains a list of dependencies.<a
 <p id="section-6-1">A dependency is another SUIT_Envelope that describes additional components.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <p id="section-6-2">Dependency manifests enable several additional use cases. In particular, they enable two or more entities who are trusted for different privileges to coordinate. This can be used in many scenarios, for example:<a href="#section-6-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6-3.1">An IoT device may contain a processor in its radio in addition to the primary processor. These two processors may have separate firmware with separate signing authorities. Dependencies allow the firmware for the primary processor to reference a manifest signed by a different authority.<a href="#section-6-3.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6-3.1">A device may contain a processor in its radio in addition to the primary processor. These two processors may have separate firmware with separate signing authorities. Dependencies allow the firmware for the primary processor to reference a manifest signed by a different authority.<a href="#section-6-3.1" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-6-3.2">A network operator may wish to provide local caching of update payloads. The network operator overrides the URI of payload by providing a dependent manifest that references the original manifest, but replaces its URI.<a href="#section-6-3.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-6-3.2">A network operator may wish to provide local caching of update payloads. The network operator overrides the URI of a payload by providing a dependent manifest that references the original manifest, but replaces its URI.<a href="#section-6-3.2" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-6-3.3">A device operator provides a device with some additional configuration. The device operator wants to test their configuration with each new firmware version before releasing it. The configuration is delivered as a binary in the same way as a firmware image. The device operator references the firmware manifest from the firmware author in their own manifest which also defines the configuration.<a href="#section-6-3.3" class="pilcrow">¶</a>
 </li>
       </ul>
-<p id="section-6-4">By using dependencies, components such as software, configuration, models, and other resources authenticated by different trust anchors can be delivered to devices.<a href="#section-6-4" class="pilcrow">¶</a></p>
+<p id="section-6-4">By using dependencies, components such as Software, configuration, models, and other resources authenticated by different trust anchors can be delivered to devices.<a href="#section-6-4" class="pilcrow">¶</a></p>
 <div id="required-checks">
 <section id="section-6.1">
         <h3 id="name-changes-to-required-checks">
@@ -1642,6 +1651,50 @@ The Common metadata section in the Manifest also gains a list of dependencies.<a
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-changes-to-manifest-structu" class="section-name selfRef">Changes to Manifest Structure</a>
         </h3>
 <p id="section-6.2-1">This section augments the Manifest Structure (Section 8.4) in <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<div id="manifest-id">
+<section id="section-6.2.1">
+          <h4 id="name-manifest-component-id">
+<a href="#section-6.2.1" class="section-number selfRef">6.2.1. </a><a href="#name-manifest-component-id" class="section-name selfRef">Manifest Component ID</a>
+          </h4>
+<p id="section-6.2.1-1">In complex systems, it may not always be clear where the root manifest should be stored; this is particularly complex when a system has multiple, independent root manifests. The manifest component ID resolves this contention. The manifest-component-id is intended to be used by the root manifest. When a dependency manifest also declares a component ID, the dependency manifest's component ID is overridden by the component ID declared by the dependent.<a href="#section-6.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.2.1-2">The following CDDL describes the manifest component ID:<a href="#section-6.2.1-2" class="pilcrow">¶</a></p>
+<div id="section-6.2.1-3">
+<pre class="lang-CDDL sourcecode">
+$$SUIT_Manifest_Extensions //=
+    (suit-manifest-component-id =&gt; SUIT_Component_Identifier)
+</pre><a href="#section-6.2.1-3" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="SUIT_Dependencies">
+<section id="section-6.2.2">
+          <h4 id="name-suit_dependencies-manifest-">
+<a href="#section-6.2.2" class="section-number selfRef">6.2.2. </a><a href="#name-suit_dependencies-manifest-" class="section-name selfRef">SUIT_Dependencies Manifest Element</a>
+          </h4>
+<p id="section-6.2.2-1">The suit-common section, as described in <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>, Section 8.4.5 is extended with a map of component indices that indicate a dependency manifest. The key of the map are the component indices and the values of the map are any extra metadata needed to describe those dependency manifests.<a href="#section-6.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2.2-2">Because some operations treat dependency manifests differently from other components, it is necessary to identify them. SUIT_Dependencies identifies which components from suit-components (See Section 8.4.5 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>) are to be treated as dependency manifest envelopes. SUIT_Dependencies is a map of Components, referenced by Component Index. Optionally, a component prefix or other metadata may be delivered with the component index. The CDDL for suit-dependencies is shown below:<a href="#section-6.2.2-2" class="pilcrow">¶</a></p>
+<div id="section-6.2.2-3">
+<pre class="lang-CDDL sourcecode">
+$$SUIT_Common-extensions //= (
+        suit-dependencies =&gt; SUIT_Dependencies
+)
+SUIT_Dependencies = {
+    + uint =&gt; SUIT_Dependency_Metadata
+}
+SUIT_Dependency_Metadata = {
+    ? suit-dependency-prefix =&gt; SUIT_Component_Identifier
+    $$SUIT_Dependency_Extensions
+}
+</pre><a href="#section-6.2.2-3" class="pilcrow">¶</a>
+</div>
+<p id="section-6.2.2-4">If no extended metadata is needed for an extension, SUIT_Dependency_Metadata is an empty map (this is the same encoding size as a null). SUIT_Dependencies MUST be sorted according to CBOR canonical encoding.<a href="#section-6.2.2-4" class="pilcrow">¶</a></p>
+<p id="section-6.2.2-5">The components specified by SUIT_Dependency will contain a Manifest Envelope that describes a dependency of the current manifest. The Manifest is identified, but the Recipient should expect an Envelope when it acquires the dependency. This is because the Manifest is the one invariant element of the Envelope, where other elements may change by countersigning, adding authentication blocks, or severing elements.<a href="#section-6.2.2-5" class="pilcrow">¶</a></p>
+<p id="section-6.2.2-6">When executing suit-condition-image-match over a component that is designated in SUIT_Dependency, the digest MUST be computed over just the bstr-wrapped SUIT_Manifest contained in the Manifest Envelope designated by the Component Index. This enables a dependency reference to uniquely identify a particular Manifest structure. This is identical to the digest that is present as the first element of the suit-authentication-block in the dependency's Envelope. The digest is calculated over the Manifest structure to ensure that removing a signature from a manifest does not break dependencies due to missing signature elements. This is also necessary to support the trusted intermediary use case, where an intermediary re-signs the Manifest, removing the original signature, potentially with a different algorithm, or trading COSE_Sign for COSE_Mac.<a href="#section-6.2.2-6" class="pilcrow">¶</a></p>
+<p id="section-6.2.2-7">The suit-dependency-prefix element contains a SUIT_Component_Identifier (see Section 8.4.5.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>). This specifies the scope at which the dependency operates. This allows the dependency to be forwarded on to a component that is capable of parsing its own manifests. It also allows one manifest to be deployed to multiple dependent Recipients without those Recipients needing consistent component hierarchy. This element is OPTIONAL for Recipients to implement.<a href="#section-6.2.2-7" class="pilcrow">¶</a></p>
+<p id="section-6.2.2-8">A dependency prefix can be used with a component identifier. This allows complex systems to understand where dependencies need to be applied. The dependency prefix can be used in one of two ways. The first simply prepends the prefix to all Component Identifiers in the dependency.<a href="#section-6.2.2-8" class="pilcrow">¶</a></p>
+<p id="section-6.2.2-9">A dependency prefix can also be used to indicate when a dependency manifest needs to be processed by a secondary manifest processor, as described in <a href="#hierarchical-interpreters" class="auto internal xref">Section 6.4.1</a>.<a href="#section-6.2.2-9" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="changes-to-abstract-machine-description">
@@ -1649,23 +1702,23 @@ The Common metadata section in the Manifest also gains a list of dependencies.<a
         <h3 id="name-changes-to-abstract-machine">
 <a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-changes-to-abstract-machine" class="section-name selfRef">Changes to Abstract Machine Description</a>
         </h3>
-<p id="section-6.3-1">This section augments the Abstract Machine Description (Section 6.4) in <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>
+<p id="section-6.3-1">This section augments the Abstract Machine Description (Section 6.4) in <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>.
 With the addition of dependencies, some changes are necessary to the abstract machine, outside the typical scope of added commands. These changes alter the behaviour of an existing command and way that the parser processes manifests:<a href="#section-6.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.3-2.1">
-            <p id="section-6.3-2.1.1">Two new commands are introduced.<a href="#section-6.3-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-6.3-2.1.1">Three new commands are introduced.<a href="#section-6.3-2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.3-2.1.2.1">Process dependency.<a href="#section-6.3-2.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6.3-2.1.2.1">Process dependency<a href="#section-6.3-2.1.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="normal" id="section-6.3-2.1.2.2">Is Dependency.<a href="#section-6.3-2.1.2.2" class="pilcrow">¶</a>
+              <li class="normal" id="section-6.3-2.1.2.2">Is Dependency<a href="#section-6.3-2.1.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="normal" id="section-6.3-2.1.2.3">Dependency Integrity<a href="#section-6.3-2.1.2.3" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-6.3-2.2">Dependency manifests are also components. All commands may target dependency manifests as well as components, with one exception: process dependency. Commands defined outside of this draft and <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span> MAY have additional restrictions.<a href="#section-6.3-2.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-6.3-2.2">Dependency manifests are also Components. All commands may target dependency manifests as well as Components, with one exception: process dependency. Commands defined outside of this draft and <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span> MAY have additional restrictions.<a href="#section-6.3-2.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-6.3-2.3">Dependencies are processed in lock-step with the Root Manifest. This means that every dependency's current command sequence must be executed before a dependent's later command sequence may be executed. For example, every dependency's Dependency Resolution step MUST be executed before any dependent's payload fetch step.<a href="#section-6.3-2.3" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-6.3-2.4">When performing a suit-condition-image-match operation on a component, the manifest processor MUST first determine whether or not the component is a dependency manifest. If identified as a dependency manifest envelope, the manifest processor MUST compute the digest over only the SUIT_Manifest bstr, not the complete SUIT_Manifest_Envelope. This is so that severable elements, added or removed signatures, and delegations do not affect the integrity measurements of the manifest.<a href="#section-6.3-2.4" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -1680,13 +1733,15 @@ With the addition of dependencies, some changes are necessary to the abstract ma
 <ol start="1" type="1" class="normal type-1" id="section-6.4-3">
 <li id="section-6.4-3.1">Checks whether the map of dependencies contains an entry for the current Component Index. If not present, it causes an immediate Abort.<a href="#section-6.4-3.1" class="pilcrow">¶</a>
 </li>
-          <li id="section-6.4-3.2">Loads the specified component as a dependency manifest envelope.<a href="#section-6.4-3.2" class="pilcrow">¶</a>
+          <li id="section-6.4-3.2">Checks whether the dependency has been the target of a dependency integrity check. If not, it causes an immediate Abort.<a href="#section-6.4-3.2" class="pilcrow">¶</a>
 </li>
-          <li id="section-6.4-3.3">Authenticates the dependency manifest<a href="#section-6.4-3.3" class="pilcrow">¶</a>
+          <li id="section-6.4-3.3">Loads the specified component as a dependency manifest envelope.<a href="#section-6.4-3.3" class="pilcrow">¶</a>
 </li>
-          <li id="section-6.4-3.4">Executes the common-sequence section of the dependency manifest<a href="#section-6.4-3.4" class="pilcrow">¶</a>
+          <li id="section-6.4-3.4">Authenticates the dependency manifest.<a href="#section-6.4-3.4" class="pilcrow">¶</a>
 </li>
-          <li id="section-6.4-3.5">Executes the section of the dependency manifest that corresponds to the currently executing section of the dependent.<a href="#section-6.4-3.5" class="pilcrow">¶</a>
+          <li id="section-6.4-3.5">Executes the common-sequence section of the dependency manifest.<a href="#section-6.4-3.5" class="pilcrow">¶</a>
+</li>
+          <li id="section-6.4-3.6">Executes the section of the dependency manifest that corresponds to the currently executing section of the dependent.<a href="#section-6.4-3.6" class="pilcrow">¶</a>
 </li>
         </ol>
 <p id="section-6.4-4">If the specified dependency does not contain the current section, Process Dependency succeeds immediately.<a href="#section-6.4-4" class="pilcrow">¶</a></p>
@@ -1696,11 +1751,11 @@ With the addition of dependencies, some changes are necessary to the abstract ma
           <h4 id="name-multiple-manifest-processor">
 <a href="#section-6.4.1" class="section-number selfRef">6.4.1. </a><a href="#name-multiple-manifest-processor" class="section-name selfRef">Multiple Manifest Processors</a>
           </h4>
-<p id="section-6.4.1-1">When a system has multiple security domains, each domain might require independent verification of authenticity or security policies. Security domains might be divided by separation technology such as Arm TrustZone, Intel SGX, or another TEE technology. Security domains might also be divided into separate processors and memory spaces, with a communication interface between them.<a href="#section-6.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.4.1-1">When a system has multiple trust domains, each domain might require independent verification of authenticity or security policies. Trust domains might be divided by separation technology such as Arm TrustZone, Intel SGX, or another TEE technology. Trust domains might also be divided into separate processors and memory spaces, with a communication interface between them.<a href="#section-6.4.1-1" class="pilcrow">¶</a></p>
 <p id="section-6.4.1-2">For example, an application processor may have an attached communications module that contains a processor. The communications module might require metadata signed by a specific Trust Authority for regulatory approval. This may be a different Trust Authority than the application processor.<a href="#section-6.4.1-2" class="pilcrow">¶</a></p>
-<p id="section-6.4.1-3">When there are two or more security domains (see <span>[<a href="#I-D.ietf-teep-architecture" class="cite xref">I-D.ietf-teep-architecture</a>]</span>), a manifest processor might be required in each. The first manifest processor is the normal manifest processor as described for the Recipient in Section 6 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>. The second manifest processor only executes sections when the first manifest processor requests it. An API interface is provided from the second manifest processor to the first. This allows the first manifest processor to request a limited set of operations from the second. These operations are limited to: setting parameters, inserting an Envelope, invoking a Manifest Command Sequence. The second manifest processor declares a prefix to the first, which tells the first manifest processor when it should delegate to the second. These rules are enforced by underlying separation of privilege infrastructure, such as TEEs, or physical separation.<a href="#section-6.4.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.4.1-3">When there are two or more trust domains, a manifest processor might be required in each. The first manifest processor is the normal manifest processor as described for the Recipient in Section 6 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>. The second manifest processor only executes sections when the first manifest processor requests it. An API interface is provided from the second manifest processor to the first. This allows the first manifest processor to request a limited set of operations from the second. These operations are limited to: setting parameters, inserting an Envelope, and invoking a Manifest Command Sequence. The second manifest processor declares a prefix to the first, which tells the first manifest processor when it should delegate to the second. These rules are enforced by underlying separation of privilege infrastructure, such as TEEs, or physical separation.<a href="#section-6.4.1-3" class="pilcrow">¶</a></p>
 <p id="section-6.4.1-4">When the first manifest processor encounters a dependency prefix, that informs the first manifest processor that it should provide the second manifest processor with the corresponding dependency Envelope. This is done when the dependency is fetched. The second manifest processor immediately verifies any authentication information in the dependency Envelope. When a parameter is set for any component that matches the prefix, this parameter setting is passed to the second manifest processor via an API. As the first manifest processor works through the Procedure (set of command sequences) it is executing, each time it sees a Process Dependency command that is associated with the prefix declared by the second manifest processor, it uses the API to ask the second manifest processor to invoke that dependency section instead.<a href="#section-6.4.1-4" class="pilcrow">¶</a></p>
-<p id="section-6.4.1-5">This mechanism ensures that the two or more manifest processors do not need to trust each other, except in a very limited case. When parameter setting across security domains is used, it must be very carefully considered. Only parameters that do not have an effect on security properties should be allowed. The dependency manifest MAY control which parameters are allowed to be set by using the Override Parameters directive. The second manifest processor MAY also control which parameters may be set by the first manifest processor by means of an ACL that lists the allowed parameters. For example, a URI may be set by a dependent without a substantial impact on the security properties of the manifest.<a href="#section-6.4.1-5" class="pilcrow">¶</a></p>
+<p id="section-6.4.1-5">This mechanism ensures that the two or more manifest processors do not need to trust each other, except in a very limited case. When parameter setting across trust domains is used, it must be very carefully considered. Only parameters that do not have an effect on security properties should be allowed. The dependency manifest MAY control which parameters are allowed to be set by using the Override Parameters directive. The second manifest processor MAY also control which parameters may be set by the first manifest processor by means of an ACL that lists the allowed parameters. For example, a URI may be set by a dependent without a substantial impact on the security properties of the manifest.<a href="#section-6.4.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1737,6 +1792,10 @@ With the addition of dependencies, some changes are necessary to the abstract ma
               <td class="text-left" rowspan="1" colspan="1">exec(current[common]); exec(current[current-segment])</td>
             </tr>
             <tr>
+              <td class="text-left" rowspan="1" colspan="1">Dependency Integrity</td>
+              <td class="text-left" rowspan="1" colspan="1">verify(current, current.params[image-digest])</td>
+            </tr>
+            <tr>
               <td class="text-left" rowspan="1" colspan="1">Is Dependency</td>
               <td class="text-left" rowspan="1" colspan="1">assert(current exists in dependencies)</td>
             </tr>
@@ -1764,11 +1823,12 @@ With the addition of dependencies, some changes are necessary to the abstract ma
           </h4>
 <p id="section-6.6.2-1">Execute the commands in the common section of the current dependency, followed by the commands in the equivalent section of the current dependency. For example, if the current section is "fetch payload," this will execute "common" in the current dependency, then "fetch payload" in the current dependency. Once this is complete, the command following suit-directive-process-dependency will be processed.<a href="#section-6.6.2-1" class="pilcrow">¶</a></p>
 <p id="section-6.6.2-2">If the current component index does not have an entry in the suit-dependencies map, then this command MUST Abort.<a href="#section-6.6.2-2" class="pilcrow">¶</a></p>
-<p id="section-6.6.2-3">If the current component is True, then this directive applies to all dependencies. If the current section is "common," then the command sequence MUST Abort.<a href="#section-6.6.2-3" class="pilcrow">¶</a></p>
-<p id="section-6.6.2-4">When SUIT_Process_Dependency completes, it forwards the last status code that occurred in the dependency.<a href="#section-6.6.2-4" class="pilcrow">¶</a></p>
+<p id="section-6.6.2-3">If the current component index has not been the target of a suit-condition-dependency-integrity, then this command MUST Abort.<a href="#section-6.6.2-3" class="pilcrow">¶</a></p>
+<p id="section-6.6.2-4">If the current component is True, then this directive applies to all dependencies. If the current section is "common," then the command sequence MUST Abort.<a href="#section-6.6.2-4" class="pilcrow">¶</a></p>
+<p id="section-6.6.2-5">When SUIT_Process_Dependency completes, it forwards the last status code that occurred in the dependency.<a href="#section-6.6.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="suit-directive-is-dependency">
+<div id="suit-condition-is-dependency">
 <section id="section-6.6.3">
           <h4 id="name-suit-condition-is-dependenc">
 <a href="#section-6.6.3" class="section-number selfRef">6.6.3. </a><a href="#name-suit-condition-is-dependenc" class="section-name selfRef">suit-condition-is-dependency</a>
@@ -1776,41 +1836,36 @@ With the addition of dependencies, some changes are necessary to the abstract ma
 <p id="section-6.6.3-1">Check whether or not the current component index is present in the dependency list. If the current component is in the dependency list, suit-condition-is-dependency succeeds. Otherwise, it fails. This can be used along with component-id = True to act on all dependencies or on all non-dependency components. See <a href="#creating-manifests" class="auto internal xref">Section 8</a> for more details.<a href="#section-6.6.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="suit-directive-unlink">
+<div id="suit-condition-dependency-integrity">
 <section id="section-6.6.4">
-          <h4 id="name-suit-directive-unlink">
-<a href="#section-6.6.4" class="section-number selfRef">6.6.4. </a><a href="#name-suit-directive-unlink" class="section-name selfRef">suit-directive-unlink</a>
+          <h4 id="name-suit-condition-dependency-i">
+<a href="#section-6.6.4" class="section-number selfRef">6.6.4. </a><a href="#name-suit-condition-dependency-i" class="section-name selfRef">suit-condition-dependency-integrity</a>
           </h4>
-<p id="section-6.6.4-1">suit-directive-unlink applies to manifests. When the components defined by a manifest are no longer needed, the manifest processor unlinks the manifest to inform the manifest processor that they are no longer needed. The unlink command decrements an implementation-defined reference counter. This reference counter MUST persist across restarts. The reference counter MUST NOT be decremented by a given manifest more than once, and the manifest processor must enforce this. The manifest processor MAY choose to ignore a Unlink directive depending on device policy.<a href="#section-6.6.4-1" class="pilcrow">¶</a></p>
-<p id="section-6.6.4-2">When the reference counter reaches zero, the suit-uninstall command sequence is invoked (see <a href="#suit-uninstall" class="auto internal xref">Section 7</a>).<a href="#section-6.6.4-2" class="pilcrow">¶</a></p>
-<p id="section-6.6.4-3">suit-directive-unlink is OPTIONAL to implement in manifest processors.<a href="#section-6.6.4-3" class="pilcrow">¶</a></p>
+<p id="section-6.6.4-1">Verify the integrity of a dependency manifest. When a Manifest Processor executes suit-condition-dependency-integrity, it performs the following operations:<a href="#section-6.6.4-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-6.6.4-2">
+<li id="section-6.6.4-2.1">Evaluate any delegation chains<a href="#section-6.6.4-2.1" class="pilcrow">¶</a>
+</li>
+            <li id="section-6.6.4-2.2">Verify the signature of the manifest hash<a href="#section-6.6.4-2.2" class="pilcrow">¶</a>
+</li>
+            <li id="section-6.6.4-2.3">Compare the manifest hash to the provided hash<a href="#section-6.6.4-2.3" class="pilcrow">¶</a>
+</li>
+            <li id="section-6.6.4-2.4">Verify the manifest against the manifest hash<a href="#section-6.6.4-2.4" class="pilcrow">¶</a>
+</li>
+          </ol>
+<p id="section-6.6.4-3">If any of these steps fails, the Manifest Process MUST immediately Abort.<a href="#section-6.6.4-3" class="pilcrow">¶</a></p>
+<p id="section-6.6.4-4">The Manifest Processor MAY cache the results of these operations for later use from the context of the current manifest. The Manifest Processor MUST NOT use cached results from any other manifest context. If the Manifest Processor caches the results of these checks, it MUST eliminate this cache if any Fetch, or Copy operation targets the Dependency Manifest's component ID.<a href="#section-6.6.4-4" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="suit-directive-unlink">
+<section id="section-6.6.5">
+          <h4 id="name-suit-directive-unlink">
+<a href="#section-6.6.5" class="section-number selfRef">6.6.5. </a><a href="#name-suit-directive-unlink" class="section-name selfRef">suit-directive-unlink</a>
+          </h4>
+<p id="section-6.6.5-1">suit-directive-unlink applies to manifests. When the components defined by a manifest are no longer needed, the manifest processor unlinks the manifest to inform the manifest processor that they are no longer needed. The unlink command decrements an implementation-defined reference counter. This reference counter MUST persist across restarts. The reference counter MUST NOT be decremented by a given manifest more than once, and the manifest processor must enforce this. The manifest processor MAY choose to ignore a Unlink directive depending on device policy.<a href="#section-6.6.5-1" class="pilcrow">¶</a></p>
+<p id="section-6.6.5-2">When the reference counter reaches zero, the suit-uninstall command sequence is invoked (see <a href="#suit-uninstall" class="auto internal xref">Section 7</a>).<a href="#section-6.6.5-2" class="pilcrow">¶</a></p>
+<p id="section-6.6.5-3">suit-directive-unlink is OPTIONAL to implement in manifest processors.<a href="#section-6.6.5-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="SUIT_Dependencies">
-<section id="section-6.7">
-        <h3 id="name-suit_dependencies-manifest-">
-<a href="#section-6.7" class="section-number selfRef">6.7. </a><a href="#name-suit_dependencies-manifest-" class="section-name selfRef">SUIT_Dependencies Manifest Element</a>
-        </h3>
-<p id="section-6.7-1">Because some operations treat dependency manifests differently from other components, it is necessary to identify them. SUIT_Dependencies identifies which components from suit-components (See Section 8.4.5 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>) are to be treated as dependency manifest envelopes. SUIT_Dependencies is a map of Components, referenced by Component Index. Optionally, a component prefix or other metadata may be delivered with the component index. The CDDL for suit-dependencies is shown below:<a href="#section-6.7-1" class="pilcrow">¶</a></p>
-<div id="section-6.7-2">
-<pre class="lang-CDDL sourcecode">
-SUIT_Dependencies = {
-    + uint =&gt; SUIT_Dependency_Metadata
-}
-SUIT_Dependency_Metadata = {
-    ? suit-dependency-prefix =&gt; SUIT_Component_Identifier
-    $$SUIT_Dependency_Extensions
-}
-</pre><a href="#section-6.7-2" class="pilcrow">¶</a>
-</div>
-<p id="section-6.7-3">If no extended metadata is needed for an extension, SUIT_Dependency_Metadata is an empty map (this is the same encoding size as a null). SUIT_Dependencies MUST be sorted according to CBOR canonical encoding.<a href="#section-6.7-3" class="pilcrow">¶</a></p>
-<p id="section-6.7-4">The components specified by SUIT_Dependency will contain a Manifest Envelope that describes a dependency of the current manifest. The Manifest is identified, but the Recipient should expect an Envelope when it acquires the dependency. This is because the Manifest is the one invariant element of the Envelope, where other elements may change by countersigning, adding authentication blocks, or severing elements.<a href="#section-6.7-4" class="pilcrow">¶</a></p>
-<p id="section-6.7-5">When executing suit-condition-image-match over a component that is designated in SUIT_Dependency, the digest MUST be computed over just the bstr-wrapped SUIT_Manifest contained in the Manifest Envelope designated by the Component Index. This enables a dependency reference to uniquely identify a particular Manifest structure. This is identical to the digest that is present as the first element of the suit-authentication-block in the dependency's Envelope. The digest is calculated over the Manifest structure to ensure that removing a signature from a manifest does not break dependencies due to missing signature elements. This is also necessary to support the trusted intermediary use case, where an intermediary re-signs the Manifest, removing the original signature, potentially with a different algorithm, or trading COSE_Sign for COSE_Mac.<a href="#section-6.7-5" class="pilcrow">¶</a></p>
-<p id="section-6.7-6">The suit-dependency-prefix element contains a SUIT_Component_Identifier (see Section 8.4.5.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>). This specifies the scope at which the dependency operates. This allows the dependency to be forwarded on to a component that is capable of parsing its own manifests. It also allows one manifest to be deployed to multiple dependent Recipients without those Recipients needing consistent component hierarchy. This element is OPTIONAL for Recipients to implement.<a href="#section-6.7-6" class="pilcrow">¶</a></p>
-<p id="section-6.7-7">A dependency prefix can be used with a component identifier. This allows complex systems to understand where dependencies need to be applied. The dependency prefix can be used in one of two ways. The first simply prepends the prefix to all Component Identifiers in the dependency.<a href="#section-6.7-7" class="pilcrow">¶</a></p>
-<p id="section-6.7-8">A dependency prefix can also be used to indicate when a dependency manifest needs to be processed by a secondary manifest processor, as described in <a href="#hierarchical-interpreters" class="auto internal xref">Section 6.4.1</a>.<a href="#section-6.7-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1821,7 +1876,7 @@ SUIT_Dependency_Metadata = {
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-uninstall" class="section-name selfRef">Uninstall</a>
       </h2>
 <p id="section-7-1">In some systems, particularly with multiple, independent, optional components, it may be that there is a need to uninstall the components that have been installed by a manifest. Where this is expected, the uninstall command sequence can provide the sequence needed to cleanly remove the components defined by the manifest and its dependencies. In general, suit uninstall will contain primarily unlink directives.<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2">WARNING: This can cause faults where there are loose dependencies (e.g., version range matching, see <span>[<a href="#I-D.ietf-suit-update-management" class="cite xref">I-D.ietf-suit-update-management</a>]</span>), since a component can be removed while it is depended upon by another component. To avoid dependency faults, a manifest author MAY use explicit dependencies where possible, or a manifest processor MAY track references to loose dependencies via reference counting in the same way as explicit dependencies, as described in <a href="#suit-directive-unlink" class="auto internal xref">Section 6.6.4</a>.<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-7-2">WARNING: This can cause faults where there are loose dependencies (e.g., version range matching, see <span>[<a href="#I-D.ietf-suit-update-management" class="cite xref">I-D.ietf-suit-update-management</a>]</span>), since a component can be removed while it is depended upon by another component. To avoid dependency faults, a manifest author MAY use explicit dependencies where possible, or a manifest processor MAY track references to loose dependencies via reference counting in the same way as explicit dependencies, as described in <a href="#suit-directive-unlink" class="auto internal xref">Section 6.6.5</a>.<a href="#section-7-2" class="pilcrow">¶</a></p>
 <p id="section-7-3">The Uninstall command sequence is not severable, since it must always be available to enable uninstalling.<a href="#section-7-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1852,7 +1907,7 @@ SUIT_Dependency_Metadata = {
 </li>
           <li class="normal" id="section-8.1-5.3">Fetch directive (see Section 8.4.10.4 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.1-5.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.1-5.4">Check Image Match condition (see Section 8.4.9.2 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span> of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.1-5.4" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.1-5.4">Dependency Integrity condition (see <a href="#suit-condition-dependency-integrity" class="auto internal xref">Section 6.6.4</a>)<a href="#section-8.1-5.4" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-8.1-5.5">Process Dependency directive (see <a href="#suit-directive-process-dependency" class="auto internal xref">Section 6.6.2</a>)<a href="#section-8.1-5.5" class="pilcrow">¶</a>
 </li>
@@ -1861,7 +1916,7 @@ SUIT_Dependency_Metadata = {
 <ul class="normal">
 <li class="normal" id="section-8.1-7.1">Set Component Index directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.1-7.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.1-7.2">Check Image Match condition (see Section 8.4.9.2 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.1-7.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.1-7.2">Dependency Integrity condition (see <a href="#suit-condition-dependency-integrity" class="auto internal xref">Section 6.6.4</a>)<a href="#section-8.1-7.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-8.1-7.3">Process Dependency directive (see <a href="#suit-directive-process-dependency" class="auto internal xref">Section 6.6.2</a>)<a href="#section-8.1-7.3" class="pilcrow">¶</a>
 </li>
@@ -1884,7 +1939,7 @@ SUIT_Dependency_Metadata = {
 <a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-encrypted-manifest-template" class="section-name selfRef">Encrypted Manifest Template</a>
         </h3>
 <p id="section-8.2-1">The goal of the Encrypted Manifest template is to fetch and decrypt a manifest so that it can be used as a dependency. To use an encrypted manifest, create a plaintext dependent, and add the encrypted manifest as a dependency. The dependent can include very little information.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
-<p id="section-8.2-2">NOTE: This template also requires the extensions defined in <span>[<a href="#I-D.ietf-suit-firmware-encryption" class="cite xref">I-D.ietf-suit-firmware-encryption</a>]</span><a href="#section-8.2-2" class="pilcrow">¶</a></p>
+<p id="section-8.2-2">NOTE: This template also requires the extensions defined in <span>[<a href="#I-D.ietf-suit-firmware-encryption" class="cite xref">I-D.ietf-suit-firmware-encryption</a>]</span>.<a href="#section-8.2-2" class="pilcrow">¶</a></p>
 <p id="section-8.2-3">The following commands are added to the shared sequence:<a href="#section-8.2-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-8.2-4.1">Set Component Index directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.2-4.1" class="pilcrow">¶</a>
@@ -1907,7 +1962,7 @@ SUIT_Dependency_Metadata = {
 </li>
           <li class="normal" id="section-8.2-6.3">Fetch directive (see Section 8.4.10.4 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.2-6.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.2-6.4">Check Image Match condition (see Section 8.4.9.2 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.2-6.4" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.2-6.4">Dependency Integrity condition (see <a href="#suit-condition-dependency-integrity" class="auto internal xref">Section 6.6.4</a>)<a href="#section-8.2-6.4" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-8.2-6.5">Process Dependency directive (see <a href="#suit-directive-process-dependency" class="auto internal xref">Section 6.6.2</a>)<a href="#section-8.2-6.5" class="pilcrow">¶</a>
 </li>
@@ -1953,7 +2008,7 @@ SUIT_Dependency_Metadata = {
 </li>
                   <li class="normal" id="section-8.3-3.4.2.1.2.2">Fetch<a href="#section-8.3-3.4.2.1.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="normal" id="section-8.3-3.4.2.1.2.3">Condition Image Match<a href="#section-8.3-3.4.2.1.2.3" class="pilcrow">¶</a>
+                  <li class="normal" id="section-8.3-3.4.2.1.2.3">Dependency Integrity condition (see <a href="#suit-condition-dependency-integrity" class="auto internal xref">Section 6.6.4</a>)<a href="#section-8.3-3.4.2.1.2.3" class="pilcrow">¶</a>
 </li>
                   <li class="normal" id="section-8.3-3.4.2.1.2.4">Process Dependency<a href="#section-8.3-3.4.2.1.2.4" class="pilcrow">¶</a>
 </li>
@@ -1990,7 +2045,7 @@ SUIT_Dependency_Metadata = {
                 </ul>
 </li>
               <li class="normal" id="section-8.3-5.4.2.2">
-                <p id="section-8.3-5.4.2.2.1">Sequence 1 (Empty; no commands, succeeds immediately)<a href="#section-8.3-5.4.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-8.3-5.4.2.2.1">Sequence 1<a href="#section-8.3-5.4.2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-8.3-5.4.2.2.2.1">Fetch<a href="#section-8.3-5.4.2.2.2.1" class="pilcrow">¶</a>
 </li>
@@ -2047,9 +2102,18 @@ SUIT_Dependency_Metadata = {
           </thead>
           <tbody>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">7</td>
+              <td class="text-left" rowspan="1" colspan="1">1</td>
+              <td class="text-left" rowspan="1" colspan="1">Delegation</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <a href="#ovr-delegation" class="auto internal xref">Section 5</a>
+</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">15</td>
               <td class="text-left" rowspan="1" colspan="1">Dependency Resolution</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <a href="#suit-dependency-resolution" class="auto internal xref">Section 6.5</a>
+</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">24</td>
@@ -2074,22 +2138,26 @@ SUIT_Dependency_Metadata = {
               <th class="text-left" rowspan="1" colspan="1">Label</th>
               <th class="text-left" rowspan="1" colspan="1">Name</th>
               <th class="text-left" rowspan="1" colspan="1">Reference</th>
-              <th class="text-left" rowspan="1" colspan="1"> </th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">7</td>
-              <td class="text-left" rowspan="1" colspan="1">Is Dependency</td>
-              <td class="text-left" rowspan="1" colspan="1">suit-directive-is-dependency</td>
+              <td class="text-left" rowspan="1" colspan="1">Dependency Integrity</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <a href="#suit-directive-is-dependency" class="auto internal xref">Section 6.6.3</a>
+                <a href="#suit-condition-dependency-integrity" class="auto internal xref">Section 6.6.4</a>
 </td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">18</td>
+              <td class="text-left" rowspan="1" colspan="1">8</td>
+              <td class="text-left" rowspan="1" colspan="1">Is Dependency</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <a href="#suit-condition-is-dependency" class="auto internal xref">Section 6.6.3</a>
+</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">11</td>
               <td class="text-left" rowspan="1" colspan="1">Process Dependency</td>
-              <td class="text-left" rowspan="1" colspan="1">suit-directive-process-dependency</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#suit-directive-process-dependency" class="auto internal xref">Section 6.6.2</a>
 </td>
@@ -2100,15 +2168,13 @@ SUIT_Dependency_Metadata = {
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.1</a>
 </td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">33</td>
               <td class="text-left" rowspan="1" colspan="1">Unlink</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <a href="#suit-directive-unlink" class="auto internal xref">Section 6.6.4</a>
+                <a href="#suit-directive-unlink" class="auto internal xref">Section 6.6.5</a>
 </td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
           </tbody>
         </table>
@@ -2121,7 +2187,7 @@ SUIT_Dependency_Metadata = {
       <h2 id="name-security-considerations">
 <a href="#section-10" class="section-number selfRef">10. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-10-1">This document is about a manifest format protecting and describing how to retrieve, install, and invoke firmware images and as such it is part of a larger solution for delivering firmware updates to IoT devices. A detailed security treatment can be found in the architecture <span>[<a href="#RFC9019" class="cite xref">RFC9019</a>]</span> and in the information model <span>[<a href="#RFC9124" class="cite xref">RFC9124</a>]</span> documents.<a href="#section-10-1" class="pilcrow">¶</a></p>
+<p id="section-10-1">This document is about a manifest format protecting and describing how to retrieve, install, and invoke firmware images and as such it is part of a larger solution for delivering software updates to devices. A detailed security treatment can be found in the architecture <span>[<a href="#RFC9019" class="cite xref">RFC9019</a>]</span> and in the information model <span>[<a href="#RFC9124" class="cite xref">RFC9124</a>]</span> documents.<a href="#section-10-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <section id="section-11">
@@ -2135,7 +2201,7 @@ SUIT_Dependency_Metadata = {
 <dl class="references">
 <dt id="I-D.ietf-suit-manifest">[I-D.ietf-suit-manifest]</dt>
         <dd>
-<span class="refAuthor">Moran, B.</span>, <span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Zandberg, K.</span>, and <span class="refAuthor">O. Rønningstad</span>, <span class="refTitle">"A Concise Binary Object Representation (CBOR)-based Serialization Format for the Software Updates for Internet of Things (SUIT) Manifest"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-manifest-20</span>, <time datetime="2022-10-07" class="refDate">7 October 2022</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-suit-manifest-20.txt">https://www.ietf.org/archive/id/draft-ietf-suit-manifest-20.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Moran, B.</span>, <span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Zandberg, K.</span>, and <span class="refAuthor">O. Rønningstad</span>, <span class="refTitle">"A Concise Binary Object Representation (CBOR)-based Serialization Format for the Software Updates for Internet of Things (SUIT) Manifest"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-manifest-22</span>, <time datetime="2023-02-27" class="refDate">27 February 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-suit-manifest-22">https://datatracker.ietf.org/doc/html/draft-ietf-suit-manifest-22</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
@@ -2178,15 +2244,15 @@ SUIT_Dependency_Metadata = {
 <dl class="references">
 <dt id="I-D.ietf-suit-firmware-encryption">[I-D.ietf-suit-firmware-encryption]</dt>
         <dd>
-<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Housley, R.</span>, <span class="refAuthor">Moran, B.</span>, <span class="refAuthor">Brown, D.</span>, and <span class="refAuthor">K. Takayama</span>, <span class="refTitle">"Encrypted Payloads in SUIT Manifests"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-firmware-encryption-09</span>, <time datetime="2022-10-24" class="refDate">24 October 2022</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-suit-firmware-encryption-09.txt">https://www.ietf.org/archive/id/draft-ietf-suit-firmware-encryption-09.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Housley, R.</span>, <span class="refAuthor">Moran, B.</span>, <span class="refAuthor">Brown, D.</span>, and <span class="refAuthor">K. Takayama</span>, <span class="refTitle">"Encrypted Payloads in SUIT Manifests"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-firmware-encryption-11</span>, <time datetime="2023-03-13" class="refDate">13 March 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-suit-firmware-encryption-11">https://datatracker.ietf.org/doc/html/draft-ietf-suit-firmware-encryption-11</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-suit-update-management">[I-D.ietf-suit-update-management]</dt>
         <dd>
-<span class="refAuthor">Moran, B.</span>, <span class="refTitle">"Update Management Extensions for Software Updates for Internet of Things (SUIT) Manifests"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-update-management-01</span>, <time datetime="2022-10-24" class="refDate">24 October 2022</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-suit-update-management-01.txt">https://www.ietf.org/archive/id/draft-ietf-suit-update-management-01.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Moran, B.</span>, <span class="refTitle">"Update Management Extensions for Software Updates for Internet of Things (SUIT) Manifests"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-update-management-01</span>, <time datetime="2022-10-24" class="refDate">24 October 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-suit-update-management-01">https://datatracker.ietf.org/doc/html/draft-ietf-suit-update-management-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-teep-architecture">[I-D.ietf-teep-architecture]</dt>
       <dd>
-<span class="refAuthor">Pei, M.</span>, <span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Thaler, D.</span>, and <span class="refAuthor">D. M. Wheeler</span>, <span class="refTitle">"Trusted Execution Environment Provisioning (TEEP) Architecture"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-teep-architecture-19</span>, <time datetime="2022-10-24" class="refDate">24 October 2022</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-teep-architecture-19.txt">https://www.ietf.org/archive/id/draft-ietf-teep-architecture-19.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Pei, M.</span>, <span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Thaler, D.</span>, and <span class="refAuthor">D. M. Wheeler</span>, <span class="refTitle">"Trusted Execution Environment Provisioning (TEEP) Architecture"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-teep-architecture-19</span>, <time datetime="2022-10-24" class="refDate">24 October 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-teep-architecture-19">https://datatracker.ietf.org/doc/html/draft-ietf-teep-architecture-19</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -2201,11 +2267,15 @@ SUIT_Dependency_Metadata = {
 <pre class="breakable lang-CDDL sourcecode">
 $$SUIT_Envelope_Extensions //=
     (suit-delegation =&gt; bstr .cbor SUIT_Delegation)
-$$SUIT_Envelope_Extensions //= SUIT_Integrated_Dependency
+$$SUIT_Envelope_Extensions //= (
+    suit-integrated-dependency-key =&gt; bstr .cbor SUIT_Envelope)
 
 SUIT_Delegation = [ + [ + bstr .cbor CWT ] ]
 
 CWT = SUIT_Authentication_Block
+
+$$SUIT_Manifest_Extensions //=
+    (suit-manifest-component-id =&gt; SUIT_Component_Identifier)
 
 $$SUIT_severable-members-extensions //=
     (suit-dependency-resolution =&gt; bstr .cbor SUIT_Command_Sequence)
@@ -2213,12 +2283,10 @@ $$SUIT_severable-members-extensions //=
 $$unseverable-manifest-member-extensions //=
     (suit-uninstall =&gt; bstr .cbor SUIT_Command_Sequence)
 
-SUIT_Integrated_Dependency = (
-    suit-integrated-dependency-key =&gt; bstr .cbor SUIT_Envelope)
 suit-integrated-dependency-key = tstr
 
 $$severable-manifest-members-choice-extensions //= (
-    suit-dependency-resolution =&gt; \
+    suit-dependency-resolution =&gt;
         bstr .cbor SUIT_Command_Sequence / SUIT_Digest)
 
 $$SUIT_Common-extensions //= (
@@ -2229,7 +2297,7 @@ SUIT_Dependencies = {
 }
 SUIT_Dependency_Metadata = {
     ? suit-dependency-prefix =&gt; SUIT_Component_Identifier
-    $$SUIT_Dependency_Extensions
+    * $$SUIT_Dependency_Extensions
 }
 
 SUIT_Condition //= (
@@ -2238,20 +2306,23 @@ SUIT_Condition //= (
 SUIT_Directive //= (
     suit-directive-process-dependency, SUIT_Rep_Policy)
 SUIT_Directive //= (suit-directive-set-parameters,
-    {+ SUIT_Parameters})
+    {+ $$SUIT_Parameters})
 SUIT_Directive //= (
     suit-directive-unlink, SUIT_Rep_Policy)
 
+suit-manifest-component-id = 5
+
 suit-delegation = 1
-suit-dependency-resolution = 7
+suit-dependency-resolution = 15
 suit-uninstall = 24
 
 suit-dependencies = 1
 
 suit-dependency-prefix = 1
 
-suit-condition-is-dependency            = 7
-suit-directive-process-dependency       = 18
+suit-condition-dependency-integrity     = 7
+suit-condition-is-dependency            = 8
+suit-directive-process-dependency       = 11
 suit-directive-set-parameters           = 19
 suit-directive-unlink                   = 33
 
