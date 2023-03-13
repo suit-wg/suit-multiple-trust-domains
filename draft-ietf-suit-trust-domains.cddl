@@ -7,6 +7,9 @@ SUIT_Delegation = [ + [ + bstr .cbor CWT ] ]
 
 CWT = SUIT_Authentication_Block
 
+$$SUIT_Manifest_Extensions //= 
+    (suit-manifest-component-id => SUIT_Component_Identifier)
+
 $$SUIT_severable-members-extensions //= 
     (suit-dependency-resolution => bstr .cbor SUIT_Command_Sequence)
 
@@ -39,6 +42,8 @@ SUIT_Directive //= (suit-directive-set-parameters,
     {+ $$SUIT_Parameters})
 SUIT_Directive //= (
     suit-directive-unlink, SUIT_Rep_Policy)
+
+suit-manifest-component-id = 5
 
 suit-delegation = 1
 suit-dependency-resolution = 15
