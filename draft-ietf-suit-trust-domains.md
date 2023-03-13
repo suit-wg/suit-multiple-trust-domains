@@ -1,7 +1,7 @@
 ---
 title: SUIT Manifest Extensions for Multiple Trust Domains
 abbrev: SUIT Trust Domains
-docname: draft-ietf-suit-trust-domains-01
+docname: draft-ietf-suit-trust-domains-02
 category: std
 
 ipr: trust200902
@@ -222,6 +222,48 @@ The single dependent manifest is sometimes called a Root Manifest.
 
 This section augments the Manifest Structure (Section 8.4) in {{I-D.ietf-suit-manifest}}. 
 
+### Manifest Component ID {#manifest-id}
+
+In complex systems, it may not always be clear where the root manifest should be stored; this is particularly complex when a system has multiple, independent root manifests. The manifest component ID resolves this contention. The manifest-component-id is intended to be used by the root manifest. When a dependency manifest also declares a component ID, the dependency manifest's component ID is overridden by the component ID declared by the dependent.
+
+The following CDDL describes the manifest component ID:
+
+~~~CDDL
+$$SUIT_Manifest_Extensions //= 
+    (suit-manifest-component-id => SUIT_Component_Identifier)
+~~~
+
+### SUIT_Dependencies Manifest Element {#SUIT_Dependencies}
+
+The suit-common section, as described in {{I-D.ietf-suit-manifest}}, Section 8.4.5 is extended with a map of component indices that indicate a dependency manifest. The key of the map are the component indices and the values of the map are any extra metadata needed to describe those dependency manifests.
+
+Because some operations treat dependency manifests differently from other components, it is necessary to identify them. SUIT_Dependencies identifies which components from suit-components (See Section 8.4.5 of {{I-D.ietf-suit-manifest}}) are to be treated as dependency manifest envelopes. SUIT_Dependencies is a map of Components, referenced by Component Index. Optionally, a component prefix or other metadata may be delivered with the component index. The CDDL for suit-dependencies is shown below:
+
+~~~CDDL
+$$SUIT_Common-extensions //= (
+        suit-dependencies => SUIT_Dependencies
+)
+SUIT_Dependencies = {
+    + uint => SUIT_Dependency_Metadata
+}
+SUIT_Dependency_Metadata = {
+    ? suit-dependency-prefix => SUIT_Component_Identifier
+    $$SUIT_Dependency_Extensions
+}
+~~~
+
+If no extended metadata is needed for an extension, SUIT_Dependency_Metadata is an empty map (this is the same encoding size as a null). SUIT_Dependencies MUST be sorted according to CBOR canonical encoding.
+
+The components specified by SUIT_Dependency will contain a Manifest Envelope that describes a dependency of the current manifest. The Manifest is identified, but the Recipient should expect an Envelope when it acquires the dependency. This is because the Manifest is the one invariant element of the Envelope, where other elements may change by countersigning, adding authentication blocks, or severing elements.
+
+When executing suit-condition-image-match over a component that is designated in SUIT_Dependency, the digest MUST be computed over just the bstr-wrapped SUIT_Manifest contained in the Manifest Envelope designated by the Component Index. This enables a dependency reference to uniquely identify a particular Manifest structure. This is identical to the digest that is present as the first element of the suit-authentication-block in the dependency's Envelope. The digest is calculated over the Manifest structure to ensure that removing a signature from a manifest does not break dependencies due to missing signature elements. This is also necessary to support the trusted intermediary use case, where an intermediary re-signs the Manifest, removing the original signature, potentially with a different algorithm, or trading COSE_Sign for COSE_Mac.
+
+The suit-dependency-prefix element contains a SUIT_Component_Identifier (see Section 8.4.5.1 of {{I-D.ietf-suit-manifest}}). This specifies the scope at which the dependency operates. This allows the dependency to be forwarded on to a component that is capable of parsing its own manifests. It also allows one manifest to be deployed to multiple dependent Recipients without those Recipients needing consistent component hierarchy. This element is OPTIONAL for Recipients to implement.
+
+A dependency prefix can be used with a component identifier. This allows complex systems to understand where dependencies need to be applied. The dependency prefix can be used in one of two ways. The first simply prepends the prefix to all Component Identifiers in the dependency.
+
+A dependency prefix can also be used to indicate when a dependency manifest needs to be processed by a secondary manifest processor, as described in {{hierarchical-interpreters}}.
+
 ##  Changes to Abstract Machine Description
 
 This section augments the Abstract Machine Description (Section 6.4) in {{I-D.ietf-suit-manifest}}.
@@ -328,32 +370,6 @@ suit-directive-unlink applies to manifests. When the components defined by a man
 When the reference counter reaches zero, the suit-uninstall command sequence is invoked (see {{suit-uninstall}}).
 
 suit-directive-unlink is OPTIONAL to implement in manifest processors.
-
-## SUIT_Dependencies Manifest Element {#SUIT_Dependencies}
-
-Because some operations treat dependency manifests differently from other components, it is necessary to identify them. SUIT_Dependencies identifies which components from suit-components (See Section 8.4.5 of {{I-D.ietf-suit-manifest}}) are to be treated as dependency manifest envelopes. SUIT_Dependencies is a map of Components, referenced by Component Index. Optionally, a component prefix or other metadata may be delivered with the component index. The CDDL for suit-dependencies is shown below:
-
-~~~CDDL
-SUIT_Dependencies = {
-    + uint => SUIT_Dependency_Metadata
-}
-SUIT_Dependency_Metadata = {
-    ? suit-dependency-prefix => SUIT_Component_Identifier
-    $$SUIT_Dependency_Extensions
-}
-~~~
-
-If no extended metadata is needed for an extension, SUIT_Dependency_Metadata is an empty map (this is the same encoding size as a null). SUIT_Dependencies MUST be sorted according to CBOR canonical encoding.
-
-The components specified by SUIT_Dependency will contain a Manifest Envelope that describes a dependency of the current manifest. The Manifest is identified, but the Recipient should expect an Envelope when it acquires the dependency. This is because the Manifest is the one invariant element of the Envelope, where other elements may change by countersigning, adding authentication blocks, or severing elements.
-
-When executing suit-condition-image-match over a component that is designated in SUIT_Dependency, the digest MUST be computed over just the bstr-wrapped SUIT_Manifest contained in the Manifest Envelope designated by the Component Index. This enables a dependency reference to uniquely identify a particular Manifest structure. This is identical to the digest that is present as the first element of the suit-authentication-block in the dependency's Envelope. The digest is calculated over the Manifest structure to ensure that removing a signature from a manifest does not break dependencies due to missing signature elements. This is also necessary to support the trusted intermediary use case, where an intermediary re-signs the Manifest, removing the original signature, potentially with a different algorithm, or trading COSE_Sign for COSE_Mac.
-
-The suit-dependency-prefix element contains a SUIT_Component_Identifier (see Section 8.4.5.1 of {{I-D.ietf-suit-manifest}}). This specifies the scope at which the dependency operates. This allows the dependency to be forwarded on to a component that is capable of parsing its own manifests. It also allows one manifest to be deployed to multiple dependent Recipients without those Recipients needing consistent component hierarchy. This element is OPTIONAL for Recipients to implement.
-
-A dependency prefix can be used with a component identifier. This allows complex systems to understand where dependencies need to be applied. The dependency prefix can be used in one of two ways. The first simply prepends the prefix to all Component Identifiers in the dependency.
-
-A dependency prefix can also be used to indicate when a dependency manifest needs to be processed by a secondary manifest processor, as described in {{hierarchical-interpreters}}.
 
 # Uninstall {#suit-uninstall}
 
