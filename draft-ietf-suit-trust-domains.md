@@ -521,3 +521,56 @@ To be valid, the following CDDL MUST be appended to the SUIT Manifest CDDL. The 
 ~~~ CDDL
 {::include draft-ietf-suit-trust-domains.cddl}
 ~~~
+
+# B. Examples {#examples}
+
+The following examples demonstrate a small subset of the functionalities in this document.
+
+The examples are signed using the following ECDSA secp256r1 key:
+
+~~~
+-----BEGIN PRIVATE KEY-----
+MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgApZYjZCUGLM50VBC
+CjYStX+09jGmnyJPrpDLTz/hiXOhRANCAASEloEarguqq9JhVxie7NomvqqL8Rtv
+P+bitWWchdvArTsfKktsCYExwKNtrNHXi9OB3N+wnAUtszmR23M4tKiW
+-----END PRIVATE KEY-----
+~~~
+
+The corresponding public key can be used to verify these examples:
+
+~~~
+-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEhJaBGq4LqqvSYVcYnuzaJr6qi/Eb
+bz/m4rVlnIXbwK07HypLbAmBMcCjbazR14vTgdzfsJwFLbM5kdtzOLSolg==
+-----END PUBLIC KEY-----
+~~~
+
+Each example uses SHA256 as the digest function.
+
+## Example 0: Delegation Chain
+
+This example uses functionalities:
+
+* manifest component id
+* delegation chain
+
+{::include examples/example0_delegation.txt}
+
+## Example 1: Process Dependency
+
+This example uses functionalities:
+
+* manifest component id
+* dependency resolution
+* process dependency
+
+{::include examples/example1_process.txt}
+
+## Example 2: Integrated Dependency
+
+* manifest component id
+* dependency resolution
+* process dependency
+* integrated dependency
+
+{::include examples/example2_integrated.txt}
