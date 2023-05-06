@@ -489,13 +489,25 @@ When some components are "installed" or "loaded" it is more productive to use li
 
 IANA is requested to allocate the following numbers in the listed registries:
 
-## SUIT Command Sequences
+## SUIT Envelope Elements
 
 Label | Name | Reference
 ---|---|---
 1  | Delegation | {{ovr-delegation}}
 15 | Dependency Resolution | {{suit-dependency-resolution}}
 24 | Uninstall | {{suit-uninstall}}
+
+## SUIT Manifest Elements
+
+Label | Name | Reference
+---|---|---
+5 | Manifest Component ID | {{manifest-id}}
+
+## SUIT Common Elements
+
+Label | Name | Reference
+---|---|---
+1 | Dependencies | {{SUIT_Dependencies}}
 
 ## SUIT Commands
 
