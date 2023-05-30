@@ -445,7 +445,7 @@ A plaintext manifest and its encrypted dependency may also form a composite mani
 
 ## Operating on Multiple Components
 
-In order to produce compact encoding, it is efficient to perform operations on multiple components simultaneously. Because Dependency Manifests and Component Images are processed at different times, there is a mechanism to distinguish between these elements: suit-condition-is-manifest. This can be used with suit-directive-try-each to perform operations just on Dependency Manifests or just on Component Images.
+In order to produce compact encoding, it is efficient to perform operations on multiple components simultaneously. Because Dependency Manifests and Component Images are processed at different times, there is a mechanism to distinguish between these elements: suit-condition-is-dependency. This can be used with suit-directive-try-each to perform operations just on Dependency Manifests or just on Component Images.
 
 For example, to fetch all dependency manifests, the following commands are added to the dependency resolution block:
 
@@ -455,7 +455,7 @@ For example, to fetch all dependency manifests, the following commands are added
 - Set Component Index directive, with argument "True" (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
 - Try Each Directive
     - Sequence 0
-        - Condition Is Manifest
+        - Condition Is Dependency Manifest
         - Fetch
         - Dependency Integrity condition (see {{suit-condition-dependency-integrity}})
         - Process Dependency
@@ -469,7 +469,7 @@ Another example is to fetch and validate all Component Images. The image fetch s
 - Set Component Index directive, with argument "True" (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
 - Try Each Directive
     - Sequence 0
-        - Condition Is Manifest
+        - Condition Is Dependency Manifest
         - Process Dependency
     - Sequence 1
         - Fetch
