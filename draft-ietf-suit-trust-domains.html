@@ -15,26 +15,26 @@ enables delegation of different rights to mutually distrusting entities
 for use for different purposes or components in the context of firmware
 or software update. 
     " name="description">
-<meta content="xml2rfc 3.15.0" name="generator">
+<meta content="xml2rfc 3.16.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-suit-trust-domains-02" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.15.0
-    Python 3.9.6
+  xml2rfc 3.16.0
+    Python 3.8.10
     appdirs 1.4.4
     ConfigArgParse 1.5.3
     google-i18n-address 2.5.2
     html5lib 1.1
     intervaltree 3.1.0
     Jinja2 3.1.2
-    kitchen 1.2.6
-    lxml 4.9.1
+    lxml 4.9.2
     MarkupSafe 2.1.1
     pycountry 22.3.5
     PyYAML 6.0
-    requests 2.28.1
-    setuptools 58.0.4
-    six 1.15.0
+    requests 2.22.0
+    setuptools 45.2.0
+    six 1.16.0
+    wcwidth 0.2.5
 -->
 <link href="draft-ietf-suit-trust-domains.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -46,7 +46,7 @@ or software update.
   this can be consolidated so that style settings occur only in one place, but
   for now the contents of this file consists first of the initial CSS work as
   provided to the RFC Formatter (xml2rfc) work, followed by itemized and
-  commented changes found necssary during the development of the v3
+  commented changes found necessary during the development of the v3
   formatters.
 
 */
@@ -55,6 +55,12 @@ or software update.
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans'); /* Sans-serif */
 @import url('https://fonts.googleapis.com/css?family=Noto+Serif'); /* Serif (print) */
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono'); /* Monospace */
+
+:root {
+  --font-sans: 'Noto Sans', Arial, Helvetica, sans-serif;
+  --font-serif: 'Noto Serif', 'Times', 'Times New Roman', serif;
+  --font-mono: 'Roboto Mono', Courier, 'Courier New', monospace;
+}
 
 @viewport {
   zoom: 1.0;
@@ -73,7 +79,7 @@ body {
   color: #222;
   background-color: #fff;
   font-size: 14px;
-  font-family: 'Noto Sans', Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
   line-height: 1.6;
   scroll-behavior: smooth;
 }
@@ -161,6 +167,15 @@ div {
 }
 svg {
   display: block;
+}
+svg[font-family~="serif" i], svg [font-family~="serif" i] {
+  font-family: var(--font-serif);
+}
+svg[font-family~="sans-serif" i], svg [font-family~="sans-serif" i] {
+  font-family: var(--font-sans);
+}
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
 }
 .alignCenter.art-text {
   background-color: #f9f9f9;
@@ -255,9 +270,9 @@ a.selfRef:hover {
 } */
 
 /* Figures */
-tt, code, pre, code {
+tt, code, pre {
   background-color: #f9f9f9;
-  font-family: 'Roboto Mono', monospace;
+  font-family: var(--font-mono);
 }
 pre {
   border: 1px solid #eee;
@@ -494,7 +509,7 @@ address.vcard .nameRole {
   margin-left: 0;
 }
 address.vcard .label {
-  font-family: "Noto Sans",Arial,Helvetica,sans-serif;
+  font-family: var(--font-sans);
   margin: 0.5em 0;
 }
 address.vcard .type {
@@ -657,7 +672,7 @@ hr.addr {
   figure {
     overflow: scroll;
   }
-  pre.breakable {
+  .breakable pre {
     break-inside: auto;
   }
   h1, h2, h3, h4, h5, h6 {
@@ -727,7 +742,7 @@ hr.addr {
   size: A4;
   margin-bottom: 45mm;
   padding-top: 20px;
-  /* The follwing is commented out here, but set appropriately by in code, as
+  /* The following is commented out here, but set appropriately by in code, as
      the content depends on the document */
   /*
   @top-left {
@@ -827,12 +842,12 @@ section {
 }
 
 /* prevent monospace from becoming overly large */
-tt, code, pre, code {
+tt, code, pre {
   font-size: 95%;
 }
 
 /* Fix the height/width aspect for ascii art*/
-pre.sourcecode,
+.sourcecode pre,
 .art-text pre {
   line-height: 1.12;
 }
@@ -868,7 +883,7 @@ table th.text-right {
   text-align: right;
 }
 
-/* Make the alternative author contact informatio look less like just another
+/* Make the alternative author contact information look less like just another
    author, and group it closer with the primary author contact information */
 .alternative-contact {
   margin: 0.5em 0 0.25em 0;
@@ -1050,6 +1065,7 @@ aside > p {
 /* Sourcecode margin in print, when there's no pilcrow */
 @media print {
   .artwork,
+  .artwork > pre,
   .sourcecode {
     margin-bottom: 1em;
   }
@@ -1064,7 +1080,7 @@ ol.type-A { list-style-type: upper-alpha; }
 ol.type-i { list-style-type: lower-roman; }
 ol.type-I { list-style-type: lower-roman; }
 /* Apply the print table and row borders in general, on request from the RPC,
-and increase the contrast between border and odd row background sligthtly */
+and increase the contrast between border and odd row background slightly */
 table {
   border: 1px solid #ddd;
 }
@@ -1124,7 +1140,7 @@ span.break, dd.break {
     break-before: auto;
   }
 }
-/* Text in compact lists should not get extra bottim margin space,
+/* Text in compact lists should not get extra bottom margin space,
    since that would makes the list not compact */
 ul.compact p, .ulCompact p,
 ol.compact p, .olCompact p {
@@ -1149,7 +1165,7 @@ p tt, p code, li tt, li code {
 pre {
    margin-top: 0.5px;
 }
-/* Tweak the comact list text */
+/* Tweak the compact list text */
 ul.compact, .ulCompact,
 ol.compact, .olCompact,
 dl.compact, .dlCompact {
@@ -1167,7 +1183,7 @@ dd > div.artwork:first-child,
 dd > aside:first-child,
 dd > figure:first-child,
 dd > ol:first-child,
-dd > div:first-child > pre.sourcecode,
+dd > div.sourcecode:first-child,
 dd > table:first-child,
 dd > ul:first-child {
   clear: left;
@@ -1181,7 +1197,7 @@ li > p {
   margin-bottom: 0.5em
 }
 /* Don't let p margin spill out from inside list items */
-li > p:last-of-type {
+li > p:last-of-type:only-child {
   margin-bottom: 0;
 }
 </style>
@@ -1194,11 +1210,11 @@ li > p:last-of-type {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">SUIT Trust Domains</td>
-<td class="right">March 2023</td>
+<td class="right">May 2023</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Moran &amp; Takayama</td>
-<td class="center">Expires 14 September 2023</td>
+<td class="center">Expires 3 November 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1211,12 +1227,12 @@ li > p:last-of-type {
 <dd class="internet-draft">draft-ietf-suit-trust-domains-02</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-03-13" class="published">13 March 2023</time>
+<time datetime="2023-05-02" class="published">2 May 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-09-14">14 September 2023</time></dd>
+<dd class="expires"><time datetime="2023-11-03">3 November 2023</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1259,7 +1275,7 @@ or software update.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 14 September 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 3 November 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1412,7 +1428,21 @@ or software update.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
             <p id="section-toc.1-1.12.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-a-full-cddl" class="internal xref">A. Full CDDL</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
-            <p id="section-toc.1-1.13.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.13.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-b-examples" class="internal xref">B. Examples</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.1">
+                <p id="section-toc.1-1.13.2.1.1"><a href="#appendix-B.1" class="auto internal xref">B.1</a>.  <a href="#name-example-0-delegation" class="internal xref">Example 0: Delegation</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.2">
+                <p id="section-toc.1-1.13.2.2.1"><a href="#appendix-B.2" class="auto internal xref">B.2</a>.  <a href="#name-example-1-process-dependenc" class="internal xref">Example 1: Process Dependency</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.3">
+                <p id="section-toc.1-1.13.2.3.1"><a href="#appendix-B.3" class="auto internal xref">B.3</a>.  <a href="#name-example-2-integrated-depend" class="internal xref">Example 2: Integrated Dependency</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
+            <p id="section-toc.1-1.14.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1658,8 +1688,8 @@ The Common metadata section in the Manifest also gains a list of dependencies.<a
           </h4>
 <p id="section-6.2.1-1">In complex systems, it may not always be clear where the root manifest should be stored; this is particularly complex when a system has multiple, independent root manifests. The manifest component ID resolves this contention. The manifest-component-id is intended to be used by the root manifest. When a dependency manifest also declares a component ID, the dependency manifest's component ID is overridden by the component ID declared by the dependent.<a href="#section-6.2.1-1" class="pilcrow">¶</a></p>
 <p id="section-6.2.1-2">The following CDDL describes the manifest component ID:<a href="#section-6.2.1-2" class="pilcrow">¶</a></p>
-<div id="section-6.2.1-3">
-<pre class="lang-CDDL sourcecode">
+<div class="lang-CDDL sourcecode" id="section-6.2.1-3">
+<pre>
 $$SUIT_Manifest_Extensions //=
     (suit-manifest-component-id =&gt; SUIT_Component_Identifier)
 </pre><a href="#section-6.2.1-3" class="pilcrow">¶</a>
@@ -1673,8 +1703,8 @@ $$SUIT_Manifest_Extensions //=
           </h4>
 <p id="section-6.2.2-1">The suit-common section, as described in <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>, Section 8.4.5 is extended with a map of component indices that indicate a dependency manifest. The key of the map are the component indices and the values of the map are any extra metadata needed to describe those dependency manifests.<a href="#section-6.2.2-1" class="pilcrow">¶</a></p>
 <p id="section-6.2.2-2">Because some operations treat dependency manifests differently from other components, it is necessary to identify them. SUIT_Dependencies identifies which components from suit-components (See Section 8.4.5 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>) are to be treated as dependency manifest envelopes. SUIT_Dependencies is a map of Components, referenced by Component Index. Optionally, a component prefix or other metadata may be delivered with the component index. The CDDL for suit-dependencies is shown below:<a href="#section-6.2.2-2" class="pilcrow">¶</a></p>
-<div id="section-6.2.2-3">
-<pre class="lang-CDDL sourcecode">
+<div class="lang-CDDL sourcecode" id="section-6.2.2-3">
+<pre>
 $$SUIT_Common-extensions //= (
         suit-dependencies =&gt; SUIT_Dependencies
 )
@@ -2205,35 +2235,35 @@ With the addition of dependencies, some changes are necessary to the abstract ma
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
-<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC3986">[RFC3986]</dt>
         <dd>
-<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3986">https://www.rfc-editor.org/info/rfc3986</a>&gt;</span>. </dd>
+<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7228">[RFC7228]</dt>
         <dd>
-<span class="refAuthor">Bormann, C.</span>, <span class="refAuthor">Ersue, M.</span>, and <span class="refAuthor">A. Keranen</span>, <span class="refTitle">"Terminology for Constrained-Node Networks"</span>, <span class="seriesInfo">RFC 7228</span>, <span class="seriesInfo">DOI 10.17487/RFC7228</span>, <time datetime="2014-05" class="refDate">May 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7228">https://www.rfc-editor.org/info/rfc7228</a>&gt;</span>. </dd>
+<span class="refAuthor">Bormann, C.</span>, <span class="refAuthor">Ersue, M.</span>, and <span class="refAuthor">A. Keranen</span>, <span class="refTitle">"Terminology for Constrained-Node Networks"</span>, <span class="seriesInfo">RFC 7228</span>, <span class="seriesInfo">DOI 10.17487/RFC7228</span>, <time datetime="2014-05" class="refDate">May 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7228">https://www.rfc-editor.org/rfc/rfc7228</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>
-<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8174">https://www.rfc-editor.org/info/rfc8174</a>&gt;</span>. </dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8392">[RFC8392]</dt>
         <dd>
-<span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Wahlstroem, E.</span>, <span class="refAuthor">Erdtman, S.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"CBOR Web Token (CWT)"</span>, <span class="seriesInfo">RFC 8392</span>, <span class="seriesInfo">DOI 10.17487/RFC8392</span>, <time datetime="2018-05" class="refDate">May 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8392">https://www.rfc-editor.org/info/rfc8392</a>&gt;</span>. </dd>
+<span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Wahlstroem, E.</span>, <span class="refAuthor">Erdtman, S.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"CBOR Web Token (CWT)"</span>, <span class="seriesInfo">RFC 8392</span>, <span class="seriesInfo">DOI 10.17487/RFC8392</span>, <time datetime="2018-05" class="refDate">May 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8392">https://www.rfc-editor.org/rfc/rfc8392</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8747">[RFC8747]</dt>
         <dd>
-<span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Seitz, L.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Erdtman, S.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"Proof-of-Possession Key Semantics for CBOR Web Tokens (CWTs)"</span>, <span class="seriesInfo">RFC 8747</span>, <span class="seriesInfo">DOI 10.17487/RFC8747</span>, <time datetime="2020-03" class="refDate">March 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8747">https://www.rfc-editor.org/info/rfc8747</a>&gt;</span>. </dd>
+<span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Seitz, L.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Erdtman, S.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"Proof-of-Possession Key Semantics for CBOR Web Tokens (CWTs)"</span>, <span class="seriesInfo">RFC 8747</span>, <span class="seriesInfo">DOI 10.17487/RFC8747</span>, <time datetime="2020-03" class="refDate">March 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8747">https://www.rfc-editor.org/rfc/rfc8747</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9019">[RFC9019]</dt>
         <dd>
-<span class="refAuthor">Moran, B.</span>, <span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Brown, D.</span>, and <span class="refAuthor">M. Meriac</span>, <span class="refTitle">"A Firmware Update Architecture for Internet of Things"</span>, <span class="seriesInfo">RFC 9019</span>, <span class="seriesInfo">DOI 10.17487/RFC9019</span>, <time datetime="2021-04" class="refDate">April 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9019">https://www.rfc-editor.org/info/rfc9019</a>&gt;</span>. </dd>
+<span class="refAuthor">Moran, B.</span>, <span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Brown, D.</span>, and <span class="refAuthor">M. Meriac</span>, <span class="refTitle">"A Firmware Update Architecture for Internet of Things"</span>, <span class="seriesInfo">RFC 9019</span>, <span class="seriesInfo">DOI 10.17487/RFC9019</span>, <time datetime="2021-04" class="refDate">April 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9019">https://www.rfc-editor.org/rfc/rfc9019</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9124">[RFC9124]</dt>
       <dd>
-<span class="refAuthor">Moran, B.</span>, <span class="refAuthor">Tschofenig, H.</span>, and <span class="refAuthor">H. Birkholz</span>, <span class="refTitle">"A Manifest Information Model for Firmware Updates in Internet of Things (IoT) Devices"</span>, <span class="seriesInfo">RFC 9124</span>, <span class="seriesInfo">DOI 10.17487/RFC9124</span>, <time datetime="2022-01" class="refDate">January 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9124">https://www.rfc-editor.org/info/rfc9124</a>&gt;</span>. </dd>
+<span class="refAuthor">Moran, B.</span>, <span class="refAuthor">Tschofenig, H.</span>, and <span class="refAuthor">H. Birkholz</span>, <span class="refTitle">"A Manifest Information Model for Firmware Updates in Internet of Things (IoT) Devices"</span>, <span class="seriesInfo">RFC 9124</span>, <span class="seriesInfo">DOI 10.17487/RFC9124</span>, <time datetime="2022-01" class="refDate">January 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9124">https://www.rfc-editor.org/rfc/rfc9124</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -2244,11 +2274,11 @@ With the addition of dependencies, some changes are necessary to the abstract ma
 <dl class="references">
 <dt id="I-D.ietf-suit-firmware-encryption">[I-D.ietf-suit-firmware-encryption]</dt>
         <dd>
-<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Housley, R.</span>, <span class="refAuthor">Moran, B.</span>, <span class="refAuthor">Brown, D.</span>, and <span class="refAuthor">K. Takayama</span>, <span class="refTitle">"Encrypted Payloads in SUIT Manifests"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-firmware-encryption-11</span>, <time datetime="2023-03-13" class="refDate">13 March 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-suit-firmware-encryption-11">https://datatracker.ietf.org/doc/html/draft-ietf-suit-firmware-encryption-11</a>&gt;</span>. </dd>
+<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Housley, R.</span>, <span class="refAuthor">Moran, B.</span>, <span class="refAuthor">Brown, D.</span>, and <span class="refAuthor">K. Takayama</span>, <span class="refTitle">"Encrypted Payloads in SUIT Manifests"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-firmware-encryption-12</span>, <time datetime="2023-04-13" class="refDate">13 April 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-suit-firmware-encryption-12">https://datatracker.ietf.org/doc/html/draft-ietf-suit-firmware-encryption-12</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-suit-update-management">[I-D.ietf-suit-update-management]</dt>
         <dd>
-<span class="refAuthor">Moran, B.</span>, <span class="refTitle">"Update Management Extensions for Software Updates for Internet of Things (SUIT) Manifests"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-update-management-01</span>, <time datetime="2022-10-24" class="refDate">24 October 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-suit-update-management-01">https://datatracker.ietf.org/doc/html/draft-ietf-suit-update-management-01</a>&gt;</span>. </dd>
+<span class="refAuthor">Moran, B.</span>, <span class="refTitle">"Update Management Extensions for Software Updates for Internet of Things (SUIT) Manifests"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-update-management-02</span>, <time datetime="2023-04-27" class="refDate">27 April 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-suit-update-management-02">https://datatracker.ietf.org/doc/html/draft-ietf-suit-update-management-02</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-teep-architecture">[I-D.ietf-teep-architecture]</dt>
       <dd>
@@ -2263,8 +2293,8 @@ With the addition of dependencies, some changes are necessary to the abstract ma
 <a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-a-full-cddl" class="section-name selfRef">A. Full CDDL</a>
       </h2>
 <p id="appendix-A-1">To be valid, the following CDDL MUST be appended to the SUIT Manifest CDDL. The SUIT CDDL is defined in Appendix A of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span><a href="#appendix-A-1" class="pilcrow">¶</a></p>
-<div id="appendix-A-2">
-<pre class="breakable lang-CDDL sourcecode">
+<div class="breakable lang-CDDL sourcecode" id="appendix-A-2">
+<pre>
 $$SUIT_Envelope_Extensions //=
     (suit-delegation =&gt; bstr .cbor SUIT_Delegation)
 $$SUIT_Envelope_Extensions //= (
@@ -2330,8 +2360,400 @@ suit-directive-unlink                   = 33
 </div>
 </section>
 </div>
-<div id="authors-addresses">
+<div id="examples">
 <section id="appendix-B">
+      <h2 id="name-b-examples">
+<a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-b-examples" class="section-name selfRef">B. Examples</a>
+      </h2>
+<p id="appendix-B-1">The following examples demonstrate a small subset of the functionalities in this document.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-2">The examples are signed using the following ECDSA secp256r1 key:<a href="#appendix-B-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-B-3">
+<pre>
+-----BEGIN PRIVATE KEY-----
+MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgApZYjZCUGLM50VBC
+CjYStX+09jGmnyJPrpDLTz/hiXOhRANCAASEloEarguqq9JhVxie7NomvqqL8Rtv
+P+bitWWchdvArTsfKktsCYExwKNtrNHXi9OB3N+wnAUtszmR23M4tKiW
+-----END PRIVATE KEY-----
+</pre><a href="#appendix-B-3" class="pilcrow">¶</a>
+</div>
+<p id="appendix-B-4">The corresponding public key can be used to verify these examples:<a href="#appendix-B-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-B-5">
+<pre>
+-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEhJaBGq4LqqvSYVcYnuzaJr6qi/Eb
+bz/m4rVlnIXbwK07HypLbAmBMcCjbazR14vTgdzfsJwFLbM5kdtzOLSolg==
+-----END PUBLIC KEY-----
+</pre><a href="#appendix-B-5" class="pilcrow">¶</a>
+</div>
+<p id="appendix-B-6">Each example uses SHA256 as the digest function.<a href="#appendix-B-6" class="pilcrow">¶</a></p>
+<div id="example-0-delegation">
+<section id="appendix-B.1">
+        <h3 id="name-example-0-delegation">
+<a href="#appendix-B.1" class="section-number selfRef">B.1. </a><a href="#name-example-0-delegation" class="section-name selfRef">Example 0: Delegation</a>
+        </h3>
+<p id="appendix-B.1-1">This example uses functionalities:<a href="#appendix-B.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-B.1-2.1">manifest component id<a href="#appendix-B.1-2.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-B.1-2.2">key delegation<a href="#appendix-B.1-2.2" class="pilcrow">¶</a>
+</li>
+        </ul>
+<div class="alignLeft art-text artwork" id="appendix-B.1-3">
+<pre>
+/ SUIT_Envelope_Tagged / 107({
+  / delegation / 1: &lt;&lt; [
+    [
+      / NOTE: signed by trust anchor /
+      &lt;&lt; 18([
+        / protected: / &lt;&lt; {
+          / alg / 1: -7 / ES256 /
+        } &gt;&gt;,
+        / unprotected / {
+        },
+        / payload: / &lt;&lt; {
+          / cnf / 8: {
+            / NOTE: public key of delegated authority /
+            / COSE_Key / 1: {
+              / cty / 1: 2 / EC2 /,
+              / crv / -1: 1 / P-256 /,
+              / x / -2:
+                h'0E908AA8F066DB1F084E0C3652C63952
+                  BD99F2A5BDB22F9E01367AAD03ABA68B',
+              / y / -3:
+                h'77DA1BD8AC4F0CB490BA210648BF79AB
+                  164D49AD3551D71D314B2749EE42D29A'
+            }
+          }
+        } &gt;&gt;,
+        / signature: /
+          h'FB2D5ACF66B9C8573CE92E13BFB8D113F798715CC10B5A0010B11925C155E724
+            5A64E131073B87AC50CAC71650A21315B82D06CA2298CD1A95519AAE4C4B5315'
+      ]) &gt;&gt;
+    ]
+  ] &gt;&gt;,
+  / NOTE: signed by delegated authority /
+  / authentication-wrapper / 2: &lt;&lt; [
+    &lt;&lt; [
+      / digest-algorithm-id: / -16 / SHA256 /,
+      / digest-bytes: /
+        h'6EA128D7BB19B86F77C4227F2A29F22026A41958ACC45CC0A35BA388B13E2F51'
+    ] &gt;&gt;,
+    &lt;&lt; / COSE_Sign1_Tagged / 18([
+      / protected: / &lt;&lt; {
+        / algorithm-id / 1: -7 / ES256 /
+      } &gt;&gt;,
+      / unprotected: / {},
+      / payload: / null,
+      / signature: /
+        h'99F949043701D7BDBA38904A0B49F004DED6B64A4900DECA5C66AE8A9EBA9135
+          76DEF136B74EA89C14FA64624DBD33B4C0BB41C153CA51548C73FF71A2BAF274'
+    ]) &gt;&gt;
+  ] &gt;&gt;,
+  / manifest / 3: &lt;&lt; {
+    / manifest-version / 1: 1,
+    / manifest-sequence-number / 2: 0,
+    / common / 3: &lt;&lt; {
+      / components / 2: [
+        [
+          '00'
+        ]
+      ]
+    } &gt;&gt;,
+    / manifest-component-id / 5: [
+      'dependent.suit'
+    ],
+    / invoke / 9: &lt;&lt; [
+      / directive-override-parameters / 20, {
+        / parameter-invoke-args / 23: 'cat 00'
+      },
+      / directive-invoke / 23, 15
+    ] &gt;&gt;,
+    / install / 17: &lt;&lt; [
+      / directive-override-parameters / 20, {
+        / parameter-content / 18: 'hello world'
+      },
+      / directive-write / 18, 15
+    ] &gt;&gt;
+  } &gt;&gt;
+})
+</pre><a href="#appendix-B.1-3" class="pilcrow">¶</a>
+</div>
+<p id="appendix-B.1-4">Total size of Envelope with COSE authentication object:  352<a href="#appendix-B.1-4" class="pilcrow">¶</a></p>
+<p id="appendix-B.1-5">Envelope with COSE authentication object:<a href="#appendix-B.1-5" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-B.1-6">
+<pre>
+D86BA301589E8181589AD28443A10126A0584FA108A101A4010220012158
+200E908AA8F066DB1F084E0C3652C63952BD99F2A5BDB22F9E01367AAD03
+ABA68B22582077DA1BD8AC4F0CB490BA210648BF79AB164D49AD3551D71D
+314B2749EE42D29A5840FB2D5ACF66B9C8573CE92E13BFB8D113F798715C
+C10B5A0010B11925C155E7245A64E131073B87AC50CAC71650A21315B82D
+06CA2298CD1A95519AAE4C4B5315025874835824822F58206EA128D7BB19
+B86F77C4227F2A29F22026A41958ACC45CC0A35BA388B13E2F51584AD284
+43A10126A0F6584099F949043701D7BDBA38904A0B49F004DED6B64A4900
+DECA5C66AE8A9EBA913576DEF136B74EA89C14FA64624DBD33B4C0BB41C1
+53CA51548C73FF71A2BAF27440035842A6010102000347A1028181423030
+05814E646570656E64656E742E73756974094D8414A11746636174203030
+170F11528414A1124B68656C6C6F20776F726C64120F
+</pre><a href="#appendix-B.1-6" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="example-1-process-dependency">
+<section id="appendix-B.2">
+        <h3 id="name-example-1-process-dependenc">
+<a href="#appendix-B.2" class="section-number selfRef">B.2. </a><a href="#name-example-1-process-dependenc" class="section-name selfRef">Example 1: Process Dependency</a>
+        </h3>
+<p id="appendix-B.2-1">This example uses functionalities:<a href="#appendix-B.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-B.2-2.1">manifest component id<a href="#appendix-B.2-2.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-B.2-2.2">dependency resolution<a href="#appendix-B.2-2.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-B.2-2.3">process dependency<a href="#appendix-B.2-2.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<div class="alignLeft art-text artwork" id="appendix-B.2-3">
+<pre>
+/ SUIT_Envelope_Tagged / 107({
+  / authentication-wrapper / 2: &lt;&lt; [
+    &lt;&lt; [
+      / digest-algorithm-id: / -16 / SHA256 /,
+      / digest-bytes: /
+        h'4874ADC80A9128A2B2057F5FE59C45F8ED10A9BF9C5308FCF951B8BBAF434B95'
+    ] &gt;&gt;,
+    &lt;&lt; / COSE_Sign1_Tagged / 18([
+      / protected: / &lt;&lt; {
+        / algorithm-id / 1: -7 / ES256 /
+      } &gt;&gt;,
+      / unprotected: / {},
+      / payload: / null,
+      / signature: /
+        h'C257E23A34960BE215BB9B927A5A3CEEDD675DFD81AE6E55A66FDD2209886889
+          1DF42D71ADB962A64CC008AEF9465DA2153CCF383F00B505F079DB540F64B916'
+    ]) &gt;&gt;
+  ] &gt;&gt;,
+  / manifest / 3: &lt;&lt; {
+    / manifest-version / 1: 1,
+    / manifest-sequence-number / 2: 0,
+    / common / 3: &lt;&lt; {
+      / dependencies / 1: {
+        / component-index / 1: {
+          / dependency-prefix / 1: [
+            'dependent.suit'
+          ]
+        }
+      },
+      / components / 2: [
+        [
+          '10'
+        ]
+      ]
+    } &gt;&gt;,
+    / manifest-component-id / 5: [
+      'depending.suit'
+    ],
+    / invoke / 9: &lt;&lt; [
+      / directive-set-component-index / 12, 0,
+      / directive-override-parameters / 20, {
+        / parameter-invoke-args / 23: 'cat 00 10'
+      },
+      / directive-invoke / 23, 15
+    ] &gt;&gt;,
+    / dependency-resolution / 15: &lt;&lt; [
+      / directive-set-component-index / 12, 1,
+      / directive-override-parameters / 20, {
+        / parameter-image-digest / 3: &lt;&lt; [
+          / digest-algorithm-id: / -16 / SHA256 /,
+          / digest-bytes: /
+            h'6C86246B90D644F021671F6D42523B2CB5E156F764BE618AA46BFCD0DB23E768'
+        ] &gt;&gt;,
+        / parameter-image-size / 14: 352,
+        / parameter-uri / 21: "http://example.com/dependent.suit"
+      },
+      / directive-fetch / 21, 2,
+      / condition-image-match / 3, 15
+    ] &gt;&gt;,
+    / install / 17: &lt;&lt; [
+      / directive-set-component-index / 12, 1,
+      / directive-override-parameters / 20, {
+        / parameter-image-digest / 3: &lt;&lt; [
+          / digest-algorithm-id: / -16 / SHA256 /,
+          / digest-bytes: /
+            h'6EA128D7BB19B86F77C4227F2A29F22026A41958ACC45CC0A35BA388B13E2F51'
+        ] &gt;&gt;
+      },
+      / condition-dependency-integrity / 7, 15,
+      / directive-process-dependency / 11, 0,
+
+      / directive-set-component-index / 12, 0,
+      / directive-override-parameters / 20, {
+        / parameter-content / 18: ' in multiple trust domains'
+      },
+      / directive-write / 18, 15
+    ] &gt;&gt;
+  } &gt;&gt;
+})
+</pre><a href="#appendix-B.2-3" class="pilcrow">¶</a>
+</div>
+<p id="appendix-B.2-4">Total size of Envelope with COSE authentication object:  374<a href="#appendix-B.2-4" class="pilcrow">¶</a></p>
+<p id="appendix-B.2-5">Envelope with COSE authentication object:<a href="#appendix-B.2-5" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-B.2-6">
+<pre>
+D86BA2025873825824822F58204874ADC80A9128A2B2057F5FE59C45F8ED
+10A9BF9C5308FCF951B8BBAF434B95584AD28443A10126A0F65840C257E2
+3A34960BE215BB9B927A5A3CEEDD675DFD81AE6E55A66FDD22098868891D
+F42D71ADB962A64CC008AEF9465DA2153CCF383F00B505F079DB540F64B9
+160358FAA70101020003581CA201A101A101814E646570656E64656E742E
+7375697402818142313005814E646570656E64696E672E73756974095286
+0C0014A11749636174203030203130170F0F5858880C0114A3035824822F
+58206C86246B90D644F021671F6D42523B2CB5E156F764BE618AA46BFCD0
+DB23E7680E190160157821687474703A2F2F6578616D706C652E636F6D2F
+646570656E64656E742E737569741502030F1158538E0C0114A103582482
+2F58206EA128D7BB19B86F77C4227F2A29F22026A41958ACC45CC0A35BA3
+88B13E2F51070F0B000C0014A112581A20696E206D756C7469706C652074
+7275737420646F6D61696E73120F
+</pre><a href="#appendix-B.2-6" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="example-2-integrated-dependency">
+<section id="appendix-B.3">
+        <h3 id="name-example-2-integrated-depend">
+<a href="#appendix-B.3" class="section-number selfRef">B.3. </a><a href="#name-example-2-integrated-depend" class="section-name selfRef">Example 2: Integrated Dependency</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="appendix-B.3-1.1">manifest component id<a href="#appendix-B.3-1.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-B.3-1.2">dependency resolution<a href="#appendix-B.3-1.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-B.3-1.3">process dependency<a href="#appendix-B.3-1.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-B.3-1.4">integrated dependency<a href="#appendix-B.3-1.4" class="pilcrow">¶</a>
+</li>
+        </ul>
+<div class="alignLeft art-text artwork" id="appendix-B.3-2">
+<pre>
+/ SUIT_Envelope_Tagged / 107({
+  / authentication-wrapper / 2: &lt;&lt; [
+    &lt;&lt; [
+      / digest-algorithm-id: / -16 / SHA256 /,
+      / digest-bytes: /
+        h'318EAD5F671A6D2593D7ADB7B6CCADC49F72704507004F297A25AF16A48A2111'
+    ] &gt;&gt;,
+    &lt;&lt; / COSE_Sign1_Tagged / 18([
+      / protected: / &lt;&lt; {
+        / algorithm-id / 1: -7 / ES256 /
+      } &gt;&gt;,
+      / unprotected: / {},
+      / payload: / null,
+      / signature: /
+        h'287D5AAB44D08A34954663942B2732825426893ACD735BF3A79B8B5B38EC3C99
+          50D917D72D5586867C8FF58CF5827B0C2B94952359C3971DBF202B0774627DC3'
+    ]) &gt;&gt;
+  ] &gt;&gt;,
+  / manifest / 3: &lt;&lt; {
+    / manifest-version / 1: 1,
+    / manifest-sequence-number / 2: 0,
+    / common / 3: &lt;&lt; {
+      / dependencies / 1: {
+        / component-index / 1: {
+          / dependency-prefix / 1: [
+            'dependent.suit'
+          ]
+        }
+      },
+      / components / 2: [
+        [
+          '10'
+        ]
+      ]
+    } &gt;&gt;,
+    / manifest-component-id / 5: [
+      'depending.suit'
+    ],
+    / invoke / 9: &lt;&lt; [
+      / directive-set-component-index / 12, 0,
+      / directive-override-parameters / 20, {
+        / parameter-invoke-args / 23: 'cat 00 10'
+      },
+      / directive-invoke / 23, 15
+    ] &gt;&gt;,
+    / dependency-resolution / 15: &lt;&lt; [
+      / directive-set-component-index / 12, 1,
+      / directive-override-parameters / 20, {
+        / parameter-image-digest / 3: &lt;&lt; [
+          / digest-algorithm-id: / -16 / SHA256 /,
+          / digest-bytes: /
+            h'6C86246B90D644F021671F6D42523B2CB5E156F764BE618AA46BFCD0DB23E768'
+        ] &gt;&gt;,
+        / parameter-image-size / 14: 352,
+        / parameter-uri / 21: "#dependent.suit"
+      },
+      / directive-fetch / 21, 2,
+      / condition-image-match / 3, 15
+    ] &gt;&gt;,
+    / install / 17: &lt;&lt; [
+      / directive-set-component-index / 12, 1,
+      / directive-process-dependency / 11, 0,
+
+      / directive-set-component-index / 12, 0,
+      / directive-override-parameters / 20, {
+        / parameter-content / 18: ' in multiple trust domains'
+      },
+      / directive-write / 18, 15
+    ] &gt;&gt;
+  } &gt;&gt;,
+  / NOTE: Example 0 /
+  "#dependent.suit":
+    h'D86BA301589E8181589AD28443A10126A0584FA108A101A4010220012158200E
+      908AA8F066DB1F084E0C3652C63952BD99F2A5BDB22F9E01367AAD03ABA68B22
+      582077DA1BD8AC4F0CB490BA210648BF79AB164D49AD3551D71D314B2749EE42
+      D29A5840FB2D5ACF66B9C8573CE92E13BFB8D113F798715CC10B5A0010B11925
+      C155E7245A64E131073B87AC50CAC71650A21315B82D06CA2298CD1A95519AAE
+      4C4B5315025874835824822F58206EA128D7BB19B86F77C4227F2A29F22026A4
+      1958ACC45CC0A35BA388B13E2F51584AD28443A10126A0F6584099F949043701
+      D7BDBA38904A0B49F004DED6B64A4900DECA5C66AE8A9EBA913576DEF136B74E
+      A89C14FA64624DBD33B4C0BB41C153CA51548C73FF71A2BAF27440035842A601
+      0102000347A102818142303005814E646570656E64656E742E73756974094D84
+      14A11746636174203030170F11528414A1124B68656C6C6F20776F726C64120F'
+})
+</pre><a href="#appendix-B.3-2" class="pilcrow">¶</a>
+</div>
+<p id="appendix-B.3-3">Total size of Envelope with COSE authentication object:  683<a href="#appendix-B.3-3" class="pilcrow">¶</a></p>
+<p id="appendix-B.3-4">Envelope with COSE authentication object:<a href="#appendix-B.3-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-B.3-5">
+<pre>
+D86BA3025873825824822F5820318EAD5F671A6D2593D7ADB7B6CCADC49F
+72704507004F297A25AF16A48A2111584AD28443A10126A0F65840287D5A
+AB44D08A34954663942B2732825426893ACD735BF3A79B8B5B38EC3C9950
+D917D72D5586867C8FF58CF5827B0C2B94952359C3971DBF202B0774627D
+C30358BCA70101020003581CA201A101A101814E646570656E64656E742E
+7375697402818142313005814E646570656E64696E672E73756974095286
+0C0014A11749636174203030203130170F0F5845880C0114A3035824822F
+58206C86246B90D644F021671F6D42523B2CB5E156F764BE618AA46BFCD0
+DB23E7680E190160156F23646570656E64656E742E737569741502030F11
+58288A0C010B000C0014A112581A20696E206D756C7469706C6520747275
+737420646F6D61696E73120F6F23646570656E64656E742E737569745901
+60D86BA301589E8181589AD28443A10126A0584FA108A101A40102200121
+58200E908AA8F066DB1F084E0C3652C63952BD99F2A5BDB22F9E01367AAD
+03ABA68B22582077DA1BD8AC4F0CB490BA210648BF79AB164D49AD3551D7
+1D314B2749EE42D29A5840FB2D5ACF66B9C8573CE92E13BFB8D113F79871
+5CC10B5A0010B11925C155E7245A64E131073B87AC50CAC71650A21315B8
+2D06CA2298CD1A95519AAE4C4B5315025874835824822F58206EA128D7BB
+19B86F77C4227F2A29F22026A41958ACC45CC0A35BA388B13E2F51584AD2
+8443A10126A0F6584099F949043701D7BDBA38904A0B49F004DED6B64A49
+00DECA5C66AE8A9EBA913576DEF136B74EA89C14FA64624DBD33B4C0BB41
+C153CA51548C73FF71A2BAF27440035842A6010102000347A10281814230
+3005814E646570656E64656E742E73756974094D8414A117466361742030
+30170F11528414A1124B68656C6C6F20776F726C64120F
+</pre><a href="#appendix-B.3-5" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-C">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
