@@ -23,7 +23,7 @@ $$severable-manifest-members-choice-extensions //= (
         bstr .cbor SUIT_Command_Sequence / SUIT_Digest)
 
 $$SUIT_Common-extensions //= (
-        suit-dependencies => SUIT_Dependencies
+    suit-dependencies => SUIT_Dependencies
 )
 SUIT_Dependencies = {
     + uint => SUIT_Dependency_Metadata
