@@ -108,6 +108,11 @@ find them, and the devices to which they apply.
 * Image: Information that a Recipient uses to perform its function, typically Firmware/Software, configuration, or Resource data such as text or images. Also, a Payload, once installed is an Image.
 * Slot: One of several possible storage locations for a given Component, typically used in A/B Image systems
 * Abort: An event in which the Manifest Processor immediately halts execution of the current Procedure. It creates a Record of an error Condition.
+* Trust Anchor: A Trust Anchor, as defined in {{RFC6024}}, represents an
+      authoritative entity via a public key and associated data.  The
+      public key is used to verify digital signatures, and the
+      associated data is used to constrain the types of information for
+      which the Trust Anchor is authoritative.
 
 #  Changes to SUIT Workflow Model
 
@@ -121,12 +126,12 @@ One additional assumption is added to the Invocation Procedure:
 
 * All Dependencies must be validated prior to loading.
 
-Two steps highlighted with asterisks are added to the expected installation workflow of a Recipient:
+Steps 1 and 4 are added to the expected installation workflow of a Recipient:
 
-1. **Verify delegation chains.**
+1. Verify Delegation Chains.
 2. Verify the signature of the Manifest.
 3. Verify the applicability of the Manifest.
-4. **Resolve Dependencies.**
+4. Resolve Dependencies.
 5. Fetch Payload(s).
 6. Install Payload(s).
 
@@ -136,8 +141,7 @@ In addition, when multiple Manifests are used for an Update, each Manifest's ste
 
 To accommodate the additional metadata needed to enable these features, the Envelope and Manifest have several new elements added.
 
-The Envelope gains two more elements: Delegation Chains and Integrated Dependencies.
-The Common metadata section in the Manifest also gains a list of Dependencies.
+The Envelope gains two more elements: Delegation Chains and Integrated Dependencies. The Common metadata section in the Manifest also gains a list of Dependencies.
 
 The new metadata structure is shown below.
 
@@ -179,7 +183,7 @@ See {{delegation-info}} for more detail.
 
 The suit-delegation element MAY carry one or more CBOR Web Tokens (CWTs) {{RFC8392}}, with {{RFC8747}} cnf claims. They can be used to perform enhanced authorization decisions. The CWTs are arranged into a list of lists. Each list starts with a CWT authorized by a Trust Anchor, and finishes with a key used to authenticate the Manifest (see Section 8.3 of {{I-D.ietf-suit-manifest}}). This allows an Update Authority to delegate from a long term Trust Anchor, down through intermediaries, to a delegate without any out-of-band provisioning of Trust Anchors or intermediary keys.
 
-A Recipient MAY choose to cache intermediaries and/or delegates. If a Firmware Server knows that a targeted Recipient has cached some intermediaries or delegates, it MAY choose to strip any cached intermediaries or delegates from the Delegation Chains in order to reduce bandwidth and energy.
+A Recipient MAY choose to cache intermediaries and/or delegates. If an intermediary knows that a targeted Recipient has cached some intermediaries or delegates, it MAY choose to strip any cached intermediaries or delegates from the Delegation Chains in order to reduce bandwidth and energy.
 
 
 #  Dependencies 
@@ -211,7 +215,7 @@ If a Dependency is specified, then the Manifest processor MUST perform the follo
 
 If the interpreter does not support Dependencies and a Manifest specifies a Dependency, then the interpreter MUST Abort.
 
-If a Recipient supports groups of interdependent Components (a Component Set), then it SHOULD verify that all Components in the Component Set are specified by one Update, and a single Manifest and all its Dependencies that together:
+If a Recipient supports groups of interdependent Components (a Component Set), then it SHOULD verify that all Components in the Component Set are specified by a single Manifest and all its Dependencies that together:
 
 1. have sufficient permissions imparted by their signatures
 2. specify a digest and a Payload for every Component in the Component Set.
@@ -309,7 +313,7 @@ This mechanism ensures that the two or more Manifest processors do not need to t
 
 ##  Dependency Resolution {#suit-dependency-resolution}
 
-The Dependency Resolution Command Sequence is a container for the Commands needed to acquire and process the Dependencies of the current Manifest. Ideally, all Dependency Manifests should be fetched before any Payload is fetched to ensure that all Manifests are available and authenticated before any of the (larger) Payloads are acquired.
+The Dependency Resolution Command Sequence is a container for the Commands needed to acquire and process the Dependencies of the current Manifest. All Dependency Manifests SHOULD be fetched before any Payload is fetched to ensure that all Manifests are available and authenticated before any of the (larger) Payloads are acquired.
 
 ##  Added and Modified Commands
 
@@ -354,7 +358,7 @@ Check whether the current Component index is present in the Dependency list. If 
 
 Verify the integrity of a Dependency Manifest. When a Manifest Processor executes suit-condition-dependency-integrity, it performs the following operations:
 
-1. Evaluate any delegation chains
+1. Evaluate any Delegation Chains
 2. Verify the signature of the Manifest hash
 3. Compare the Manifest hash to the provided hash
 4. Verify the Manifest against the Manifest hash
@@ -373,11 +377,11 @@ suit-directive-unlink is OPTIONAL to implement in Manifest processors.
 
 # Uninstall {#suit-uninstall}
 
-In some systems, particularly with multiple, independent, optional Components, it may be that there is a need to uninstall the Components that have been installed by a Manifest. Where this is expected, the uninstall Command sequence can provide the sequence needed to cleanly remove the Components defined by the Manifest and its Dependencies. In general, suit uninstall will contain primarily unlink Directives.
+In some systems, particularly with multiple, independent, optional Components, it may be that there is a need to uninstall the Components that have been installed by a Manifest. Where this is expected, the uninstall Command sequence can provide the sequence needed to cleanly remove the Components defined by the Manifest and its Dependencies. In general, the suit-uninstall Command Sequence will contain primarily unlink Directives.
 
 WARNING: This can cause faults where there are loose Dependencies (e.g., version range matching, see {{I-D.ietf-suit-update-management}}), since a Component can be removed while it is depended upon by another Component. To avoid Dependency faults, a Manifest author MAY use explicit Dependencies where possible, or a Manifest processor MAY track references to loose Dependencies via reference counting in the same way as explicit Dependencies, as described in {{suit-directive-unlink}}.
 
-The Uninstall Command sequence is not severable, since it must always be available to enable uninstalling.
+The suit-uninstall Command Sequence is not severable, since it must always be available to enable uninstalling.
 
 # Creating Manifests {#creating-manifests}
 
@@ -395,7 +399,7 @@ The following Commands are added to the shared sequence:
 The following Commands are placed into the Dependency resolution sequence:
 
 - Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
-- Set Parameters Directive (see {{suit-directive-set-parameters}}) for URI (see Section 8.4.8.10 of {{I-D.ietf-suit-manifest}})
+- Set Parameters Directive (see {{suit-directive-set-parameters}}) for a URI (see Section 8.4.8.10 of {{I-D.ietf-suit-manifest}})
 - Fetch Directive (see Section 8.4.10.4 of {{I-D.ietf-suit-manifest}})
 - Dependency Integrity Condition (see {{suit-condition-dependency-integrity}})
 - Process Dependency Directive (see {{suit-directive-process-dependency}})
@@ -450,8 +454,7 @@ In order to produce compact encoding, it is efficient to perform operations on m
 For example, to fetch all Dependency Manifests, the following Commands are added to the Dependency resolution block:
 
 - Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
-- Set Parameters Directive (see {{suit-directive-set-parameters}}) for
-    - URI (see Section 8.4.8.9 of {{I-D.ietf-suit-manifest}})
+- Set Parameters Directive (see {{suit-directive-set-parameters}}) for a URI (see Section 8.4.8.9 of {{I-D.ietf-suit-manifest}})
 - Set Component Index Directive, with argument "True" (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
 - Try Each Directive
     - Sequence 0
@@ -464,8 +467,7 @@ For example, to fetch all Dependency Manifests, the following Commands are added
 Another example is to fetch and validate all Component Images. The Image fetch sequence contains the following Commands:
 
 - Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
-- Set Parameters Directive (see {{suit-directive-set-parameters}}) for
-    - URI (see Section 8.4.8.9 of {{I-D.ietf-suit-manifest}})
+- Set Parameters Directive (see {{suit-directive-set-parameters}}) for a URI (see Section 8.4.8.9 of {{I-D.ietf-suit-manifest}})
 - Set Component Index Directive, with argument "True" (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
 - Try Each Directive
     - Sequence 0
@@ -478,8 +480,7 @@ Another example is to fetch and validate all Component Images. The Image fetch s
 When some Components are "installed" or "loaded" it is more productive to use lists of Component indices rather than Component Index = True. For example, to install several Components, the following Commands should be placed in the Image Install Sequence:
 
 - Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
-- Set Parameters Directive (see {{suit-directive-set-parameters}}) for
-    - Source Component (see Section 8.4.8.11 of {{I-D.ietf-suit-manifest}})
+- Set Parameters Directive (see {{suit-directive-set-parameters}}) for the Source Component (see Section 8.4.8.11 of {{I-D.ietf-suit-manifest}})
 - Set Component Index Directive, with argument containing list of destination Component indices (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
 - Copy
 - Set Component Index Directive, with argument containing list Dependency Component indices (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
