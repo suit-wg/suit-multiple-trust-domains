@@ -33,7 +33,7 @@ SUIT_Dependency_Metadata = {
     * $$SUIT_Dependency_Extensions
 }
 
-SUIT_Condition // (
+SUIT_Condition //= (
     suit-condition-dependency-integrity, SUIT_Rep_Policy)
 SUIT_Condition //= (
     suit-condition-is-dependency, SUIT_Rep_Policy)
