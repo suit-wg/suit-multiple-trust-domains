@@ -5,20 +5,20 @@
 SUIT                                                            B. Moran
 Internet-Draft                                               Arm Limited
 Intended status: Standards Track                             K. Takayama
-Expires: 3 November 2023                                 SECOM CO., LTD.
-                                                              2 May 2023
+Expires: 21 December 2023                                SECOM CO., LTD.
+                                                            19 June 2023
 
 
           SUIT Manifest Extensions for Multiple Trust Domains
-                    draft-ietf-suit-trust-domains-02
+                    draft-ietf-suit-trust-domains-03
 
 Abstract
 
-   This specification describes extensions to the SUIT manifest format
+   This specification describes extensions to the SUIT Manifest format
    (as defined in [I-D.ietf-suit-manifest]) for use in deployments with
    multiple trust domains.  A device has more than one trust domain when
    it enables delegation of different rights to mutually distrusting
-   entities for use for different purposes or components in the context
+   entities for use for different purposes or Components in the context
    of firmware or software update.
 
 Status of This Memo
@@ -36,7 +36,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 November 2023.
+   This Internet-Draft will expire on 21 December 2023.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Moran & Takayama         Expires 3 November 2023                [Page 1]
+Moran & Takayama        Expires 21 December 2023                [Page 1]
 
-Internet-Draft             SUIT Trust Domains                   May 2023
+Internet-Draft             SUIT Trust Domains                  June 2023
 
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -75,48 +75,50 @@ Table of Contents
    4.  Changes to Manifest Metadata Structure  . . . . . . . . . . .   6
    5.  Delegation Chains . . . . . . . . . . . . . . . . . . . . . .   7
      5.1.  Delegation Chains . . . . . . . . . . . . . . . . . . . .   7
-   6.  Dependencies  . . . . . . . . . . . . . . . . . . . . . . . .   7
+   6.  Dependencies  . . . . . . . . . . . . . . . . . . . . . . . .   8
      6.1.    Changes to Required Checks  . . . . . . . . . . . . . .   8
-     6.2.  Changes to Manifest Structure . . . . . . . . . . . . . .   9
-       6.2.1.  Manifest Component ID . . . . . . . . . . . . . . . .   9
-       6.2.2.  SUIT_Dependencies Manifest Element  . . . . . . . . .   9
-     6.3.  Changes to Abstract Machine Description . . . . . . . . .  11
+     6.2.  Changes to Manifest Structure . . . . . . . . . . . . . .  10
+       6.2.1.  Manifest Component ID . . . . . . . . . . . . . . . .  10
+       6.2.2.  SUIT_Dependencies Manifest Element  . . . . . . . . .  10
+     6.3.  Changes to Abstract Machine Description . . . . . . . . .  12
      6.4.  Processing Dependencies . . . . . . . . . . . . . . . . .  12
-       6.4.1.  Multiple Manifest Processors  . . . . . . . . . . . .  12
+       6.4.1.  Multiple Manifest Processors  . . . . . . . . . . . .  13
      6.5.  Dependency Resolution . . . . . . . . . . . . . . . . . .  14
      6.6.  Added and Modified Commands . . . . . . . . . . . . . . .  14
-       6.6.1.  suit-directive-set-parameters . . . . . . . . . . . .  14
+       6.6.1.  suit-directive-set-parameters . . . . . . . . . . . .  15
        6.6.2.  suit-directive-process-dependency . . . . . . . . . .  15
-       6.6.3.  suit-condition-is-dependency  . . . . . . . . . . . .  15
-       6.6.4.  suit-condition-dependency-integrity . . . . . . . . .  15
-       6.6.5.  suit-directive-unlink . . . . . . . . . . . . . . . .  16
-   7.  Uninstall . . . . . . . . . . . . . . . . . . . . . . . . . .  16
+       6.6.3.  suit-condition-is-dependency  . . . . . . . . . . . .  16
+       6.6.4.  suit-condition-dependency-integrity . . . . . . . . .  16
+       6.6.5.  suit-directive-unlink . . . . . . . . . . . . . . . .  17
+   7.  Uninstall . . . . . . . . . . . . . . . . . . . . . . . . . .  17
    8.  Creating Manifests  . . . . . . . . . . . . . . . . . . . . .  17
-     8.1.  Dependency Template . . . . . . . . . . . . . . . . . . .  17
-       8.1.1.  Composite Manifests . . . . . . . . . . . . . . . . .  18
-     8.2.  Encrypted Manifest Template . . . . . . . . . . . . . . .  18
-     8.3.  Operating on Multiple Components  . . . . . . . . . . . .  19
-   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  21
-     9.1.  SUIT Command Sequences  . . . . . . . . . . . . . . . . .  21
-     9.2.  SUIT Commands . . . . . . . . . . . . . . . . . . . . . .  22
-   10. Security Considerations . . . . . . . . . . . . . . . . . . .  22
-   11. References  . . . . . . . . . . . . . . . . . . . . . . . . .  22
-     11.1.  Normative References . . . . . . . . . . . . . . . . . .  22
-     11.2.  Informative References . . . . . . . . . . . . . . . . .  23
-   Appendix A.  A.  Full CDDL  . . . . . . . . . . . . . . . . . . .  24
-   Appendix B.  B.  Examples . . . . . . . . . . . . . . . . . . . .  25
-     B.1.  Example 0: Delegation . . . . . . . . . . . . . . . . . .  26
+     8.1.  Dependency Template . . . . . . . . . . . . . . . . . . .  18
+       8.1.1.  Composite Manifests . . . . . . . . . . . . . . . . .  19
+     8.2.  Encrypted Manifest Template . . . . . . . . . . . . . . .  19
+     8.3.  Operating on Multiple Components  . . . . . . . . . . . .  20
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  22
+     9.1.  SUIT Envelope Elements  . . . . . . . . . . . . . . . . .  22
+     9.2.  SUIT Manifest Elements  . . . . . . . . . . . . . . . . .  22
+     9.3.  SUIT Common Elements  . . . . . . . . . . . . . . . . . .  22
+     9.4.  SUIT Commands . . . . . . . . . . . . . . . . . . . . . .  23
+   10. Security Considerations . . . . . . . . . . . . . . . . . . .  23
+   11. References  . . . . . . . . . . . . . . . . . . . . . . . . .  23
+     11.1.  Normative References . . . . . . . . . . . . . . . . . .  23
+     11.2.  Informative References . . . . . . . . . . . . . . . . .  24
+   Appendix A.  A.  Full CDDL  . . . . . . . . . . . . . . . . . . .  25
 
 
 
-Moran & Takayama         Expires 3 November 2023                [Page 2]
+Moran & Takayama        Expires 21 December 2023                [Page 2]
 
-Internet-Draft             SUIT Trust Domains                   May 2023
+Internet-Draft             SUIT Trust Domains                  June 2023
 
 
-     B.2.  Example 1: Process Dependency . . . . . . . . . . . . . .  28
-     B.3.  Example 2: Integrated Dependency  . . . . . . . . . . . .  30
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  33
+   Appendix B.  B.  Examples . . . . . . . . . . . . . . . . . . . .  26
+     B.1.  Example 0: Delegation Chain . . . . . . . . . . . . . . .  27
+     B.2.  Example 1: Process Dependency . . . . . . . . . . . . . .  29
+     B.3.  Example 2: Integrated Dependency  . . . . . . . . . . . .  31
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  34
 
 1.  Introduction
 
@@ -124,19 +126,19 @@ Internet-Draft             SUIT Trust Domains                   May 2023
    rules for deploying software updates.  For example, devices may
    require:
 
-   *  long-term trust anchors with a mechanism to delegate trust to
+   *  long-term Trust Anchors with a mechanism to delegate trust to
       short term keys.
 
-   *  software components from multiple software signing authorities.
+   *  software Components from multiple software signing authorities.
 
-   *  a mechanism to remove an unneeded component
+   *  a mechanism to remove an unneeded Component
 
-   *  single-object dependencies
+   *  single-object Dependencies
 
-   *  a partly encrypted manifest so that distribution does not reveal
+   *  a partly encrypted Manifest so that distribution does not reveal
       private information
 
-   These mechanisms are not part of the core manifest specification, but
+   These mechanisms are not part of the core Manifest specification, but
    they are needed for more advanced use cases, such as the architecture
    described in [I-D.ietf-teep-architecture].
 
@@ -158,35 +160,37 @@ Internet-Draft             SUIT Trust Domains                   May 2023
       working group for this standard.
 
    *  Payload: A piece of information to be delivered.  Typically
-      Software for the purposes of SUIT.
+      Firmware/Software, configuration, or Resource data such as text or
+      images.
+
+
+
+Moran & Takayama        Expires 21 December 2023                [Page 3]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
 
    *  Resource: A piece of information that is used to construct a
-      payload.
+      Payload.
 
-
-
-Moran & Takayama         Expires 3 November 2023                [Page 3]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
-   *  Manifest: A manifest is a bundle of metadata about one or more
+   *  Manifest: A Manifest is a bundle of metadata about one or more
       Components for a device, where to find them, and the devices to
       which they apply.
 
-   *  Envelope: A container with the manifest, an authentication wrapper
-      with cryptographic information protecting the manifest,
-      authorization information, and severable elements (see: TBD).
+   *  Envelope: A container with the Manifest, an authentication wrapper
+      with cryptographic information protecting the Manifest,
+      authorization information, and severable elements (see Section 5.1
+      of [I-D.ietf-suit-manifest]).
 
-   *  Update: One or more manifests that describe one or more payloads.
+   *  Update: One or more Manifests that describe one or more Payloads.
 
    *  Update Authority: The owner of a cryptographic key used to sign
-      updates, trusted by Recipients.
+      Updates, trusted by Recipients.
 
-   *  Recipient: The system that receives and processes a manifest.
+   *  Recipient: The system that receives and processes a Manifest.
 
    *  Manifest Processor: A component of the Recipient that consumes
-      Manifests and executes the commands in the Manifest.
+      Manifests and executes the Commands in the Manifest.
 
    *  Component: An updatable logical block of the Firmware, Software,
       configuration, or data of the Recipient.
@@ -205,30 +209,32 @@ Internet-Draft             SUIT Trust Domains                   May 2023
       trusted code is executed, for example secure boot or launching a
       Trusted Application.
 
-   *  A/B images: Dividing a Recipient's storage into two or more
-      bootable images, at different offsets, such that the active image
-      can write to the inactive image(s).
+   *  A/B Images: Dividing a Recipient's storage into two or more
+      bootable Images, at different offsets, such that the active Image
+      can write to the inactive Image(s).
 
    *  Record: The result of a Command and any metadata about it.
 
    *  Report: A list of Records.
 
-   *  Procedure: The process of invoking one or more sequences of
-      commands.
-
-   *  Update Procedure: A procedure that updates a Recipient by fetching
-      dependencies and images, and installing them.
 
 
 
-Moran & Takayama         Expires 3 November 2023                [Page 4]
+
+Moran & Takayama        Expires 21 December 2023                [Page 4]
 
-Internet-Draft             SUIT Trust Domains                   May 2023
+Internet-Draft             SUIT Trust Domains                  June 2023
 
 
-   *  Invocation Procedure: A procedure in which a Recipient verifies
-      dependencies and images, loading images, and invokes one or more
-      image.
+   *  Procedure: The process of invoking one or more sequences of
+      Commands.
+
+   *  Update Procedure: A Procedure that updates a Recipient by fetching
+      Dependencies and Images, and installing them.
+
+   *  Invocation Procedure: A Procedure in which a Recipient verifies
+      Dependencies and Images, loading Images, and invokes one or more
+      Image.
 
    *  Software: Instructions and data that allow a Recipient to perform
       a useful function.
@@ -238,15 +244,21 @@ Internet-Draft             SUIT Trust Domains                   May 2023
       Class 0-2 devices.
 
    *  Image: Information that a Recipient uses to perform its function,
-      typically Firmware/Software, configuration, or resource data such
+      typically Firmware/Software, configuration, or Resource data such
       as text or images.  Also, a Payload, once installed is an Image.
 
    *  Slot: One of several possible storage locations for a given
-      Component, typically used in A/B image systems
+      Component, typically used in A/B Image systems
 
    *  Abort: An event in which the Manifest Processor immediately halts
       execution of the current Procedure.  It creates a Record of an
-      error condition.
+      error Condition.
+
+   *  Trust Anchor: A Trust Anchor, as defined in [RFC6024], represents
+      an authoritative entity via a public key and associated data.  The
+      public key is used to verify digital signatures, and the
+      associated data is used to constrain the types of information for
+      which the Trust Anchor is authoritative.
 
 3.  Changes to SUIT Workflow Model
 
@@ -256,51 +268,75 @@ Internet-Draft             SUIT Trust Domains                   May 2023
 
    One additional assumption is added for the Update Procedure:
 
-   *  All dependency manifests must be present before any payload is
+   *  All Dependency Manifests must be present before any Payload is
       fetched.
 
    One additional assumption is added to the Invocation Procedure:
 
-   *  All dependencies must be validated prior to loading.
+   *  All Dependencies must be validated prior to loading.
 
-   Two steps are added to the expected installation workflow of a
+
+
+Moran & Takayama        Expires 21 December 2023                [Page 5]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
+
+   Steps 1 and 4 are added to the expected installation workflow of a
    Recipient:
 
-   1.  *Verify delegation chains*
+   1.  Verify Delegation Chains.
 
-   2.  Verify the signature of the manifest.
+   2.  Verify the signature of the Manifest.
 
-   3.  Verify the applicability of the manifest.
+   3.  Verify the applicability of the Manifest.
 
-   4.  *Resolve dependencies.*
+   4.  Resolve Dependencies.
 
+   5.  Fetch Payload(s).
 
+   6.  Install Payload(s).
 
-
-Moran & Takayama         Expires 3 November 2023                [Page 5]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
-   5.  Fetch payload(s).
-
-   6.  Install payload(s).
-
-   In addition, when multiple manifests are used for an update, each
-   manifest's steps occur in a lockstep fashion; all manifests have
-   dependency resolution performed before any manifest performs a
-   payload fetch, etc.
+   In addition, when multiple Manifests are used for an Update, each
+   Manifest's steps occur in a lockstep fashion; all Manifests have
+   Dependency resolution performed before any Manifest performs a
+   Payload fetch, etc.
 
 4.  Changes to Manifest Metadata Structure
 
    To accommodate the additional metadata needed to enable these
-   features, the envelope and manifest have several new elements added.
+   features, the Envelope and Manifest have several new elements added.
 
-   The Envelope gains two more elements: Delegation chains and
-   Integrated Dependencies The Common metadata section in the Manifest
-   also gains a list of dependencies.
+   The Envelope gains two more elements: Delegation Chains and
+   Integrated Dependencies.  The Common metadata section in the Manifest
+   also gains a list of Dependencies.
 
    The new metadata structure is shown below.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Moran & Takayama        Expires 21 December 2023                [Page 6]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
 
    +-------------------------+
    | Envelope                |
@@ -328,26 +364,16 @@ Internet-Draft             SUIT Trust Domains                   May 2023
                                         | ))                    |
                                         +-----------------------+
 
-
-
-
-
-
-Moran & Takayama         Expires 3 November 2023                [Page 6]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
 5.  Delegation Chains
 
    Delegation Chains allow a Recipient to establish a chain of trust
-   from a Trust Anchor to the signer of a manifest by validating
+   from a Trust Anchor to the signer of a Manifest by validating
    delegation claims.  Each delegation claim is a [RFC8392] CBOR Web
-   Tokens (CWTs).  The first claim in each list is signed by a Trust
+   Token (CWT).  The first claim in each list is signed by a Trust
    Anchor.  Each subsequent claim in a list is signed by the public key
    claimed in the preceding list element.  The last element in each list
    claims a public key that can be used to verify a signature in the
-   Authentication Block (See Sectino 5.2 of [I-D.ietf-suit-manifest]).
+   Authentication Block (See Section 5.2 of [I-D.ietf-suit-manifest]).
 
    See Section 5.1 for more detail.
 
@@ -360,116 +386,125 @@ Internet-Draft             SUIT Trust Domains                   May 2023
    Anchor, and finishes with a key used to authenticate the Manifest
    (see Section 8.3 of [I-D.ietf-suit-manifest]).  This allows an Update
    Authority to delegate from a long term Trust Anchor, down through
+
+
+
+Moran & Takayama        Expires 21 December 2023                [Page 7]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
+
    intermediaries, to a delegate without any out-of-band provisioning of
    Trust Anchors or intermediary keys.
 
    A Recipient MAY choose to cache intermediaries and/or delegates.  If
-   an Update Distributor knows that a targeted Recipient has cached some
+   an intermediary knows that a targeted Recipient has cached some
    intermediaries or delegates, it MAY choose to strip any cached
    intermediaries or delegates from the Delegation Chains in order to
    reduce bandwidth and energy.
 
 6.  Dependencies
 
-   A dependency is another SUIT_Envelope that describes additional
-   components.
+   A Dependency is another SUIT_Envelope that describes additional
+   Components.
 
-   Dependency manifests enable several additional use cases.  In
+   Dependency Manifests enable several additional use cases.  In
    particular, they enable two or more entities who are trusted for
    different privileges to coordinate.  This can be used in many
-   scenarios, for example:
+   scenarios.  For example:
 
    *  A device may contain a processor in its radio in addition to the
       primary processor.  These two processors may have separate
-      firmware with separate signing authorities.  Dependencies allow
-      the firmware for the primary processor to reference a manifest
+      Software with separate signing authorities.  Dependencies allow
+      the Software for the primary processor to reference a Manifest
       signed by a different authority.
 
-
-
-
-
-Moran & Takayama         Expires 3 November 2023                [Page 7]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
-   *  A network operator may wish to provide local caching of update
-      payloads.  The network operator overrides the URI of a payload by
-      providing a dependent manifest that references the original
-      manifest, but replaces its URI.
+   *  A network operator may wish to provide local caching of Update
+      Payloads.  The network operator overrides the URI of a Payload by
+      providing a dependent Manifest that references the original
+      Manifest, but replaces its URI.
 
    *  A device operator provides a device with some additional
       configuration.  The device operator wants to test their
-      configuration with each new firmware version before releasing it.
+      configuration with each new Software version before releasing it.
       The configuration is delivered as a binary in the same way as a
-      firmware image.  The device operator references the firmware
-      manifest from the firmware author in their own manifest which also
+      Software Image.  The device operator references the Software
+      Manifest from the Software author in their own Manifest which also
       defines the configuration.
 
-   By using dependencies, components such as Software, configuration,
-   models, and other resources authenticated by different trust anchors
-   can be delivered to devices.
+   By using Dependencies, Components such as Software, configuration,
+   and other Resource data authenticated by different Trust Anchors can
+   be delivered to devices.
 
 6.1.    Changes to Required Checks
 
    This section augments the definitions in Required Checks
    (Section 6.2) of [I-D.ietf-suit-manifest].
 
-   More checks are required when handling dependencies.  By default, any
-   signature of a dependency MUST be verified.  However, there are some
+
+
+
+
+Moran & Takayama        Expires 21 December 2023                [Page 8]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
+
+   More checks are required when handling Dependencies.  By default, any
+   signature of a Dependency MUST be verified.  However, there are some
    exceptions to this rule: where a device supports only one level of
    access (no ACLs defining which authorities have access to different
-   components/commands/parameters), it MAY choose to skip signature
-   verification of dependencies, since they are verified by digest.
+   Components/Commands/Parameters), it MAY choose to skip signature
+   verification of Dependencies, since they are verified by digest.
    Where a device differentiates between trust levels, such as with an
    ACL, it MAY choose to defer the verification of signatures of
-   dependencies until the list of affected components is known so that
+   Dependencies until the list of affected Components is known so that
    it can skip redundant signature verifications.  For example, if a
-   dependent's signer has access rights to all components specified in a
-   dependency, then that dependency does not require a signature
+   dependent's signer has access rights to all Components specified in a
+   Dependency, then that Dependency does not require a signature
    verification.  Similarly, if the signer of the dependent has full
    rights to the device, according to the ACL, then no signature
-   verification is necessary on the dependency.
+   verification is necessary on the Dependency.
 
-   Components that should be treated as dependency manifests are
-   identified in the suit-common metadata.  See section Section 6.2 for
-   details.
+   Components that should be treated as Dependency Manifests are
+   identified in the suit-common metadata.  See Section 6.2 for details.
 
-   If the manifest contains more than one component and/or dependency,
-   each command sequence MUST begin with a Set Component Index command.
+   If the Manifest contains more than one Component and/or Dependency,
+   each Command sequence MUST begin with a Set Component Index Command.
 
-   If a dependency is specified, then the manifest processor MUST
+   If a Dependency is specified, then the Manifest processor MUST
    perform the following checks:
 
-
-
-
-Moran & Takayama         Expires 3 November 2023                [Page 8]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
-   1.  The dependent MUST populate all command sequences for the current
-       procedure (Update or Invoke).
+   1.  The dependent MUST populate all Command sequences for the current
+       Procedure (Update or Invoke).
 
    2.  At the end of each section in the dependent: The corresponding
-       section in each dependency has been executed.
+       section in each Dependency has been executed.
 
-   If the interpreter does not support dependencies and a manifest
-   specifies a dependency, then the interpreter MUST Abort.
+   If the interpreter does not support Dependencies and a Manifest
+   specifies a Dependency, then the interpreter MUST Abort.
 
-   If a Recipient supports groups of interdependent components (a
+   If a Recipient supports groups of interdependent Components (a
    Component Set), then it SHOULD verify that all Components in the
-   Component Set are specified by one update, that is: a single manifest
-   and all its dependencies that together:
+   Component Set are specified by a single Manifest and all its
+   Dependencies that together:
 
    1.  have sufficient permissions imparted by their signatures
 
-   2.  specify a digest and a payload for every Component in the
+   2.  specify a digest and a Payload for every Component in the
        Component Set.
 
-   The single dependent manifest is sometimes called a Root Manifest.
+   The single dependent Manifest is sometimes called a Root Manifest.
+
+
+
+
+
+
+Moran & Takayama        Expires 21 December 2023                [Page 9]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
 
 6.2.  Changes to Manifest Structure
 
@@ -478,15 +513,15 @@ Internet-Draft             SUIT Trust Domains                   May 2023
 
 6.2.1.  Manifest Component ID
 
-   In complex systems, it may not always be clear where the root
-   manifest should be stored; this is particularly complex when a system
-   has multiple, independent root manifests.  The manifest component ID
+   In complex systems, it may not always be clear where the Root
+   Manifest should be stored; this is particularly complex when a system
+   has multiple, independent Root Manifests.  The Manifest Component ID
    resolves this contention.  The manifest-component-id is intended to
-   be used by the root manifest.  When a dependency manifest also
-   declares a component ID, the dependency manifest's component ID is
-   overridden by the component ID declared by the dependent.
+   be used by the Root Manifest.  When a Dependency Manifest also
+   declares a Component ID, the Dependency Manifest's Component ID is
+   overridden by the Component ID declared by the dependent.
 
-   The following CDDL describes the manifest component ID:
+   The following CDDL describes the Manifest Component ID:
 
    $$SUIT_Manifest_Extensions //=
        (suit-manifest-component-id => SUIT_Component_Identifier)
@@ -494,29 +529,22 @@ Internet-Draft             SUIT Trust Domains                   May 2023
 6.2.2.  SUIT_Dependencies Manifest Element
 
    The suit-common section, as described in [I-D.ietf-suit-manifest],
-   Section 8.4.5 is extended with a map of component indices that
-   indicate a dependency manifest.  The key of the map are the component
-   indices and the values of the map are any extra metadata needed to
-   describe those dependency manifests.
+   Section 8.4.5 is extended with a map of Component indices that
+   indicate a Dependency Manifest.  The keys of the map are the
+   Component indices and the values of the map are any extra metadata
+   needed to describe those Dependency Manifests.
 
-
-
-Moran & Takayama         Expires 3 November 2023                [Page 9]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
-   Because some operations treat dependency manifests differently from
-   other components, it is necessary to identify them.
-   SUIT_Dependencies identifies which components from suit-components
-   (See Section 8.4.5 of [I-D.ietf-suit-manifest]) are to be treated as
-   dependency manifest envelopes.  SUIT_Dependencies is a map of
-   Components, referenced by Component Index.  Optionally, a component
-   prefix or other metadata may be delivered with the component index.
+   Because some operations treat Dependency Manifests differently from
+   other Components, it is necessary to identify them.
+   SUIT_Dependencies identifies which Components from suit-components
+   (see Section 8.4.5 of [I-D.ietf-suit-manifest]) are to be treated as
+   Dependency Manifest Envelopes.  SUIT_Dependencies is a map of
+   Components, referenced by Component Index.  Optionally, a Component
+   prefix or other metadata may be delivered with the Component index.
    The CDDL for suit-dependencies is shown below:
 
    $$SUIT_Common-extensions //= (
-           suit-dependencies => SUIT_Dependencies
+       suit-dependencies => SUIT_Dependencies
    )
    SUIT_Dependencies = {
        + uint => SUIT_Dependency_Metadata
@@ -526,138 +554,146 @@ Internet-Draft             SUIT Trust Domains                   May 2023
        $$SUIT_Dependency_Extensions
    }
 
+
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 10]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
+
    If no extended metadata is needed for an extension,
    SUIT_Dependency_Metadata is an empty map (this is the same encoding
    size as a null).  SUIT_Dependencies MUST be sorted according to CBOR
    canonical encoding.
 
-   The components specified by SUIT_Dependency will contain a Manifest
-   Envelope that describes a dependency of the current manifest.  The
+   The Components specified by SUIT_Dependency will contain a Manifest
+   Envelope that describes a Dependency of the current Manifest.  The
    Manifest is identified, but the Recipient should expect an Envelope
-   when it acquires the dependency.  This is because the Manifest is the
+   when it acquires the Dependency.  This is because the Manifest is the
    one invariant element of the Envelope, where other elements may
    change by countersigning, adding authentication blocks, or severing
    elements.
 
-   When executing suit-condition-image-match over a component that is
+   When executing suit-condition-image-match over a Component that is
    designated in SUIT_Dependency, the digest MUST be computed over just
    the bstr-wrapped SUIT_Manifest contained in the Manifest Envelope
-   designated by the Component Index.  This enables a dependency
+   designated by the Component Index.  This enables a Dependency
    reference to uniquely identify a particular Manifest structure.  This
    is identical to the digest that is present as the first element of
-   the suit-authentication-block in the dependency's Envelope.  The
+   the suit-authentication-block in the Dependency's Envelope.  The
    digest is calculated over the Manifest structure to ensure that
-   removing a signature from a manifest does not break dependencies due
+   removing a signature from a Manifest does not break Dependencies due
    to missing signature elements.  This is also necessary to support the
    trusted intermediary use case, where an intermediary re-signs the
    Manifest, removing the original signature, potentially with a
    different algorithm, or trading COSE_Sign for COSE_Mac.
 
-
-
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 10]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
    The suit-dependency-prefix element contains a
    SUIT_Component_Identifier (see Section 8.4.5.1 of
    [I-D.ietf-suit-manifest]).  This specifies the scope at which the
-   dependency operates.  This allows the dependency to be forwarded on
-   to a component that is capable of parsing its own manifests.  It also
-   allows one manifest to be deployed to multiple dependent Recipients
-   without those Recipients needing consistent component hierarchy.
+   Dependency operates.  This allows the Dependency to be forwarded on
+   to a Component that is capable of parsing its own Manifests.  It also
+   allows one Manifest to be deployed to multiple dependent Recipients
+   without those Recipients needing consistent Component hierarchy.
    This element is OPTIONAL for Recipients to implement.
 
-   A dependency prefix can be used with a component identifier.  This
-   allows complex systems to understand where dependencies need to be
-   applied.  The dependency prefix can be used in one of two ways.  The
+   A Dependency prefix can be used with a Component identifier.  This
+   allows complex systems to understand where Dependencies need to be
+   applied.  The Dependency prefix can be used in one of two ways.  The
    first simply prepends the prefix to all Component Identifiers in the
-   dependency.
+   Dependency.
 
-   A dependency prefix can also be used to indicate when a dependency
-   manifest needs to be processed by a secondary manifest processor, as
+   A Dependency prefix can also be used to indicate when a Dependency
+   Manifest needs to be processed by a secondary Manifest processor, as
    described in Section 6.4.1.
+
+
+
+
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 11]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
 
 6.3.  Changes to Abstract Machine Description
 
    This section augments the Abstract Machine Description (Section 6.4)
-   in [I-D.ietf-suit-manifest].  With the addition of dependencies, some
+   in [I-D.ietf-suit-manifest].  With the addition of Dependencies, some
    changes are necessary to the abstract machine, outside the typical
-   scope of added commands.  These changes alter the behaviour of an
-   existing command and way that the parser processes manifests:
+   scope of added Commands.  These changes alter the behaviour of an
+   existing Command and way that the parser processes Manifests:
 
-   *  Three new commands are introduced.
+   *  Three new Commands are introduced:
 
-      -  Process dependency
+      -  Process Dependency
 
       -  Is Dependency
 
       -  Dependency Integrity
 
-   *  Dependency manifests are also Components.  All commands may target
-      dependency manifests as well as Components, with one exception:
-      process dependency.  Commands defined outside of this draft and
+   *  Dependency Manifests are also Components.  All Commands may target
+      Dependency Manifests as well as Components, with one exception:
+      process Dependency.  Commands defined outside of this draft and
       [I-D.ietf-suit-manifest] MAY have additional restrictions.
 
-   *  Dependencies are processed in lock-step with the Root Manifest.
-      This means that every dependency's current command sequence must
-      be executed before a dependent's later command sequence may be
-      executed.  For example, every dependency's Dependency Resolution
-      step MUST be executed before any dependent's payload fetch step.
-
-
-
-
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 11]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
+   *  Dependencies are processed in lockstep with the Root Manifest.
+      This means that every Dependency's current Command sequence must
+      be executed before a dependent's later Command sequence may be
+      executed.  For example, every Dependency's Dependency Resolution
+      step MUST be executed before any dependent's Payload fetch step.
 
 6.4.  Processing Dependencies
 
-   As described in Section 6.1, each manifest must invoke each of its
-   dependencies' sections from the corresponding section of the
-   dependent.  Any changes made to parameters by the dependency persist
+   As described in Section 6.1, each Manifest must invoke each of its
+   Dependencies' sections from the corresponding section of the
+   dependent.  Any changes made to Parameters by the Dependency persist
    in the dependent.
 
-   When a Process Dependency command is encountered, the manifest
+   When a Process Dependency Command is encountered, the Manifest
    processor:
 
-   1.  Checks whether the map of dependencies contains an entry for the
+   1.  Checks whether the map of Dependencies contains an entry for the
        current Component Index.  If not present, it causes an immediate
        Abort.
 
-   2.  Checks whether the dependency has been the target of a dependency
+   2.  Checks whether the Dependency has been the target of a Dependency
        integrity check.  If not, it causes an immediate Abort.
 
-   3.  Loads the specified component as a dependency manifest envelope.
+   3.  Loads the specified Component as a Dependency Manifest Envelope.
 
-   4.  Authenticates the dependency manifest.
+   4.  Authenticates the Dependency Manifest.
 
-   5.  Executes the common-sequence section of the dependency manifest.
 
-   6.  Executes the section of the dependency manifest that corresponds
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 12]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
+
+   5.  Executes the common-sequence section of the Dependency Manifest.
+
+   6.  Executes the section of the Dependency Manifest that corresponds
        to the currently executing section of the dependent.
 
-   If the specified dependency does not contain the current section,
+   If the specified Dependency does not contain the current section,
    Process Dependency succeeds immediately.
 
    The interpreter also performs the checks described in Section 6.1 to
-   ensure that the dependent is processing the dependency correctly.
+   ensure that the dependent is processing the Dependency correctly.
 
 6.4.1.  Multiple Manifest Processors
 
    When a system has multiple trust domains, each domain might require
    independent verification of authenticity or security policies.  Trust
    domains might be divided by separation technology such as Arm
-   TrustZone, Intel SGX, or another TEE technology.  Trust domains might
-   also be divided into separate processors and memory spaces, with a
-   communication interface between them.
+   TrustZone, Intel SGX, or another Trusted Execution Environment (TEE)
+   technology.  Trust domains might also be divided into separate
+   processors and memory spaces, with a communication interface between
+   them.
 
    For example, an application processor may have an attached
    communications module that contains a processor.  The communications
@@ -665,84 +701,90 @@ Internet-Draft             SUIT Trust Domains                   May 2023
    for regulatory approval.  This may be a different Trust Authority
    than the application processor.
 
-
-
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 12]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
-   When there are two or more trust domains, a manifest processor might
-   be required in each.  The first manifest processor is the normal
-   manifest processor as described for the Recipient in Section 6 of
-   [I-D.ietf-suit-manifest].  The second manifest processor only
-   executes sections when the first manifest processor requests it.  An
-   API interface is provided from the second manifest processor to the
-   first.  This allows the first manifest processor to request a limited
+   When there are two or more trust domains, a Manifest processor might
+   be required in each.  The first Manifest processor is the normal
+   Manifest processor as described for the Recipient in Section 6 of
+   [I-D.ietf-suit-manifest].  The second Manifest processor only
+   executes sections when the first Manifest processor requests it.  An
+   API interface is provided from the second Manifest processor to the
+   first.  This allows the first Manifest processor to request a limited
    set of operations from the second.  These operations are limited to:
-   setting parameters, inserting an Envelope, and invoking a Manifest
-   Command Sequence.  The second manifest processor declares a prefix to
-   the first, which tells the first manifest processor when it should
+   setting Parameters, inserting an Envelope, and invoking a Manifest
+   Command Sequence.  The second Manifest processor declares a prefix to
+   the first, which tells the first Manifest processor when it should
    delegate to the second.  These rules are enforced by underlying
    separation of privilege infrastructure, such as TEEs, or physical
    separation.
 
-   When the first manifest processor encounters a dependency prefix,
-   that informs the first manifest processor that it should provide the
-   second manifest processor with the corresponding dependency Envelope.
-   This is done when the dependency is fetched.  The second manifest
+   When the first Manifest processor encounters a Dependency prefix,
+   that informs the first Manifest processor that it should provide the
+   second Manifest processor with the corresponding Dependency Envelope.
+   This is done when the Dependency is fetched.  The second Manifest
    processor immediately verifies any authentication information in the
-   dependency Envelope.  When a parameter is set for any component that
-   matches the prefix, this parameter setting is passed to the second
-   manifest processor via an API.  As the first manifest processor works
-   through the Procedure (set of command sequences) it is executing,
-   each time it sees a Process Dependency command that is associated
-   with the prefix declared by the second manifest processor, it uses
-   the API to ask the second manifest processor to invoke that
-   dependency section instead.
-
-   This mechanism ensures that the two or more manifest processors do
-   not need to trust each other, except in a very limited case.  When
-   parameter setting across trust domains is used, it must be very
-   carefully considered.  Only parameters that do not have an effect on
-   security properties should be allowed.  The dependency manifest MAY
-   control which parameters are allowed to be set by using the Override
-   Parameters directive.  The second manifest processor MAY also control
-   which parameters may be set by the first manifest processor by means
-   of an ACL that lists the allowed parameters.  For example, a URI may
-   be set by a dependent without a substantial impact on the security
-   properties of the manifest.
+   Dependency Envelope.  When a Parameter is set for any Component that
 
 
 
-
-
-
-
-
-
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 13]
+Moran & Takayama        Expires 21 December 2023               [Page 13]
 
-Internet-Draft             SUIT Trust Domains                   May 2023
+Internet-Draft             SUIT Trust Domains                  June 2023
 
+
+   matches the prefix, this Parameter setting is passed to the second
+   Manifest processor via an API.  As the first Manifest processor works
+   through the Procedure (set of Command sequences) it is executing,
+   each time it sees a Process Dependency Command that is associated
+   with the prefix declared by the second Manifest processor, it uses
+   the API to ask the second Manifest processor to invoke that
+   Dependency section instead.
+
+   This mechanism ensures that the two or more Manifest processors do
+   not need to trust each other, except in a very limited case.  When
+   Parameter setting across trust domains is used, it must be very
+   carefully considered.  Only Parameters that do not have an effect on
+   security properties should be allowed.  The Dependency Manifest MAY
+   control which Parameters are allowed to be set by using the Override
+   Parameters Directive.  The second Manifest processor MAY also control
+   which Parameters may be set by the first Manifest processor by means
+   of an ACL that lists the allowed Parameters.  For example, a URI may
+   be set by a dependent without a substantial impact on the security
+   properties of the Manifest.
 
 6.5.  Dependency Resolution
 
    The Dependency Resolution Command Sequence is a container for the
-   commands needed to acquire and process the dependencies of the
-   current manifest.  Ideally, all dependency manifests should be
-   fetched before any payload is fetched to ensure that all manifests
-   are available and authenticated before any of the (larger) payloads
-   are acquired.
+   Commands needed to acquire and process the Dependencies of the
+   current Manifest.  All Dependency Manifests SHOULD be fetched before
+   any Payload is fetched to ensure that all Manifests are available and
+   authenticated before any of the (larger) Payloads are acquired.
 
 6.6.  Added and Modified Commands
 
-   All commands are modified in that they can also target dependencies.
+   All Commands are modified in that they can also target Dependencies.
    However, Set Component Index has a larger modification.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 14]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
 
           +================+====================================+
           | Command Name   | Semantic of the Operation          |
@@ -757,7 +799,7 @@ Internet-Draft             SUIT Trust Domains                   May 2023
           | Integrity      | current.params[image-digest])      |
           +----------------+------------------------------------+
           | Is Dependency  | assert(current exists in           |
-          |                | dependencies)                      |
+          |                | Dependencies)                      |
           +----------------+------------------------------------+
           | Unlink         | unlink(current)                    |
           +----------------+------------------------------------+
@@ -766,343 +808,339 @@ Internet-Draft             SUIT Trust Domains                   May 2023
 
 6.6.1.  suit-directive-set-parameters
 
-   Similarly to suit-directive-override-parameters, suit-directive-set-
-   parameters allows the manifest to configure behavior of future
-   directives by changing parameters that are read by those directives.
-   Set Parameters is for use when dependencies are used because it
-   allows a manifest to modify the behavior of its dependencies.
+   Similar to suit-directive-override-parameters, suit-directive-set-
+   parameters allows the Manifest to configure behavior of future
+   Directives by changing Parameters that are read by those Directives.
+   Set Parameters is for use when Dependencies are used because it
+   allows a Manifest to modify the behavior of its Dependencies.
 
-   Available parameters are defined in [I-D.ietf-suit-manifest], section
+   Available Parameters are defined in [I-D.ietf-suit-manifest], section
    8.4.8.
 
-
-
-
-
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 14]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
-   If a parameter is already set, suit-directive-set-parameters will
-   skip setting the parameter to its argument.  This allows dependent
-   manifests to change the behavior of a manifest, a dependency that
-   wishes to enforce a specific value of a parameter MAY use suit-
+   If a Parameter is already set, suit-directive-set-parameters will
+   skip setting the Parameter to its argument.  This allows dependent
+   Manifests to change the behavior of a Manifest, a Dependency that
+   wishes to enforce a specific value of a Parameter MAY use suit-
    directive-override-parameters instead.
 
    suit-directive-set-parameters does not specify a reporting policy.
 
 6.6.2.  suit-directive-process-dependency
 
-   Execute the commands in the common section of the current dependency,
-   followed by the commands in the equivalent section of the current
-   dependency.  For example, if the current section is "fetch payload,"
-   this will execute "common" in the current dependency, then "fetch
-   payload" in the current dependency.  Once this is complete, the
-   command following suit-directive-process-dependency will be
+   Execute the Commands in the common section of the current Dependency,
+   followed by the Commands in the equivalent section of the current
+   Dependency.  For example, if the current section is "fetch Payload,"
+   this will execute "common" in the current Dependency, then "fetch
+   Payload" in the current Dependency.  Once this is complete, the
+   Command following suit-directive-process-dependency will be
    processed.
 
-   If the current component index does not have an entry in the suit-
-   dependencies map, then this command MUST Abort.
 
-   If the current component index has not been the target of a suit-
-   condition-dependency-integrity, then this command MUST Abort.
 
-   If the current component is True, then this directive applies to all
-   dependencies.  If the current section is "common," then the command
+Moran & Takayama        Expires 21 December 2023               [Page 15]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
+
+   If the current Component index does not have an entry in the suit-
+   dependencies map, then this Command MUST Abort.
+
+   If the current Component index has not been the target of a suit-
+   condition-dependency-integrity, then this Command MUST Abort.
+
+   If the current Component is True, then this Directive applies to all
+   Dependencies.  If the current section is "common," then the Command
    sequence MUST Abort.
 
    When SUIT_Process_Dependency completes, it forwards the last status
-   code that occurred in the dependency.
+   code that occurred in the Dependency.
 
 6.6.3.  suit-condition-is-dependency
 
-   Check whether or not the current component index is present in the
-   dependency list.  If the current component is in the dependency list,
+   Check whether the current Component index is present in the
+   Dependency list.  If the current Component is in the Dependency list,
    suit-condition-is-dependency succeeds.  Otherwise, it fails.  This
-   can be used along with component-id = True to act on all dependencies
-   or on all non-dependency components.  See Section 8 for more details.
+   can be used along with component-id = True to act on all Dependencies
+   or on all non-Dependency Components.  See Section 8 for more details.
 
 6.6.4.  suit-condition-dependency-integrity
 
-   Verify the integrity of a dependency manifest.  When a Manifest
+   Verify the integrity of a Dependency Manifest.  When a Manifest
    Processor executes suit-condition-dependency-integrity, it performs
    the following operations:
 
-   1.  Evaluate any delegation chains
+   1.  Evaluate any Delegation Chains
 
-   2.  Verify the signature of the manifest hash
+   2.  Verify the signature of the Manifest hash
 
+   3.  Compare the Manifest hash to the provided hash
 
-
-Moran & Takayama         Expires 3 November 2023               [Page 15]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
-   3.  Compare the manifest hash to the provided hash
-
-   4.  Verify the manifest against the manifest hash
+   4.  Verify the Manifest against the Manifest hash
 
    If any of these steps fails, the Manifest Process MUST immediately
    Abort.
 
    The Manifest Processor MAY cache the results of these operations for
-   later use from the context of the current manifest.  The Manifest
-   Processor MUST NOT use cached results from any other manifest
+   later use from the context of the current Manifest.  The Manifest
+   Processor MUST NOT use cached results from any other Manifest
    context.  If the Manifest Processor caches the results of these
    checks, it MUST eliminate this cache if any Fetch, or Copy operation
-   targets the Dependency Manifest's component ID.
+   targets the Dependency Manifest's Component ID.
+
+
+
+
+
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 16]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
 
 6.6.5.  suit-directive-unlink
 
-   suit-directive-unlink applies to manifests.  When the components
-   defined by a manifest are no longer needed, the manifest processor
-   unlinks the manifest to inform the manifest processor that they are
-   no longer needed.  The unlink command decrements an implementation-
+   suit-directive-unlink applies to Manifests.  When the Components
+   defined by a Manifest are no longer needed, the Manifest processor
+   unlinks the Manifest to inform the Manifest processor that they are
+   no longer needed.  The unlink Command decrements an implementation-
    defined reference counter.  This reference counter MUST persist
    across restarts.  The reference counter MUST NOT be decremented by a
-   given manifest more than once, and the manifest processor must
-   enforce this.  The manifest processor MAY choose to ignore a Unlink
-   directive depending on device policy.
+   given Manifest more than once, and the Manifest processor must
+   enforce this.  The Manifest processor MAY choose to ignore a Unlink
+   Directive depending on device policy.
 
-   When the reference counter reaches zero, the suit-uninstall command
+   When the reference counter reaches zero, the suit-uninstall Command
    sequence is invoked (see Section 7).
 
-   suit-directive-unlink is OPTIONAL to implement in manifest
+   suit-directive-unlink is OPTIONAL to implement in Manifest
    processors.
 
 7.  Uninstall
 
    In some systems, particularly with multiple, independent, optional
-   components, it may be that there is a need to uninstall the
-   components that have been installed by a manifest.  Where this is
-   expected, the uninstall command sequence can provide the sequence
-   needed to cleanly remove the components defined by the manifest and
-   its dependencies.  In general, suit uninstall will contain primarily
-   unlink directives.
+   Components, it may be that there is a need to uninstall the
+   Components that have been installed by a Manifest.  Where this is
+   expected, the uninstall Command sequence can provide the sequence
+   needed to cleanly remove the Components defined by the Manifest and
+   its Dependencies.  In general, the suit-uninstall Command Sequence
+   will contain primarily unlink Directives.
 
-
-
-
-
-
-
-
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 16]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
-   WARNING: This can cause faults where there are loose dependencies
+   WARNING: This can cause faults where there are loose Dependencies
    (e.g., version range matching, see
-   [I-D.ietf-suit-update-management]), since a component can be removed
-   while it is depended upon by another component.  To avoid dependency
-   faults, a manifest author MAY use explicit dependencies where
-   possible, or a manifest processor MAY track references to loose
-   dependencies via reference counting in the same way as explicit
-   dependencies, as described in Section 6.6.5.
+   [I-D.ietf-suit-update-management]), since a Component can be removed
+   while it is depended upon by another Component.  To avoid Dependency
+   faults, a Manifest author MAY use explicit Dependencies where
+   possible, or a Manifest processor MAY track references to loose
+   Dependencies via reference counting in the same way as explicit
+   Dependencies, as described in Section 6.6.5.
 
-   The Uninstall command sequence is not severable, since it must always
-   be available to enable uninstalling.
+   The suit-uninstall Command Sequence is not severable, since it must
+   always be available to enable uninstalling.
 
 8.  Creating Manifests
 
-   This section details a set of templates for creating manifests.
-   These templates explain which parameters, commands, and orders of
-   commands are necessary to achieve a stated goal.
+   This section details a set of templates for creating Manifests.
+   These templates explain which Parameters, Commands, and orders of
+   Commands are necessary to achieve a stated goal.
+
+
+
+
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 17]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
 
 8.1.  Dependency Template
 
    The goal of the Dependency template is to obtain, verify, and process
-   a dependency manifest as appropriate.
+   a Dependency Manifest as appropriate.
 
-   The following commands are added to the shared sequence:
+   The following Commands are added to the shared sequence:
 
-   *  Set Component Index directive (see Section 8.4.10.1 of
+   *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
-   *  Set Parameters directive (see Section 6.6.1) for digest (see
+   *  Set Parameters Directive (see Section 6.6.1) for digest (see
       Section 8.4.8.6 of [I-D.ietf-suit-manifest]).  Note that the
-      digest MUST match the SUIT_Digest in the dependency's suit-
-      authentication-block (See Section 8.3 of
+      digest MUST match the SUIT_Digest in the Dependency's suit-
+      authentication-block (see Section 8.3 of
       [I-D.ietf-suit-manifest]).
 
-   The following commands are placed into the dependency resolution
+   The following Commands are placed into the Dependency resolution
    sequence:
 
-   *  Set Component Index directive (see Section 8.4.10.1 of
+   *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
-   *  Set Parameters directive (see Section 6.6.1) for URI (see
+   *  Set Parameters Directive (see Section 6.6.1) for a URI (see
       Section 8.4.8.10 of [I-D.ietf-suit-manifest])
 
-   *  Fetch directive (see Section 8.4.10.4 of [I-D.ietf-suit-manifest])
+   *  Fetch Directive (see Section 8.4.10.4 of [I-D.ietf-suit-manifest])
 
-   *  Dependency Integrity condition (see Section 6.6.4)
+   *  Dependency Integrity Condition (see Section 6.6.4)
 
-   *  Process Dependency directive (see Section 6.6.2)
-
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 17]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
+   *  Process Dependency Directive (see Section 6.6.2)
 
    Then, the validate sequence contains the following operations:
 
-   *  Set Component Index directive (see Section 8.4.10.1 of
+   *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
-   *  Dependency Integrity condition (see Section 6.6.4)
+   *  Dependency Integrity Condition (see Section 6.6.4)
 
-   *  Process Dependency directive (see Section 6.6.2)
+   *  Process Dependency Directive (see Section 6.6.2)
 
-   If any dependency is declared, the dependent MUST populate all
-   command sequences for the current procedure (Update or Invoke).
+   If any Dependency is declared, the dependent MUST populate all
+   Command sequences for the current Procedure (Update or Invoke).
 
-   NOTE: Any changes made to parameters in a dependency persist in the
+   NOTE: Any changes made to Parameters in a Dependency persist in the
    dependent.
+
+
+
+
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 18]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
 
 8.1.1.  Composite Manifests
 
-   An implementer MAY choose to place a dependency's envelope in the
-   envelope of its dependent.  The dependent envelope key for the
-   dependency envelope MUST be a text string.  The URI for the
-   dependency MUST match the text string key of the dependent's envelope
+   An implementer MAY choose to place a Dependency's Envelope in the
+   Envelope of its dependent.  The dependent Envelope key for the
+   Dependency Envelope MUST be a text string.  The URI for the
+   Dependency MUST match the text string key of the dependent's Envelope
    key.  It is RECOMMENDED to make the text string key a resolvable URI
-   so that a dependency manifest that is removed from the envelope can
+   so that a Dependency Manifest that is removed from the Envelope can
    still be fetched.
 
 8.2.  Encrypted Manifest Template
 
    The goal of the Encrypted Manifest template is to fetch and decrypt a
-   manifest so that it can be used as a dependency.  To use an encrypted
-   manifest, create a plaintext dependent, and add the encrypted
-   manifest as a dependency.  The dependent can include very little
+   Manifest so that it can be used as a Dependency.  To use an encrypted
+   Manifest, create a plaintext dependent, and add the encrypted
+   Manifest as a Dependency.  The dependent can include very little
    information.
 
    NOTE: This template also requires the extensions defined in
    [I-D.ietf-suit-firmware-encryption].
 
-   The following commands are added to the shared sequence:
+   The following Commands are added to the shared sequence:
 
-   *  Set Component Index directive (see Section 8.4.10.1 of
+   *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
-   *  Set Parameters directive (see Section 6.6.1) for digest (see
+   *  Set Parameters Directive (see Section 6.6.1) for digest (see
       Section 8.4.8.6 of [I-D.ietf-suit-manifest]).  Note that the
-      digest MUST match the SUIT_Digest in the dependency's suit-
-      authentication-block (See Section 8.3 of
+      digest MUST match the SUIT_Digest in the Dependency's suit-
+      authentication-block (see Section 8.3 of
       [I-D.ietf-suit-manifest]).
 
-
-
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 18]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
-   The following operations are placed into the dependency resolution
+   The following operations are placed into the Dependency resolution
    block:
 
-   *  Set Component Index directive (see Section 8.4.10.1 of
+   *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
-   *  Set Parameters directive (see Section 6.6.1) for
+   *  Set Parameters Directive (see Section 6.6.1) for
 
       -  URI (see Section 8.4.8.9 of [I-D.ietf-suit-manifest])
 
       -  Encryption Info (See [I-D.ietf-suit-firmware-encryption])
 
-   *  Fetch directive (see Section 8.4.10.4 of [I-D.ietf-suit-manifest])
+   *  Fetch Directive (see Section 8.4.10.4 of [I-D.ietf-suit-manifest])
 
-   *  Dependency Integrity condition (see Section 6.6.4)
+   *  Dependency Integrity Condition (see Section 6.6.4)
 
-   *  Process Dependency directive (see Section 6.6.2)
+
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 19]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
+
+   *  Process Dependency Directive (see Section 6.6.2)
 
    Then, the validate block contains the following operations:
 
-   *  Set Component Index directive (see Section 8.4.10.1 of
+   *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
-   *  Check Image Match condition (see Section 8.4.9.2 of
+   *  Check Image Match Condition (see Section 8.4.9.2 of
       [I-D.ietf-suit-manifest])
 
-   *  Process Dependency directive (see Section 6.6.2)
+   *  Process Dependency Directive (see Section 6.6.2)
 
-   A plaintext manifest and its encrypted dependency may also form a
-   composite manifest (Section 8.1.1).
+   A plaintext Manifest and its encrypted Dependency may also form a
+   composite Manifest (Section 8.1.1).
 
 8.3.  Operating on Multiple Components
 
    In order to produce compact encoding, it is efficient to perform
-   operations on multiple components simultaneously.  Because Dependency
+   operations on multiple Components simultaneously.  Because Dependency
    Manifests and Component Images are processed at different times,
    there is a mechanism to distinguish between these elements: suit-
-   condition-is-manifest.  This can be used with suit-directive-try-each
-   to perform operations just on Dependency Manifests or just on
+   condition-is-dependency.  This can be used with suit-directive-try-
+   each to perform operations just on Dependency Manifests or just on
    Component Images.
 
-   For example, to fetch all dependency manifests, the following
-   commands are added to the dependency resolution block:
+   For example, to fetch all Dependency Manifests, the following
+   Commands are added to the Dependency resolution block:
 
-   *  Set Component Index directive (see Section 8.4.10.1 of
+   *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
-   *  Set Parameters directive (see Section 6.6.1) for
+   *  Set Parameters Directive (see Section 6.6.1) for a URI (see
+      Section 8.4.8.9 of [I-D.ietf-suit-manifest])
 
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 19]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
-      -  URI (see Section 8.4.8.9 of [I-D.ietf-suit-manifest])
-
-   *  Set Component Index directive, with argument "True" (see
+   *  Set Component Index Directive, with argument "True" (see
       Section 8.4.10.1 of [I-D.ietf-suit-manifest])
 
    *  Try Each Directive
 
       -  Sequence 0
 
-         o  Condition Is Manifest
+         o  Condition Is Dependency Manifest
 
          o  Fetch
 
-         o  Dependency Integrity condition (see Section 6.6.4)
+         o  Dependency Integrity Condition (see Section 6.6.4)
 
          o  Process Dependency
 
-      -  Sequence 1 (Empty; no commands, succeeds immediately)
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 20]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
+
+      -  Sequence 1 (Empty; no Commands, succeeds immediately)
 
    Another example is to fetch and validate all Component Images.  The
-   image fetch sequence contains the following commands:
+   Image fetch sequence contains the following Commands:
 
-   *  Set Component Index directive (see Section 8.4.10.1 of
+   *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
-   *  Set Parameters directive (see Section 6.6.1) for
+   *  Set Parameters Directive (see Section 6.6.1) for a URI (see
+      Section 8.4.8.9 of [I-D.ietf-suit-manifest])
 
-      -  URI (see Section 8.4.8.9 of [I-D.ietf-suit-manifest])
-
-   *  Set Component Index directive, with argument "True" (see
+   *  Set Component Index Directive, with argument "True" (see
       Section 8.4.10.1 of [I-D.ietf-suit-manifest])
 
    *  Try Each Directive
 
       -  Sequence 0
 
-         o  Condition Is Manifest
+         o  Condition Is Dependency Manifest
 
          o  Process Dependency
 
@@ -1112,38 +1150,33 @@ Internet-Draft             SUIT Trust Domains                   May 2023
 
          o  Condition Image Match
 
+   When some Components are "installed" or "loaded" it is more
+   productive to use lists of Component indices rather than Component
+   Index = True.  For example, to install several Components, the
+   following Commands should be placed in the Image Install Sequence:
 
-
-
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 20]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
-   When some components are "installed" or "loaded" it is more
-   productive to use lists of component indices rather than Component
-   Index = True.  For example, to install several components, the
-   following commands should be placed in the image install sequence:
-
-   *  Set Component Index directive (see Section 8.4.10.1 of
+   *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
-   *  Set Parameters directive (see Section 6.6.1) for
+   *  Set Parameters Directive (see Section 6.6.1) for the Source
+      Component (see Section 8.4.8.11 of [I-D.ietf-suit-manifest])
 
-      -  Source Component (see Section 8.4.8.11 of
-         [I-D.ietf-suit-manifest])
-
-   *  Set Component Index directive, with argument containing list of
-      destination component indices (see Section 8.4.10.1 of
+   *  Set Component Index Directive, with argument containing list of
+      destination Component indices (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
    *  Copy
 
-   *  Set Component Index directive, with argument containing list
-      dependency component indices (see Section 8.4.10.1 of
+   *  Set Component Index Directive, with argument containing list
+      Dependency Component indices (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
+
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 21]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
 
    *  Process Dependency
 
@@ -1152,7 +1185,7 @@ Internet-Draft             SUIT Trust Domains                   May 2023
    IANA is requested to allocate the following numbers in the listed
    registries:
 
-9.1.  SUIT Command Sequences
+9.1.  SUIT Envelope Elements
 
               +=======+=======================+=============+
               | Label | Name                  | Reference   |
@@ -1166,6 +1199,25 @@ Internet-Draft             SUIT Trust Domains                   May 2023
 
                                   Table 2
 
+9.2.  SUIT Manifest Elements
+
+             +=======+=======================+===============+
+             | Label | Name                  | Reference     |
+             +=======+=======================+===============+
+             | 5     | Manifest Component ID | Section 6.2.1 |
+             +-------+-----------------------+---------------+
+
+                                  Table 3
+
+9.3.  SUIT Common Elements
+
+                 +=======+==============+===============+
+                 | Label | Name         | Reference     |
+                 +=======+==============+===============+
+                 | 1     | Dependencies | Section 6.2.2 |
+                 +-------+--------------+---------------+
+
+                                 Table 4
 
 
 
@@ -1173,12 +1225,16 @@ Internet-Draft             SUIT Trust Domains                   May 2023
 
 
 
-Moran & Takayama         Expires 3 November 2023               [Page 21]
+
+
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 22]
 
-Internet-Draft             SUIT Trust Domains                   May 2023
+Internet-Draft             SUIT Trust Domains                  June 2023
 
 
-9.2.  SUIT Commands
+9.4.  SUIT Commands
 
              +=======+======================+===============+
              | Label | Name                 | Reference     |
@@ -1194,16 +1250,15 @@ Internet-Draft             SUIT Trust Domains                   May 2023
              | 33    | Unlink               | Section 6.6.5 |
              +-------+----------------------+---------------+
 
-                                 Table 3
+                                 Table 5
 
 10.  Security Considerations
 
-   This document is about a manifest format protecting and describing
-   how to retrieve, install, and invoke firmware images and as such it
-   is part of a larger solution for delivering software updates to
-   devices.  A detailed security treatment can be found in the
-   architecture [RFC9019] and in the information model [RFC9124]
-   documents.
+   This document is about a Manifest format protecting and describing
+   how to retrieve, install, and invoke Images and as such it is part of
+   a larger solution for delivering software updates to devices.  A
+   detailed security treatment can be found in the architecture
+   [RFC9019] and in the information model [RFC9124] documents.
 
 11.  References
 
@@ -1223,21 +1278,21 @@ Internet-Draft             SUIT Trust Domains                   May 2023
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
 
-
-
-
-
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 22]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
    [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
               Resource Identifier (URI): Generic Syntax", STD 66,
               RFC 3986, DOI 10.17487/RFC3986, January 2005,
               <https://www.rfc-editor.org/rfc/rfc3986>.
+
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 23]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
+
+   [RFC6024]  Reddy, R. and C. Wallace, "Trust Anchor Management
+              Requirements", RFC 6024, DOI 10.17487/RFC6024, October
+              2010, <https://www.rfc-editor.org/rfc/rfc6024>.
 
    [RFC7228]  Bormann, C., Ersue, M., and A. Keranen, "Terminology for
               Constrained-Node Networks", RFC 7228,
@@ -1285,9 +1340,10 @@ Internet-Draft             SUIT Trust Domains                   May 2023
 
 
 
-Moran & Takayama         Expires 3 November 2023               [Page 23]
+
+Moran & Takayama        Expires 21 December 2023               [Page 24]
 
-Internet-Draft             SUIT Trust Domains                   May 2023
+Internet-Draft             SUIT Trust Domains                  June 2023
 
 
    [I-D.ietf-suit-update-management]
@@ -1337,13 +1393,13 @@ Appendix A.  A.  Full CDDL
            bstr .cbor SUIT_Command_Sequence / SUIT_Digest)
 
    $$SUIT_Common-extensions //= (
-           suit-dependencies => SUIT_Dependencies
+       suit-dependencies => SUIT_Dependencies
 
 
 
-Moran & Takayama         Expires 3 November 2023               [Page 24]
+Moran & Takayama        Expires 21 December 2023               [Page 25]
 
-Internet-Draft             SUIT Trust Domains                   May 2023
+Internet-Draft             SUIT Trust Domains                  June 2023
 
 
    )
@@ -1355,6 +1411,8 @@ Internet-Draft             SUIT Trust Domains                   May 2023
        * $$SUIT_Dependency_Extensions
    }
 
+   SUIT_Condition //= (
+       suit-condition-dependency-integrity, SUIT_Rep_Policy)
    SUIT_Condition //= (
        suit-condition-is-dependency, SUIT_Rep_Policy)
 
@@ -1388,19 +1446,23 @@ Appendix B.  B.  Examples
 
    The examples are signed using the following ECDSA secp256r1 key:
 
+
+
+
+
+
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 26]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
+
    -----BEGIN PRIVATE KEY-----
    MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgApZYjZCUGLM50VBC
    CjYStX+09jGmnyJPrpDLTz/hiXOhRANCAASEloEarguqq9JhVxie7NomvqqL8Rtv
    P+bitWWchdvArTsfKktsCYExwKNtrNHXi9OB3N+wnAUtszmR23M4tKiW
    -----END PRIVATE KEY-----
-
-
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 25]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
 
    The corresponding public key can be used to verify these examples:
 
@@ -1411,13 +1473,13 @@ Internet-Draft             SUIT Trust Domains                   May 2023
 
    Each example uses SHA256 as the digest function.
 
-B.1.  Example 0: Delegation
+B.1.  Example 0: Delegation Chain
 
    This example uses functionalities:
 
    *  manifest component id
 
-   *  key delegation
+   *  delegation chain
 
 / SUIT_Envelope_Tagged / 107({
   / delegation / 1: << [
@@ -1444,20 +1506,20 @@ B.1.  Example 0: Delegation
             }
           }
         } >>,
+
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 27]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
+
         / signature: /
           h'FB2D5ACF66B9C8573CE92E13BFB8D113F798715CC10B5A0010B11925C155E724
             5A64E131073B87AC50CAC71650A21315B82D06CA2298CD1A95519AAE4C4B5315'
       ]) >>
     ]
   ] >>,
-
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 26]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
   / NOTE: signed by delegated authority /
   / authentication-wrapper / 2: << [
     << [
@@ -1500,19 +1562,19 @@ Internet-Draft             SUIT Trust Domains                   May 2023
         / parameter-content / 18: 'hello world'
       },
       / directive-write / 18, 15
+
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 28]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
+
     ] >>
   } >>
 })
 
    Total size of Envelope with COSE authentication object: 352
-
-
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 27]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
 
    Envelope with COSE authentication object:
 
@@ -1556,20 +1618,20 @@ B.2.  Example 1: Process Dependency
         h'C257E23A34960BE215BB9B927A5A3CEEDD675DFD81AE6E55A66FDD2209886889
           1DF42D71ADB962A64CC008AEF9465DA2153CCF383F00B505F079DB540F64B916'
     ]) >>
+
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 29]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
+
   ] >>,
   / manifest / 3: << {
     / manifest-version / 1: 1,
     / manifest-sequence-number / 2: 0,
     / common / 3: << {
       / dependencies / 1: {
-
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 28]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
         / component-index / 1: {
           / dependency-prefix / 1: [
             'dependent.suit'
@@ -1612,19 +1674,19 @@ Internet-Draft             SUIT Trust Domains                   May 2023
         / parameter-image-digest / 3: << [
           / digest-algorithm-id: / -16 / SHA256 /,
           / digest-bytes: /
+
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 30]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
+
             h'6EA128D7BB19B86F77C4227F2A29F22026A41958ACC45CC0A35BA388B13E2F51'
         ] >>
       },
       / condition-dependency-integrity / 7, 15,
       / directive-process-dependency / 11, 0,
-
-
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 29]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
 
       / directive-set-component-index / 12, 0,
       / directive-override-parameters / 20, {
@@ -1663,6 +1725,19 @@ B.3.  Example 2: Integrated Dependency
 
    *  integrated dependency
 
+
+
+
+
+
+
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 31]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
+
 / SUIT_Envelope_Tagged / 107({
   / authentication-wrapper / 2: << [
     << [
@@ -1674,14 +1749,6 @@ B.3.  Example 2: Integrated Dependency
       / protected: / << {
         / algorithm-id / 1: -7 / ES256 /
       } >>,
-
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 30]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
       / unprotected: / {},
       / payload: / null,
       / signature: /
@@ -1719,6 +1786,14 @@ Internet-Draft             SUIT Trust Domains                   May 2023
     / dependency-resolution / 15: << [
       / directive-set-component-index / 12, 1,
       / directive-override-parameters / 20, {
+
+
+
+Moran & Takayama        Expires 21 December 2023               [Page 32]
+
+Internet-Draft             SUIT Trust Domains                  June 2023
+
+
         / parameter-image-digest / 3: << [
           / digest-algorithm-id: / -16 / SHA256 /,
           / digest-bytes: /
@@ -1730,14 +1805,6 @@ Internet-Draft             SUIT Trust Domains                   May 2023
       / directive-fetch / 21, 2,
       / condition-image-match / 3, 15
     ] >>,
-
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 31]
-
-Internet-Draft             SUIT Trust Domains                   May 2023
-
-
     / install / 17: << [
       / directive-set-component-index / 12, 1,
       / directive-process-dependency / 11, 0,
@@ -1778,20 +1845,9 @@ Internet-Draft             SUIT Trust Domains                   May 2023
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-Moran & Takayama         Expires 3 November 2023               [Page 32]
+Moran & Takayama        Expires 21 December 2023               [Page 33]
 
-Internet-Draft             SUIT Trust Domains                   May 2023
+Internet-Draft             SUIT Trust Domains                  June 2023
 
 
    D86BA3025873825824822F5820318EAD5F671A6D2593D7ADB7B6CCADC49F
@@ -1845,4 +1901,4 @@ Authors' Addresses
 
 
 
-Moran & Takayama         Expires 3 November 2023               [Page 33]
+Moran & Takayama        Expires 21 December 2023               [Page 34]

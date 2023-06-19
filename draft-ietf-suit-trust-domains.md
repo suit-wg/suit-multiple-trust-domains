@@ -1,7 +1,7 @@
 ---
 title: SUIT Manifest Extensions for Multiple Trust Domains
 abbrev: SUIT Trust Domains
-docname: draft-ietf-suit-trust-domains-02
+docname: draft-ietf-suit-trust-domains-03
 category: std
 
 ipr: trust200902
@@ -38,6 +38,7 @@ author:
 
 normative:
   RFC3986:
+  RFC6024:
   RFC7228:
   RFC8392:
   RFC8747:
