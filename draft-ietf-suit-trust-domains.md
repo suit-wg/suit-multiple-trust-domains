@@ -415,7 +415,7 @@ If any Dependency is declared, the dependent MUST populate all Command sequences
 
 NOTE: Any changes made to Parameters in a Dependency persist in the dependent.
 
-### Composite Manifests {#composite-manifests}
+### Integrated Dependencies {#integrated-dependencies}
 
 An implementer MAY choose to place a Dependency's Envelope in the Envelope of its dependent. The dependent Envelope key for the Dependency Envelope MUST be a text string. The URI for the Dependency MUST match the text string key of the dependent's Envelope key. It is RECOMMENDED to make the text string key a resolvable URI so that a Dependency Manifest that is removed from the Envelope can still be fetched.
 
@@ -446,7 +446,7 @@ Then, the validate block contains the following operations:
 - Check Image Match Condition (see Section 8.4.9.2 of {{I-D.ietf-suit-manifest}})
 - Process Dependency Directive (see {{suit-directive-process-dependency}})
 
-A plaintext Manifest and its encrypted Dependency may also form a composite Manifest ({{composite-manifests}}).
+A plaintext Manifest and its encrypted Dependency may also form a composite Manifest ({{integrated-dependencies}}).
 
 ## Operating on Multiple Components
 
