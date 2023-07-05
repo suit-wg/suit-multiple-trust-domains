@@ -341,13 +341,13 @@ suit-directive-set-parameters does not specify a reporting policy.
 
 ### suit-directive-process-dependency {#suit-directive-process-dependency}
 
-Execute the Commands in the common section of the current Dependency, followed by the Commands in the equivalent section of the current Dependency. For example, if the current section is "fetch Payload," this will execute "common" in the current Dependency, then "fetch Payload" in the current Dependency. Once this is complete, the Command following suit-directive-process-dependency will be processed.
+Execute the Commands in the common section of the current Dependency, followed by the Commands in the equivalent section of the current Dependency. For example, if the current section is "Payload Fetch," this will execute "Common metadata" in the current Dependency, then "Payload Fetch" in the current Dependency. Once this is complete, the Command following suit-directive-process-dependency will be processed.
 
 If the current Component index does not have an entry in the suit-dependencies map, then this Command MUST Abort.
 
 If the current Component index has not been the target of a suit-condition-dependency-integrity, then this Command MUST Abort.
 
-If the current Component is True, then this Directive applies to all Dependencies. If the current section is "common," then the Command sequence MUST Abort.
+If the current Component is True, then this Directive applies to all Dependencies. If the current section is "Common metadata," then the Command sequence MUST Abort.
 
 When SUIT_Process_Dependency completes, it forwards the last status code that occurred in the Dependency.
 
