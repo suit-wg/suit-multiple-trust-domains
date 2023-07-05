@@ -253,7 +253,7 @@ SUIT_Dependencies = {
 }
 SUIT_Dependency_Metadata = {
     ? suit-dependency-prefix => SUIT_Component_Identifier
-    $$SUIT_Dependency_Extensions
+    * $$SUIT_Dependency_Extensions
 }
 ~~~
 
