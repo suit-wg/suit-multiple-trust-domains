@@ -284,6 +284,9 @@ With the addition of Dependencies, some changes are necessary to the abstract ma
 
 * Dependency Manifests are also Components. All Commands may target Dependency Manifests as well as Components, with one exception: process Dependency. Commands defined outside of this draft and {{I-D.ietf-suit-manifest}} MAY have additional restrictions.
 * Dependencies are processed in lockstep with the Root Manifest. This means that every Dependency's current Command sequence must be executed before a dependent's later Command sequence may be executed. For example, every Dependency's Dependency Resolution step MUST be executed before any dependent's Payload fetch step.
+* When a Manifest Processor supports multiple independent Components, they MAY have shared Dependencies.
+* When a Manifest Processor supports shared Dependencies, it MUST support reference counting of those Dependencies.
+* When reference counting is used, Components MUST NOT be overwritten. The Manifest Uninstall section must be called, then the component MUST be Unlinked.
 
 ##  Processing Dependencies {#processing-dependencies}
 
@@ -372,7 +375,24 @@ The Manifest Processor MAY cache the results of these operations for later use f
 
 ### suit-directive-unlink {#suit-directive-unlink}
 
-suit-directive-unlink applies to Manifests. When the Components defined by a Manifest are no longer needed, the Manifest processor unlinks the Manifest to inform the Manifest processor that they are no longer needed. The unlink Command decrements an implementation-defined reference counter. This reference counter MUST persist across restarts. The reference counter MUST NOT be decremented by a given Manifest more than once, and the Manifest processor must enforce this. The Manifest processor MAY choose to ignore a Unlink Directive depending on device policy.
+
+A manifest processor that supports multiple independent root manifests
+MUST support suit-directive-unlink. When a Component is no longer
+needed, the Manifest processor unlinks the Component to inform the 
+Manifest processor that they are no longer needed.
+
+When 
+
+All components, including
+Manifests must be unlinked before deletion or overwrite. If the
+reference count of a component is non-zero, any command that alters
+that component MUST cause an immediate ABORT. Affected commands are:
+
+* suit-directive-copy
+* suit-directive-fetch
+* suit-directive-write
+
+ The unlink Command decrements an implementation-defined reference counter. This reference counter MUST persist across restarts. The reference counter MUST NOT be decremented by a given Manifest more than once, and the Manifest processor must enforce this. The Manifest processor MAY choose to ignore a Unlink Directive depending on device policy.
 
 When the reference counter reaches zero, the suit-uninstall Command sequence is invoked (see {{suit-uninstall}}).
 
