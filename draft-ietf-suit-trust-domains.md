@@ -274,11 +274,13 @@ A Dependency prefix can also be used to indicate when a Dependency Manifest need
 This section augments the Abstract Machine Description (Section 6.4) in {{I-D.ietf-suit-manifest}}.
 With the addition of Dependencies, some changes are necessary to the abstract machine, outside the typical scope of added Commands. These changes alter the behaviour of an existing Command and way that the parser processes Manifests:
 
-* Three new Commands are introduced:
+* Five new Commands are introduced:
 
+    * Set Parameters
     * Process Dependency
     * Is Dependency
     * Dependency Integrity
+    * Unlink
 
 * Dependency Manifests are also Components. All Commands may target Dependency Manifests as well as Components, with one exception: process Dependency. Commands defined outside of this draft and {{I-D.ietf-suit-manifest}} MAY have additional restrictions.
 * Dependencies are processed in lockstep with the Root Manifest. This means that every Dependency's current Command sequence must be executed before a dependent's later Command sequence may be executed. For example, every Dependency's Dependency Resolution step MUST be executed before any dependent's Payload fetch step.
