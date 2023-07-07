@@ -1,7 +1,7 @@
 ---
 title: SUIT Manifest Extensions for Multiple Trust Domains
 abbrev: SUIT Trust Domains
-docname: draft-ietf-suit-trust-domains-03
+docname: draft-ietf-suit-trust-domains-04
 category: std
 
 ipr: trust200902
@@ -375,16 +375,19 @@ The Manifest Processor MAY cache the results of these operations for later use f
 
 ### suit-directive-unlink {#suit-directive-unlink}
 
-
 A manifest processor that supports multiple independent root manifests
 MUST support suit-directive-unlink. When a Component is no longer
 needed, the Manifest processor unlinks the Component to inform the 
-Manifest processor that they are no longer needed.
+Manifest processor that it is no longer needed.
 
-When 
+If a Manifest is no longer needed, the Manifest Processor unlinks it.
+This causes the Manifest Processor to execute the suit-uninstall section
+of the unlinked Manifest, after which it decrements the reference count
+of the unlinked Manifest. The suit-uninstall section of a manifest
+typically contains an unlink of all its dependencies and components.
 
-All components, including
-Manifests must be unlinked before deletion or overwrite. If the
+All components, including Manifests must be unlinked before deletion 
+or overwrite. If the
 reference count of a component is non-zero, any command that alters
 that component MUST cause an immediate ABORT. Affected commands are:
 
@@ -392,11 +395,13 @@ that component MUST cause an immediate ABORT. Affected commands are:
 * suit-directive-fetch
 * suit-directive-write
 
- The unlink Command decrements an implementation-defined reference counter. This reference counter MUST persist across restarts. The reference counter MUST NOT be decremented by a given Manifest more than once, and the Manifest processor must enforce this. The Manifest processor MAY choose to ignore a Unlink Directive depending on device policy.
+The unlink Command decrements an implementation-defined reference counter. This reference counter MUST persist across restarts. The reference counter MUST NOT be decremented by a given Manifest more than once, and the Manifest processor must enforce this. The Manifest processor MAY choose to ignore an Unlink Directive depending on device policy.
 
-When the reference counter reaches zero, the suit-uninstall Command sequence is invoked (see {{suit-uninstall}}).
+When the reference counter of a Manifest reaches zero, the suit-uninstall Command sequence is invoked (see {{suit-uninstall}}).
 
-suit-directive-unlink is OPTIONAL to implement in Manifest processors.
+suit-directive-unlink is OPTIONAL to implement in Manifest processors,
+but Manifest processors that support multiple independent Root Manifests
+MUST support suit-directive-unlink.
 
 # Uninstall {#suit-uninstall}
 
