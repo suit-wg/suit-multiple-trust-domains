@@ -475,6 +475,52 @@ Then, the validate block contains the following operations:
 
 A plaintext Manifest and its encrypted Dependency may also form a composite Manifest ({{integrated-dependencies}}).
 
+## Overriding Encryption Info Template {#template-override-encryption-info}
+
+The goal of overriding the Encryption Info template is to separate the role of generating encrypted Payload and Encryption Info with Key-Encryption Key addressing Section 3 of {{I-D.ietf-suit-firmware-encryption}}.
+
+As an example, this template describes two manifests:
+- The dependent Manifest created by the Distribution System contains Encryption Info, allowing the Device to generate the Content-Encryption Key.
+- The dependency Manifest created by the Author contains Commands to decrypt the encrypted Payload using Encryption Info above and to validate the plaintext Payload with SUIT_Digest.
+
+NOTE: This template also requires the extensions defined in {{I-D.ietf-suit-firmware-encryption}}.
+
+The following operations are placed into the Dependency resolution block of dependent Manifest:
+
+- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}}) pointing at dependency Manifest
+- Set Parameters Directive (see {{suit-directive-set-parameters}}) for
+    - Image Digest (see Section 8.4.8.6 of {{I-D.ietf-suit-manifest}})
+    - URI (see Section 8.4.8.9 of {{I-D.ietf-suit-manifest}})
+- Fetch Directive (see Section 8.4.10.4 of {{I-D.ietf-suit-manifest}})
+- Dependency Integrity Condition (see {{suit-condition-dependency-integrity}})
+
+The following Commands are placed into the Fetch/Install block of dependent Manifest
+
+- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}}) pointing at encrypted Payload
+- Set Parameters Directive (see {{suit-directive-set-parameters}}) for
+    - Encryption Info (See {{I-D.ietf-suit-firmware-encryption}})
+- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}}) pointing at dependency Manifest
+- Dependency Integrity Condition (see {{suit-condition-dependency-integrity}})
+- Process Dependency Directive (see {{suit-directive-process-dependency}})
+
+The following Commands are placed into the same block of dependency Manifest:
+
+- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}}) pointing at encrypted Payload
+- Set Parameters Directive (see {{suit-directive-set-parameters}}) for
+    - URI (see Section 8.4.8.9 of {{I-D.ietf-suit-manifest}})
+- Fetch Directive (see Section 8.4.10.4 of {{I-D.ietf-suit-manifest}})
+- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}}) pointing at to be decrypted Payload
+- Override Parameters Directive (see Section 8.4.10.3 of {{I-D.ietf-suit-manifest}}) for
+    - Source Component (see Section 8.4.8.11 of {{I-D.ietf-suit-manifest}}) pointing at encrypted Payload
+    - Image Digest (see Section 8.4.8.6 of {{I-D.ietf-suit-manifest}})
+- Copy Directive (see Section 8.4.10.5 of {{I-D.ietf-suit-manifest}}) consuming the Encryption Info above
+- Check Image Match Condition (see Section 8.4.9.2 of {{I-D.ietf-suit-manifest}})
+
+The Distribution System can Set the Parameter URI in the Fetch/Install block of dependent Manifest if it wants to overwrite the URI of encrypted Payload.
+
+Because the Author and the Distribution System have different roles and MAY be separate entities, it is highly RECOMMENDED to leverage permissions (see Section 9 of {{I-D.ietf-suit-manifest}}).
+For example, The Device can protect itself from attacker who breaches the Distribution System by allowing only the Author's Manifest to modify the Component of (to be) decrypted Payload.
+
 ## Operating on Multiple Components
 
 In order to produce compact encoding, it is efficient to perform operations on multiple Components simultaneously. Because Dependency Manifests and Component Images are processed at different times, there is a mechanism to distinguish between these elements: suit-condition-is-dependency. This can be used with suit-directive-try-each to perform operations just on Dependency Manifests or just on Component Images.
