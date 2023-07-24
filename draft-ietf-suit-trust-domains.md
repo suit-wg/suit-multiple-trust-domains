@@ -516,7 +516,7 @@ When some Components are "installed" or "loaded" it is more productive to use li
 
 #  IANA Considerations {#iana}
 
-IANA is requested to allocate the following numbers in the listed registries:
+IANA is requested to allocate the following numbers in the listed registries created by draft-ietf-suit-manifest:
 
 ## SUIT Envelope Elements
 
