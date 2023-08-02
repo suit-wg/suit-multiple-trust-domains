@@ -490,7 +490,7 @@ The following operations are placed into the Dependency resolution block of depe
 - Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}}) pointing at dependency Manifest
 - Set Parameters Directive (see {{suit-directive-set-parameters}}) for
     - Image Digest (see Section 8.4.8.6 of {{I-D.ietf-suit-manifest}})
-    - URI (see Section 8.4.8.9 of {{I-D.ietf-suit-manifest}})
+    - URI (see Section 8.4.8.9 of {{I-D.ietf-suit-manifest}}) of dependency Manifest
 - Fetch Directive (see Section 8.4.10.4 of {{I-D.ietf-suit-manifest}})
 - Dependency Integrity Condition (see {{suit-condition-dependency-integrity}})
 
@@ -498,15 +498,15 @@ The following Commands are placed into the Fetch/Install block of dependent Mani
 
 - Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}}) pointing at encrypted Payload
 - Set Parameters Directive (see {{suit-directive-set-parameters}}) for
-    - Encryption Info (See {{I-D.ietf-suit-firmware-encryption}})
+    - URI (see Section 8.4.8.9 of {{I-D.ietf-suit-manifest}})
 - Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}}) pointing at dependency Manifest
+- Set Parameters Directive (see {{suit-directive-set-parameters}}) for
+    - Encryption Info (See {{I-D.ietf-suit-firmware-encryption}})
 - Process Dependency Directive (see {{suit-directive-process-dependency}})
 
 The following Commands are placed into the same block of dependency Manifest:
 
 - Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}}) pointing at encrypted Payload
-- Set Parameters Directive (see {{suit-directive-set-parameters}}) for
-    - URI (see Section 8.4.8.9 of {{I-D.ietf-suit-manifest}})
 - Fetch Directive (see Section 8.4.10.4 of {{I-D.ietf-suit-manifest}})
 - Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}}) pointing at to be decrypted Payload
 - Override Parameters Directive (see Section 8.4.10.3 of {{I-D.ietf-suit-manifest}}) for
