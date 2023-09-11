@@ -62,7 +62,7 @@ or software update.
 
 --- middle
 
-#  Introduction
+#  Introduction {#Introduction}
 
 Devices that go beyond single-signer update require more complex rules for deploying software updates. For example, devices may require:
 
@@ -71,6 +71,16 @@ Devices that go beyond single-signer update require more complex rules for deplo
 * a mechanism to remove an unneeded Component
 * single-object Dependencies
 * a partly encrypted Manifest so that distribution does not reveal private information
+
+Dependency Manifests enable several additional use cases. In particular, they enable two or more entities who are trusted for different privileges to coordinate. This can be used in many scenarios. For example:
+
+* A device may contain a processor in its radio in addition to the primary processor. These two processors may have separate Software with separate signing authorities. Dependencies allow the Software for the primary processor to reference a Manifest signed by a different authority.
+* A network operator may wish to provide local caching of Update Payloads. The network operator overrides the URI of a Payload by providing a dependent Manifest that references the original Manifest, but replaces its URI.
+* A device operator provides a device with some additional configuration. The device operator wants to test their configuration with each new Software version before releasing it. The configuration is delivered as a binary in the same way as a Software Image. The device operator references the Software Manifest from the Software author in their own Manifest which also defines the configuration.
+* An Author wants to entrust a Distributor to provide devices with firmware decryption keys, but not permit the Distributor to sign code. Dependencies allow the Distributor to deliver a device's decryption information without also granting code signing authority.
+* A Trusted Application Manager (TAM) wants to distribute personalisation information to a Trusted Execution Environment in addition to a Trusted Application (TA), but does not have code signing authority. Dependencies enable the TAM to construct an update containing the personalisation information and a dependency on the TA, but leaves the TA signed by the TA's Author.
+
+By using Dependencies, Components such as Software, configuration, and other Resource data authenticated by different Trust Anchors can be delivered to devices.
 
 These mechanisms are not part of the core Manifest specification, but they are needed for more advanced use cases, such as the architecture described in {{I-D.ietf-teep-architecture}}.
 
@@ -191,13 +201,7 @@ A Recipient MAY choose to cache intermediaries and/or delegates. If an intermedi
 
 A Dependency is another SUIT_Envelope that describes additional Components. 
 
-Dependency Manifests enable several additional use cases. In particular, they enable two or more entities who are trusted for different privileges to coordinate. This can be used in many scenarios. For example:
-
-* A device may contain a processor in its radio in addition to the primary processor. These two processors may have separate Software with separate signing authorities. Dependencies allow the Software for the primary processor to reference a Manifest signed by a different authority.
-* A network operator may wish to provide local caching of Update Payloads. The network operator overrides the URI of a Payload by providing a dependent Manifest that references the original Manifest, but replaces its URI.
-* A device operator provides a device with some additional configuration. The device operator wants to test their configuration with each new Software version before releasing it. The configuration is delivered as a binary in the same way as a Software Image. The device operator references the Software Manifest from the Software author in their own Manifest which also defines the configuration.
-
-By using Dependencies, Components such as Software, configuration, and other Resource data authenticated by different Trust Anchors can be delivered to devices.
+As described in {{Introduction}}, Dependencies enable several common use cases.
 
 ##  Changes to Required Checks {#required-checks}
 
