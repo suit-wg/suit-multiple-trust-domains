@@ -17,10 +17,10 @@ or software update.
     " name="description">
 <meta content="xml2rfc 3.17.1" name="generator">
 <meta content="Internet-Draft" name="keyword">
-<meta content="draft-ietf-suit-trust-domains-04" name="ietf.draft">
+<meta content="draft-ietf-suit-trust-domains-05" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.17.1
-    Python 3.11.3
+    Python 3.11.5
     appdirs 1.4.4
     ConfigArgParse 1.5.3
     google-i18n-address 2.5.2
@@ -30,7 +30,7 @@ or software update.
     pycountry 22.3.5
     PyYAML 6.0
     requests 2.28.2
-    setuptools 67.6.1
+    setuptools 68.1.2
     six 1.16.0
     wcwidth 0.2.6
 -->
@@ -1208,11 +1208,11 @@ li > p:last-of-type:only-child {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">SUIT Trust Domains</td>
-<td class="right">July 2023</td>
+<td class="right">September 2023</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Moran &amp; Takayama</td>
-<td class="center">Expires 8 January 2024</td>
+<td class="center">Expires 14 March 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1222,15 +1222,15 @@ li > p:last-of-type:only-child {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">SUIT</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-ietf-suit-trust-domains-04</dd>
+<dd class="internet-draft">draft-ietf-suit-trust-domains-05</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-07-07" class="published">7 July 2023</time>
+<time datetime="2023-09-11" class="published">11 September 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-01-08">8 January 2024</time></dd>
+<dd class="expires"><time datetime="2024-03-14">14 March 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1273,7 +1273,7 @@ or software update.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 8 January 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 14 March 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1393,7 +1393,10 @@ or software update.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
                 <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-encrypted-manifest-template" class="internal xref">Encrypted Manifest Template</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3">
-                <p id="section-toc.1-1.8.2.3.1"><a href="#section-8.3" class="auto internal xref">8.3</a>.  <a href="#name-operating-on-multiple-compo" class="internal xref">Operating on Multiple Components</a></p>
+                <p id="section-toc.1-1.8.2.3.1"><a href="#section-8.3" class="auto internal xref">8.3</a>.  <a href="#name-overriding-encryption-info-" class="internal xref">Overriding Encryption Info Template</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.4">
+                <p id="section-toc.1-1.8.2.4.1"><a href="#section-8.4" class="auto internal xref">8.4</a>.  <a href="#name-operating-on-multiple-compo" class="internal xref">Operating on Multiple Components</a></p>
 </li>
             </ul>
 </li>
@@ -2049,86 +2052,160 @@ MUST support suit-directive-unlink.<a href="#section-6.6.5-7" class="pilcrow">¶
 <p id="section-8.2-9">A plaintext Manifest and its encrypted Dependency may also form a composite Manifest (<a href="#integrated-dependencies" class="auto internal xref">Section 8.1.1</a>).<a href="#section-8.2-9" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="operating-on-multiple-components">
+<div id="template-override-encryption-info">
 <section id="section-8.3">
-        <h3 id="name-operating-on-multiple-compo">
-<a href="#section-8.3" class="section-number selfRef">8.3. </a><a href="#name-operating-on-multiple-compo" class="section-name selfRef">Operating on Multiple Components</a>
+        <h3 id="name-overriding-encryption-info-">
+<a href="#section-8.3" class="section-number selfRef">8.3. </a><a href="#name-overriding-encryption-info-" class="section-name selfRef">Overriding Encryption Info Template</a>
         </h3>
-<p id="section-8.3-1">In order to produce compact encoding, it is efficient to perform operations on multiple Components simultaneously. Because Dependency Manifests and Component Images are processed at different times, there is a mechanism to distinguish between these elements: suit-condition-is-dependency. This can be used with suit-directive-try-each to perform operations just on Dependency Manifests or just on Component Images.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
-<p id="section-8.3-2">For example, to fetch all Dependency Manifests, the following Commands are added to the Dependency resolution block:<a href="#section-8.3-2" class="pilcrow">¶</a></p>
+<p id="section-8.3-1">The goal of overriding the Encryption Info template is to separate the role of generating encrypted Payload and Encryption Info with Key-Encryption Key addressing Section 3 of <span>[<a href="#I-D.ietf-suit-firmware-encryption" class="cite xref">I-D.ietf-suit-firmware-encryption</a>]</span>.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
+<p id="section-8.3-2">As an example, this template describes two manifests:
+- The dependent Manifest created by the Distribution System contains Encryption Info, allowing the Device to generate the Content-Encryption Key.
+- The dependency Manifest created by the Author contains Commands to decrypt the encrypted Payload using Encryption Info above and to validate the plaintext Payload with SUIT_Digest.<a href="#section-8.3-2" class="pilcrow">¶</a></p>
+<p id="section-8.3-3">NOTE: This template also requires the extensions defined in <span>[<a href="#I-D.ietf-suit-firmware-encryption" class="cite xref">I-D.ietf-suit-firmware-encryption</a>]</span>.<a href="#section-8.3-3" class="pilcrow">¶</a></p>
+<p id="section-8.3-4">The following operations are placed into the Dependency resolution block of dependent Manifest:<a href="#section-8.3-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.3-3.1">Set Component Index Directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-3.1" class="pilcrow">¶</a>
+<li class="normal" id="section-8.3-5.1">Set Component Index Directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>) pointing at dependency Manifest<a href="#section-8.3-5.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.3-3.2">Set Parameters Directive (see <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.1</a>) for a URI (see Section 8.4.8.9 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-3.2" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-8.3-3.3">Set Component Index Directive, with argument "True" (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-3.3" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-8.3-3.4">
-            <p id="section-8.3-3.4.1">Try Each Directive<a href="#section-8.3-3.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.3-5.2">
+            <p id="section-8.3-5.2.1">Set Parameters Directive (see <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.1</a>) for<a href="#section-8.3-5.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.3-3.4.2.1">
-                <p id="section-8.3-3.4.2.1.1">Sequence 0<a href="#section-8.3-3.4.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-8.3-5.2.2.1">Image Digest (see Section 8.4.8.6 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-5.2.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="normal" id="section-8.3-5.2.2.2">URI (see Section 8.4.8.9 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>) of dependency Manifest<a href="#section-8.3-5.2.2.2" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-8.3-5.3">Fetch Directive (see Section 8.4.10.4 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-5.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.3-5.4">Dependency Integrity Condition (see <a href="#suit-condition-dependency-integrity" class="auto internal xref">Section 6.6.4</a>)<a href="#section-8.3-5.4" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-8.3-6">The following Commands are placed into the Fetch/Install block of dependent Manifest<a href="#section-8.3-6" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.3-3.4.2.1.2.1">Condition Is Dependency Manifest<a href="#section-8.3-3.4.2.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-8.3-7.1">Set Component Index Directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>) pointing at encrypted Payload<a href="#section-8.3-7.1" class="pilcrow">¶</a>
 </li>
-                  <li class="normal" id="section-8.3-3.4.2.1.2.2">Fetch<a href="#section-8.3-3.4.2.1.2.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.3-7.2">
+            <p id="section-8.3-7.2.1">Set Parameters Directive (see <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.1</a>) for<a href="#section-8.3-7.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.3-7.2.2.1">URI (see Section 8.4.8.9 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-7.2.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="normal" id="section-8.3-3.4.2.1.2.3">Dependency Integrity Condition (see <a href="#suit-condition-dependency-integrity" class="auto internal xref">Section 6.6.4</a>)<a href="#section-8.3-3.4.2.1.2.3" class="pilcrow">¶</a>
+            </ul>
 </li>
-                  <li class="normal" id="section-8.3-3.4.2.1.2.4">Process Dependency<a href="#section-8.3-3.4.2.1.2.4" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.3-7.3">Set Component Index Directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>) pointing at dependency Manifest<a href="#section-8.3-7.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.3-7.4">
+            <p id="section-8.3-7.4.1">Set Parameters Directive (see <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.1</a>) for<a href="#section-8.3-7.4.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.3-7.4.2.1">Encryption Info (See <span>[<a href="#I-D.ietf-suit-firmware-encryption" class="cite xref">I-D.ietf-suit-firmware-encryption</a>]</span>)<a href="#section-8.3-7.4.2.1" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-8.3-7.5">Process Dependency Directive (see <a href="#suit-directive-process-dependency" class="auto internal xref">Section 6.6.2</a>)<a href="#section-8.3-7.5" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-8.3-8">The following Commands are placed into the same block of dependency Manifest:<a href="#section-8.3-8" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.3-9.1">Set Component Index Directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>) pointing at encrypted Payload<a href="#section-8.3-9.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.3-9.2">Fetch Directive (see Section 8.4.10.4 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-9.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.3-9.3">Set Component Index Directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>) pointing at to be decrypted Payload<a href="#section-8.3-9.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.3-9.4">
+            <p id="section-8.3-9.4.1">Override Parameters Directive (see Section 8.4.10.3 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>) for<a href="#section-8.3-9.4.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.3-9.4.2.1">Source Component (see Section 8.4.8.11 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>) pointing at encrypted Payload<a href="#section-8.3-9.4.2.1" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-8.3-9.5">Copy Directive (see Section 8.4.10.5 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>) consuming the Encryption Info above<a href="#section-8.3-9.5" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-8.3-10">The Distribution System can Set the Parameter URI in the Fetch/Install block of dependent Manifest if it wants to overwrite the URI of encrypted Payload.<a href="#section-8.3-10" class="pilcrow">¶</a></p>
+<p id="section-8.3-11">Because the Author and the Distribution System have different roles and MAY be separate entities, it is highly RECOMMENDED to leverage permissions (see Section 9 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>).
+For example, The Device can protect itself from attacker who breaches the Distribution System by allowing only the Author's Manifest to modify the Component of (to be) decrypted Payload.<a href="#section-8.3-11" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="operating-on-multiple-components">
+<section id="section-8.4">
+        <h3 id="name-operating-on-multiple-compo">
+<a href="#section-8.4" class="section-number selfRef">8.4. </a><a href="#name-operating-on-multiple-compo" class="section-name selfRef">Operating on Multiple Components</a>
+        </h3>
+<p id="section-8.4-1">In order to produce compact encoding, it is efficient to perform operations on multiple Components simultaneously. Because Dependency Manifests and Component Images are processed at different times, there is a mechanism to distinguish between these elements: suit-condition-is-dependency. This can be used with suit-directive-try-each to perform operations just on Dependency Manifests or just on Component Images.<a href="#section-8.4-1" class="pilcrow">¶</a></p>
+<p id="section-8.4-2">For example, to fetch all Dependency Manifests, the following Commands are added to the Dependency resolution block:<a href="#section-8.4-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.4-3.1">Set Component Index Directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.4-3.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.4-3.2">Set Parameters Directive (see <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.1</a>) for a URI (see Section 8.4.8.9 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.4-3.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.4-3.3">Set Component Index Directive, with argument "True" (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.4-3.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.4-3.4">
+            <p id="section-8.4-3.4.1">Try Each Directive<a href="#section-8.4-3.4.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.4-3.4.2.1">
+                <p id="section-8.4-3.4.2.1.1">Sequence 0<a href="#section-8.4-3.4.2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.4-3.4.2.1.2.1">Condition Is Dependency Manifest<a href="#section-8.4-3.4.2.1.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="normal" id="section-8.4-3.4.2.1.2.2">Fetch<a href="#section-8.4-3.4.2.1.2.2" class="pilcrow">¶</a>
+</li>
+                  <li class="normal" id="section-8.4-3.4.2.1.2.3">Dependency Integrity Condition (see <a href="#suit-condition-dependency-integrity" class="auto internal xref">Section 6.6.4</a>)<a href="#section-8.4-3.4.2.1.2.3" class="pilcrow">¶</a>
+</li>
+                  <li class="normal" id="section-8.4-3.4.2.1.2.4">Process Dependency<a href="#section-8.4-3.4.2.1.2.4" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="normal" id="section-8.3-3.4.2.2">Sequence 1 (Empty; no Commands, succeeds immediately)<a href="#section-8.3-3.4.2.2" class="pilcrow">¶</a>
+              <li class="normal" id="section-8.4-3.4.2.2">Sequence 1 (Empty; no Commands, succeeds immediately)<a href="#section-8.4-3.4.2.2" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
         </ul>
-<p id="section-8.3-4">Another example is to fetch and validate all Component Images. The Image fetch sequence contains the following Commands:<a href="#section-8.3-4" class="pilcrow">¶</a></p>
+<p id="section-8.4-4">Another example is to fetch and validate all Component Images. The Image fetch sequence contains the following Commands:<a href="#section-8.4-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.3-5.1">Set Component Index Directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-5.1" class="pilcrow">¶</a>
+<li class="normal" id="section-8.4-5.1">Set Component Index Directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.4-5.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.3-5.2">Set Parameters Directive (see <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.1</a>) for a URI (see Section 8.4.8.9 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-5.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.4-5.2">Set Parameters Directive (see <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.1</a>) for a URI (see Section 8.4.8.9 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.4-5.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.3-5.3">Set Component Index Directive, with argument "True" (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-5.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.4-5.3">Set Component Index Directive, with argument "True" (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.4-5.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.3-5.4">
-            <p id="section-8.3-5.4.1">Try Each Directive<a href="#section-8.3-5.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.4-5.4">
+            <p id="section-8.4-5.4.1">Try Each Directive<a href="#section-8.4-5.4.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.3-5.4.2.1">
-                <p id="section-8.3-5.4.2.1.1">Sequence 0<a href="#section-8.3-5.4.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-8.4-5.4.2.1">
+                <p id="section-8.4-5.4.2.1.1">Sequence 0<a href="#section-8.4-5.4.2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.3-5.4.2.1.2.1">Condition Is Dependency Manifest<a href="#section-8.3-5.4.2.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-8.4-5.4.2.1.2.1">Condition Is Dependency Manifest<a href="#section-8.4-5.4.2.1.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="normal" id="section-8.3-5.4.2.1.2.2">Process Dependency<a href="#section-8.3-5.4.2.1.2.2" class="pilcrow">¶</a>
+                  <li class="normal" id="section-8.4-5.4.2.1.2.2">Process Dependency<a href="#section-8.4-5.4.2.1.2.2" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="normal" id="section-8.3-5.4.2.2">
-                <p id="section-8.3-5.4.2.2.1">Sequence 1<a href="#section-8.3-5.4.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-8.4-5.4.2.2">
+                <p id="section-8.4-5.4.2.2.1">Sequence 1<a href="#section-8.4-5.4.2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.3-5.4.2.2.2.1">Fetch<a href="#section-8.3-5.4.2.2.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-8.4-5.4.2.2.2.1">Fetch<a href="#section-8.4-5.4.2.2.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="normal" id="section-8.3-5.4.2.2.2.2">Condition Image Match<a href="#section-8.3-5.4.2.2.2.2" class="pilcrow">¶</a>
+                  <li class="normal" id="section-8.4-5.4.2.2.2.2">Condition Image Match<a href="#section-8.4-5.4.2.2.2.2" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
             </ul>
 </li>
         </ul>
-<p id="section-8.3-6">When some Components are "installed" or "loaded" it is more productive to use lists of Component indices rather than Component Index = True. For example, to install several Components, the following Commands should be placed in the Image Install Sequence:<a href="#section-8.3-6" class="pilcrow">¶</a></p>
+<p id="section-8.4-6">When some Components are "installed" or "loaded" it is more productive to use lists of Component indices rather than Component Index = True. For example, to install several Components, the following Commands should be placed in the Image Install Sequence:<a href="#section-8.4-6" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.3-7.1">Set Component Index Directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-7.1" class="pilcrow">¶</a>
+<li class="normal" id="section-8.4-7.1">Set Component Index Directive (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.4-7.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.3-7.2">Set Parameters Directive (see <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.1</a>) for the Source Component (see Section 8.4.8.11 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-7.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.4-7.2">Set Parameters Directive (see <a href="#suit-directive-set-parameters" class="auto internal xref">Section 6.6.1</a>) for the Source Component (see Section 8.4.8.11 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.4-7.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.3-7.3">Set Component Index Directive, with argument containing list of destination Component indices (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-7.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.4-7.3">Set Component Index Directive, with argument containing list of destination Component indices (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.4-7.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.3-7.4">Copy<a href="#section-8.3-7.4" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.4-7.4">Copy<a href="#section-8.4-7.4" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.3-7.5">Set Component Index Directive, with argument containing list Dependency Component indices (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.3-7.5" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.4-7.5">Set Component Index Directive, with argument containing list Dependency Component indices (see Section 8.4.10.1 of <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>)<a href="#section-8.4-7.5" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.3-7.6">Process Dependency<a href="#section-8.3-7.6" class="pilcrow">¶</a>
+          <li class="normal" id="section-8.4-7.6">Process Dependency<a href="#section-8.4-7.6" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -2140,7 +2217,7 @@ MUST support suit-directive-unlink.<a href="#section-6.6.5-7" class="pilcrow">¶
       <h2 id="name-iana-considerations">
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-9-1">IANA is requested to allocate the following numbers in the listed registries:<a href="#section-9-1" class="pilcrow">¶</a></p>
+<p id="section-9-1">IANA is requested to allocate the following numbers in the listed registries created by draft-ietf-suit-manifest:<a href="#section-9-1" class="pilcrow">¶</a></p>
 <div id="suit-envelope-elements">
 <section id="section-9.1">
         <h3 id="name-suit-envelope-elements">
@@ -2315,7 +2392,7 @@ MUST support suit-directive-unlink.<a href="#section-6.6.5-7" class="pilcrow">¶
 <dl class="references">
 <dt id="I-D.ietf-suit-manifest">[I-D.ietf-suit-manifest]</dt>
         <dd>
-<span class="refAuthor">Moran, B.</span>, <span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Zandberg, K.</span>, and <span class="refAuthor">O. Rønningstad</span>, <span class="refTitle">"A Concise Binary Object Representation (CBOR)-based Serialization Format for the Software Updates for Internet of Things (SUIT) Manifest"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-manifest-22</span>, <time datetime="2023-02-27" class="refDate">27 February 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-suit-manifest-22">https://datatracker.ietf.org/doc/html/draft-ietf-suit-manifest-22</a>&gt;</span>. </dd>
+<span class="refAuthor">Moran, B.</span>, <span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Zandberg, K.</span>, and <span class="refAuthor">O. Rønningstad</span>, <span class="refTitle">"A Concise Binary Object Representation (CBOR)-based Serialization Format for the Software Updates for Internet of Things (SUIT) Manifest"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-manifest-23</span>, <time datetime="2023-09-10" class="refDate">10 September 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-suit-manifest-23">https://datatracker.ietf.org/doc/html/draft-ietf-suit-manifest-23</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
@@ -2362,7 +2439,7 @@ MUST support suit-directive-unlink.<a href="#section-6.6.5-7" class="pilcrow">¶
 <dl class="references">
 <dt id="I-D.ietf-suit-firmware-encryption">[I-D.ietf-suit-firmware-encryption]</dt>
         <dd>
-<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Housley, R.</span>, <span class="refAuthor">Moran, B.</span>, <span class="refAuthor">Brown, D.</span>, and <span class="refAuthor">K. Takayama</span>, <span class="refTitle">"Encrypted Payloads in SUIT Manifests"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-firmware-encryption-12</span>, <time datetime="2023-04-13" class="refDate">13 April 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-suit-firmware-encryption-12">https://datatracker.ietf.org/doc/html/draft-ietf-suit-firmware-encryption-12</a>&gt;</span>. </dd>
+<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Housley, R.</span>, <span class="refAuthor">Moran, B.</span>, <span class="refAuthor">Brown, D.</span>, and <span class="refAuthor">K. Takayama</span>, <span class="refTitle">"Encrypted Payloads in SUIT Manifests"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-firmware-encryption-15</span>, <time datetime="2023-09-05" class="refDate">5 September 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-suit-firmware-encryption-15">https://datatracker.ietf.org/doc/html/draft-ietf-suit-firmware-encryption-15</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-suit-update-management">[I-D.ietf-suit-update-management]</dt>
         <dd>
@@ -2504,7 +2581,7 @@ bz/m4rVlnIXbwK07HypLbAmBMcCjbazR14vTgdzfsJwFLbM5kdtzOLSolg==
           / cnf / 8: {
             / NOTE: public key of delegated authority /
             / COSE_Key / 1: {
-              / cty / 1: 2 / EC2 /,
+              / kty / 1: 2 / EC2 /,
               / crv / -1: 1 / P-256 /,
               / x / -2:
                 h'0E908AA8F066DB1F084E0C3652C63952

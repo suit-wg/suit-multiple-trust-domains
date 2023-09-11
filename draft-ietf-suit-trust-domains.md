@@ -1,7 +1,7 @@
 ---
 title: SUIT Manifest Extensions for Multiple Trust Domains
 abbrev: SUIT Trust Domains
-docname: draft-ietf-suit-trust-domains-04
+docname: draft-ietf-suit-trust-domains-05
 category: std
 
 ipr: trust200902
