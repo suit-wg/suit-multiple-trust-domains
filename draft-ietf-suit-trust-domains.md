@@ -646,7 +646,7 @@ bz/m4rVlnIXbwK07HypLbAmBMcCjbazR14vTgdzfsJwFLbM5kdtzOLSolg==
 
 Each example uses SHA256 as the digest function.
 
-## Example 1: Process Dependency
+## Example 0: Process Dependency
 
 This example uses functionalities:
 
@@ -656,7 +656,7 @@ This example uses functionalities:
 
 {::include examples/example1_process.txt}
 
-## Example 2: Integrated Dependency
+## Example 1: Integrated Dependency
 
 * manifest component id
 * dependency resolution

@@ -116,8 +116,8 @@ Internet-Draft             SUIT Trust Domains                 March 2024
 
    Appendix A.  A.  Full CDDL  . . . . . . . . . . . . . . . . . . .  28
    Appendix B.  B.  Examples . . . . . . . . . . . . . . . . . . . .  29
-     B.1.  Example 1: Process Dependency . . . . . . . . . . . . . .  30
-     B.2.  Example 2: Integrated Dependency  . . . . . . . . . . . .  32
+     B.1.  Example 0: Process Dependency . . . . . . . . . . . . . .  30
+     B.2.  Example 1: Integrated Dependency  . . . . . . . . . . . .  32
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  35
 
 1.  Introduction
@@ -1641,7 +1641,7 @@ Internet-Draft             SUIT Trust Domains                 March 2024
 
    Each example uses SHA256 as the digest function.
 
-B.1.  Example 1: Process Dependency
+B.1.  Example 0: Process Dependency
 
    This example uses functionalities:
 
@@ -1765,7 +1765,7 @@ Internet-Draft             SUIT Trust Domains                 March 2024
    88B13E2F51070F0B000C0014A112581A20696E206D756C7469706C652074
    7275737420646F6D61696E73120F
 
-B.2.  Example 2: Integrated Dependency
+B.2.  Example 1: Integrated Dependency
 
    *  manifest component id
 
