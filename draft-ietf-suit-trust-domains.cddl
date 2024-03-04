@@ -13,6 +13,9 @@ $$SUIT_Manifest_Extensions //=
 $$SUIT_severable-members-extensions //= 
     (suit-dependency-resolution => bstr .cbor SUIT_Command_Sequence)
 
+$$SUIT_severable-members-extensions //=
+    (suit-candidate-verification => bstr .cbor SUIT_Command_Sequence)
+
 $$unseverable-manifest-member-extensions //= 
     (suit-uninstall => bstr .cbor SUIT_Command_Sequence)
 
@@ -49,6 +52,7 @@ suit-manifest-component-id = 5
 
 suit-delegation = 1
 suit-dependency-resolution = 15
+suit-candidate-verification = 18
 suit-uninstall = 24
 
 suit-dependencies = 1

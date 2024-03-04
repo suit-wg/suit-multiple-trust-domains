@@ -1,7 +1,7 @@
 ---
 title: SUIT Manifest Extensions for Multiple Trust Domains
 abbrev: SUIT Trust Domains
-docname: draft-ietf-suit-trust-domains-05
+docname: draft-ietf-suit-trust-domains-06
 category: std
 
 ipr: trust200902
@@ -66,11 +66,11 @@ or software update.
 
 Devices that go beyond single-signer update require more complex rules for deploying software updates. For example, devices may require:
 
-* long-term Trust Anchors with a mechanism to delegate trust to short term keys.
 * software Components from multiple software signing authorities.
 * a mechanism to remove an unneeded Component
 * single-object Dependencies
 * a partly encrypted Manifest so that distribution does not reveal private information
+* installation performed by a different execution mode than payload fetch
 
 Dependency Manifests enable several additional use cases. In particular, they enable two or more entities who are trusted for different privileges to coordinate. This can be used in many scenarios. For example:
 
@@ -112,8 +112,11 @@ find them, and the devices to which they apply.
 * Record: The result of a Command and any metadata about it.
 * Report: A list of Records.
 * Procedure: The process of invoking one or more sequences of Commands.
-* Update Procedure: A Procedure that updates a Recipient by fetching Dependencies and Images, and installing them.
+* Update Procedure: A superset of Staging Procedure and Installation Procedure.
+* Staging Procedure: A procedure that fetches dependencies and images referenced by an Update and stores them to a Staging Area.
+* Installation Procedure: A procedure that installs dependencies and images stored in a Staging Area; copying (and optionally, transforming them) into an active Image storage location.
 * Invocation Procedure: A Procedure in which a Recipient verifies Dependencies and Images, loading Images, and invokes one or more Image.
+* Staging Area: A Component or group of Components that are used for transient storage of Images between fetch and installation. Images in this area are opaque, except for use by the Installation Procedure.
 * Software: Instructions and data that allow a Recipient to perform a useful function.
 * Firmware: Software that is typically changed infrequently, stored in nonvolatile memory, and small enough to apply to {{RFC7228}} Class 0-2 devices.
 * Image: Information that a Recipient uses to perform its function, typically Firmware/Software, configuration, or Resource data such as text or images. Also, a Payload, once installed is an Image.
@@ -137,13 +140,13 @@ One additional assumption is added to the Invocation Procedure:
 
 * All Dependencies must be validated prior to loading.
 
-Steps 1 and 4 are added to the expected installation workflow of a Recipient:
+Steps 3 and 5 are added to the expected installation workflow of a Recipient:
 
-1. Verify Delegation Chains.
-2. Verify the signature of the Manifest.
-3. Verify the applicability of the Manifest.
-4. Resolve Dependencies.
-5. Fetch Payload(s).
+1. Verify the signature of the Manifest.
+2. Verify the applicability of the Manifest.
+3. Resolve Dependencies.
+4. Fetch Payload(s).
+5. Verify Candidate.
 6. Install Payload(s).
 
 In addition, when multiple Manifests are used for an Update, each Manifest's steps occur in a lockstep fashion; all Manifests have Dependency resolution performed before any Manifest performs a Payload fetch, etc.
@@ -152,7 +155,7 @@ In addition, when multiple Manifests are used for an Update, each Manifest's ste
 
 To accommodate the additional metadata needed to enable these features, the Envelope and Manifest have several new elements added.
 
-The Envelope gains two more elements: Delegation Chains and Integrated Dependencies. The Common metadata section in the Manifest also gains a list of Dependencies.
+The Envelope gains one more elements: Integrated Dependencies. The Common metadata section in the Manifest also gains a list of Dependencies.
 
 The new metadata structure is shown below.
 
@@ -160,7 +163,6 @@ The new metadata structure is shown below.
 +-------------------------+
 | Envelope                |
 +-------------------------+
-| Delegation Chains       |
 | Authentication Block    |
 | Manifest           --------------> +------------------------------+
 | Severable Elements      |          | Manifest                     |
@@ -183,19 +185,6 @@ The new metadata structure is shown below.
                                      | ))                    |
                                      +-----------------------+
 ~~~
-
-#  Delegation Chains {#ovr-delegation}
-
-Delegation Chains allow a Recipient to establish a chain of trust from a Trust Anchor to the signer of a Manifest by validating delegation claims. Each delegation claim is a {{RFC8392}} CBOR Web Token (CWT). The first claim in each list is signed by a Trust Anchor. Each subsequent claim in a list is signed by the public key claimed in the preceding list element. The last element in each list claims a public key that can be used to verify a signature in the Authentication Block (See Section 5.2 of {{I-D.ietf-suit-manifest}}).
-
-See {{delegation-info}} for more detail.
-
-##  Delegation Chains {#delegation-info}
-
-The suit-delegation element MAY carry one or more CBOR Web Tokens (CWTs) {{RFC8392}}, with {{RFC8747}} cnf claims. They can be used to perform enhanced authorization decisions. The CWTs are arranged into a list of lists. Each list starts with a CWT authorized by a Trust Anchor, and finishes with a key used to authenticate the Manifest (see Section 8.3 of {{I-D.ietf-suit-manifest}}). This allows an Update Authority to delegate from a long term Trust Anchor, down through intermediaries, to a delegate without any out-of-band provisioning of Trust Anchors or intermediary keys.
-
-A Recipient MAY choose to cache intermediaries and/or delegates. If an intermediary knows that a targeted Recipient has cached some intermediaries or delegates, it MAY choose to strip any cached intermediaries or delegates from the Delegation Chains in order to reduce bandwidth and energy.
-
 
 #  Dependencies 
 
@@ -368,10 +357,9 @@ Check whether the current Component index is present in the Dependency list. If 
 
 Verify the integrity of a Dependency Manifest. When a Manifest Processor executes suit-condition-dependency-integrity, it performs the following operations:
 
-1. Evaluate any Delegation Chains
-2. Verify the signature of the Manifest hash
-3. Compare the Manifest hash to the provided hash
-4. Verify the Manifest against the Manifest hash
+1. Verify the signature of the Manifest hash
+2. Compare the Manifest hash to the provided hash
+3. Verify the Manifest against the Manifest hash
 
 If any of these steps fails, the Manifest Process MUST immediately Abort.
 
@@ -414,6 +402,28 @@ In some systems, particularly with multiple, independent, optional Components, i
 WARNING: This can cause faults where there are loose Dependencies (e.g., version range matching, see {{I-D.ietf-suit-update-management}}), since a Component can be removed while it is depended upon by another Component. To avoid Dependency faults, a Manifest author MAY use explicit Dependencies where possible, or a Manifest processor MAY track references to loose Dependencies via reference counting in the same way as explicit Dependencies, as described in {{suit-directive-unlink}}.
 
 The suit-uninstall Command Sequence is not severable, since it must always be available to enable uninstalling.
+
+# Staging and Installation
+
+In order to coordinate between download and installation in different trust domains, the Update Procedure defined in {{I-D.ietf-suit-manifest}}, Section 8.4.6 is divided into two sub-procedures:
+
+* The Staging Procedure: This procedure is responsible for dependency resolution and acquiring all payloads required for the Update to proceed. It is composed of two command sequences
+
+    * suit-dependency-resolution
+    * suit-payload-fetch
+
+* The Installation Procedure: This procedure is responsible for validating staged components and installing them. It is composed of:
+
+    * suit-candidate-validation
+    * suit-install
+
+This extension is backwards compatible when used with a Manifest Processor that supports the Update Procedure but = does not support the Staging Procedure and Installation Procedure: the payload-fetch command sequence already contains suit-condition-image tests for each payload (see {{I-D.ietf-suit-manifest}}, section 7.3) which means that images are already validated when suit-install is invoked. This makes suit-candidate-verification OPTIONAL to implement and OPTIONAL to parse.
+
+The Staging and Installation Procedures are only required when Staging occurs in a different trust domain to Installation.
+
+## suit-candidate-verification {#suit-candidate-verification}
+
+This command sequence is responsible for verifying that all elements of an update are present and correct prior to installation. This is only required when Installation occurs in a trust domain different from Staging, such as an installer invoked by the bootloader.
 
 # Creating Manifests {#creating-manifests}
 
@@ -569,8 +579,8 @@ IANA is requested to allocate the following numbers in the listed registries cre
 
 Label | Name | Reference
 ---|---|---
-1  | Delegation | {{ovr-delegation}}
 15 | Dependency Resolution | {{suit-dependency-resolution}}
+18 | Candidate Verification | {{suit-candidate-verification}}
 
 ## SUIT Manifest Elements
 
@@ -635,15 +645,6 @@ bz/m4rVlnIXbwK07HypLbAmBMcCjbazR14vTgdzfsJwFLbM5kdtzOLSolg==
 ~~~
 
 Each example uses SHA256 as the digest function.
-
-## Example 0: Delegation Chain
-
-This example uses functionalities:
-
-* manifest component id
-* delegation chain
-
-{::include examples/example0_delegation.txt}
 
 ## Example 1: Process Dependency
 
