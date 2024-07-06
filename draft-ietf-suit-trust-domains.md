@@ -1,7 +1,7 @@
 ---
 title: SUIT Manifest Extensions for Multiple Trust Domains
 abbrev: SUIT Trust Domains
-docname: draft-ietf-suit-trust-domains-06
+docname: draft-ietf-suit-trust-domains-07
 category: std
 
 ipr: trust200902
@@ -412,9 +412,9 @@ In order to coordinate between download and installation in different trust doma
     * suit-dependency-resolution
     * suit-payload-fetch
 
-* The Installation Procedure: This procedure is responsible for validating staged components and installing them. It is composed of:
+* The Installation Procedure: This procedure is responsible for verifying staged components and installing them. It is composed of:
 
-    * suit-candidate-validation
+    * suit-candidate-verification
     * suit-install
 
 This extension is backwards compatible when used with a Manifest Processor that supports the Update Procedure but = does not support the Staging Procedure and Installation Procedure: the payload-fetch command sequence already contains suit-condition-image tests for each payload (see {{I-D.ietf-suit-manifest}}, section 7.3) which means that images are already validated when suit-install is invoked. This makes suit-candidate-verification OPTIONAL to implement and OPTIONAL to parse.
