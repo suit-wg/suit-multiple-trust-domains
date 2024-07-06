@@ -5,12 +5,12 @@
 SUIT                                                            B. Moran
 Internet-Draft                                               Arm Limited
 Intended status: Standards Track                             K. Takayama
-Expires: 14 March 2024                                   SECOM CO., LTD.
-                                                       11 September 2023
+Expires: 5 September 2024                                SECOM CO., LTD.
+                                                            4 March 2024
 
 
           SUIT Manifest Extensions for Multiple Trust Domains
-                    draft-ietf-suit-trust-domains-05
+                    draft-ietf-suit-trust-domains-06
 
 Abstract
 
@@ -36,11 +36,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 March 2024.
+   This Internet-Draft will expire on 5 September 2024.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Moran & Takayama          Expires 14 March 2024                 [Page 1]
+Moran & Takayama        Expires 5 September 2024                [Page 1]
 
-Internet-Draft             SUIT Trust Domains             September 2023
+Internet-Draft             SUIT Trust Domains                 March 2024
 
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -73,35 +73,35 @@ Table of Contents
    2.  Conventions and Terminology . . . . . . . . . . . . . . . . .   4
    3.  Changes to SUIT Workflow Model  . . . . . . . . . . . . . . .   6
    4.  Changes to Manifest Metadata Structure  . . . . . . . . . . .   7
-   5.  Delegation Chains . . . . . . . . . . . . . . . . . . . . . .   8
-     5.1.  Delegation Chains . . . . . . . . . . . . . . . . . . . .   8
-   6.  Dependencies  . . . . . . . . . . . . . . . . . . . . . . . .   9
-     6.1.    Changes to Required Checks  . . . . . . . . . . . . . .   9
-     6.2.  Changes to Manifest Structure . . . . . . . . . . . . . .  10
-       6.2.1.  Manifest Component ID . . . . . . . . . . . . . . . .  10
-       6.2.2.  SUIT_Dependencies Manifest Element  . . . . . . . . .  10
-     6.3.  Changes to Abstract Machine Description . . . . . . . . .  12
-     6.4.  Processing Dependencies . . . . . . . . . . . . . . . . .  13
-       6.4.1.  Multiple Manifest Processors  . . . . . . . . . . . .  14
-     6.5.  Dependency Resolution . . . . . . . . . . . . . . . . . .  15
-     6.6.  Added and Modified Commands . . . . . . . . . . . . . . .  15
-       6.6.1.  suit-directive-set-parameters . . . . . . . . . . . .  16
-       6.6.2.  suit-directive-process-dependency . . . . . . . . . .  16
-       6.6.3.  suit-condition-is-dependency  . . . . . . . . . . . .  17
-       6.6.4.  suit-condition-dependency-integrity . . . . . . . . .  17
-       6.6.5.  suit-directive-unlink . . . . . . . . . . . . . . . .  17
-   7.  Uninstall . . . . . . . . . . . . . . . . . . . . . . . . . .  18
+   5.  Dependencies  . . . . . . . . . . . . . . . . . . . . . . . .   8
+     5.1.    Changes to Required Checks  . . . . . . . . . . . . . .   8
+     5.2.  Changes to Manifest Structure . . . . . . . . . . . . . .   9
+       5.2.1.  Manifest Component ID . . . . . . . . . . . . . . . .  10
+       5.2.2.  SUIT_Dependencies Manifest Element  . . . . . . . . .  10
+     5.3.  Changes to Abstract Machine Description . . . . . . . . .  11
+     5.4.  Processing Dependencies . . . . . . . . . . . . . . . . .  12
+       5.4.1.  Multiple Manifest Processors  . . . . . . . . . . . .  13
+     5.5.  Dependency Resolution . . . . . . . . . . . . . . . . . .  14
+     5.6.  Added and Modified Commands . . . . . . . . . . . . . . .  14
+       5.6.1.  suit-directive-set-parameters . . . . . . . . . . . .  15
+       5.6.2.  suit-directive-process-dependency . . . . . . . . . .  15
+       5.6.3.  suit-condition-is-dependency  . . . . . . . . . . . .  16
+       5.6.4.  suit-condition-dependency-integrity . . . . . . . . .  16
+       5.6.5.  suit-directive-unlink . . . . . . . . . . . . . . . .  17
+   6.  Uninstall . . . . . . . . . . . . . . . . . . . . . . . . . .  17
+   7.  Staging and Installation  . . . . . . . . . . . . . . . . . .  18
+     7.1.  suit-candidate-verification . . . . . . . . . . . . . . .  19
    8.  Creating Manifests  . . . . . . . . . . . . . . . . . . . . .  19
      8.1.  Dependency Template . . . . . . . . . . . . . . . . . . .  19
        8.1.1.  Integrated Dependencies . . . . . . . . . . . . . . .  20
      8.2.  Encrypted Manifest Template . . . . . . . . . . . . . . .  20
      8.3.  Overriding Encryption Info Template . . . . . . . . . . .  21
      8.4.  Operating on Multiple Components  . . . . . . . . . . . .  23
-   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  24
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  25
      9.1.  SUIT Envelope Elements  . . . . . . . . . . . . . . . . .  25
      9.2.  SUIT Manifest Elements  . . . . . . . . . . . . . . . . .  25
      9.3.  SUIT Common Elements  . . . . . . . . . . . . . . . . . .  25
-     9.4.  SUIT Commands . . . . . . . . . . . . . . . . . . . . . .  25
+     9.4.  SUIT Commands . . . . . . . . . . . . . . . . . . . . . .  26
    10. Security Considerations . . . . . . . . . . . . . . . . . . .  26
    11. References  . . . . . . . . . . . . . . . . . . . . . . . . .  26
      11.1.  Normative References . . . . . . . . . . . . . . . . . .  26
@@ -109,26 +109,22 @@ Table of Contents
 
 
 
-Moran & Takayama          Expires 14 March 2024                 [Page 2]
+Moran & Takayama        Expires 5 September 2024                [Page 2]
 
-Internet-Draft             SUIT Trust Domains             September 2023
+Internet-Draft             SUIT Trust Domains                 March 2024
 
 
    Appendix A.  A.  Full CDDL  . . . . . . . . . . . . . . . . . . .  28
    Appendix B.  B.  Examples . . . . . . . . . . . . . . . . . . . .  29
-     B.1.  Example 0: Delegation Chain . . . . . . . . . . . . . . .  29
-     B.2.  Example 1: Process Dependency . . . . . . . . . . . . . .  32
-     B.3.  Example 2: Integrated Dependency  . . . . . . . . . . . .  34
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  36
+     B.1.  Example 0: Process Dependency . . . . . . . . . . . . . .  30
+     B.2.  Example 1: Integrated Dependency  . . . . . . . . . . . .  32
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  35
 
 1.  Introduction
 
    Devices that go beyond single-signer update require more complex
    rules for deploying software updates.  For example, devices may
    require:
-
-   *  long-term Trust Anchors with a mechanism to delegate trust to
-      short term keys.
 
    *  software Components from multiple software signing authorities.
 
@@ -138,6 +134,9 @@ Internet-Draft             SUIT Trust Domains             September 2023
 
    *  a partly encrypted Manifest so that distribution does not reveal
       private information
+
+   *  installation performed by a different execution mode than payload
+      fetch
 
    Dependency Manifests enable several additional use cases.  In
    particular, they enable two or more entities who are trusted for
@@ -165,9 +164,10 @@ Internet-Draft             SUIT Trust Domains             September 2023
 
 
 
-Moran & Takayama          Expires 14 March 2024                 [Page 3]
+
+Moran & Takayama        Expires 5 September 2024                [Page 3]
 
-Internet-Draft             SUIT Trust Domains             September 2023
+Internet-Draft             SUIT Trust Domains                 March 2024
 
 
    *  An Author wants to entrust a Distributor to provide devices with
@@ -221,9 +221,9 @@ Internet-Draft             SUIT Trust Domains             September 2023
 
 
 
-Moran & Takayama          Expires 14 March 2024                 [Page 4]
+Moran & Takayama        Expires 5 September 2024                [Page 4]
 
-Internet-Draft             SUIT Trust Domains             September 2023
+Internet-Draft             SUIT Trust Domains                 March 2024
 
 
    *  Envelope: A container with the Manifest, an authentication wrapper
@@ -269,22 +269,31 @@ Internet-Draft             SUIT Trust Domains             September 2023
    *  Procedure: The process of invoking one or more sequences of
       Commands.
 
-   *  Update Procedure: A Procedure that updates a Recipient by fetching
-      Dependencies and Images, and installing them.
+   *  Update Procedure: A superset of Staging Procedure and Installation
+      Procedure.
+
+   *  Staging Procedure: A procedure that fetches dependencies and
+      images referenced by an Update and stores them to a Staging Area.
 
 
 
-
-
-
-Moran & Takayama          Expires 14 March 2024                 [Page 5]
+Moran & Takayama        Expires 5 September 2024                [Page 5]
 
-Internet-Draft             SUIT Trust Domains             September 2023
+Internet-Draft             SUIT Trust Domains                 March 2024
 
+
+   *  Installation Procedure: A procedure that installs dependencies and
+      images stored in a Staging Area; copying (and optionally,
+      transforming them) into an active Image storage location.
 
    *  Invocation Procedure: A Procedure in which a Recipient verifies
       Dependencies and Images, loading Images, and invokes one or more
       Image.
+
+   *  Staging Area: A Component or group of Components that are used for
+      transient storage of Images between fetch and installation.
+      Images in this area are opaque, except for use by the Installation
+      Procedure.
 
    *  Software: Instructions and data that allow a Recipient to perform
       a useful function.
@@ -321,30 +330,30 @@ Internet-Draft             SUIT Trust Domains             September 2023
    *  All Dependency Manifests must be present before any Payload is
       fetched.
 
+
+
+
+Moran & Takayama        Expires 5 September 2024                [Page 6]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
+
    One additional assumption is added to the Invocation Procedure:
 
    *  All Dependencies must be validated prior to loading.
 
-   Steps 1 and 4 are added to the expected installation workflow of a
+   Steps 3 and 5 are added to the expected installation workflow of a
    Recipient:
 
-   1.  Verify Delegation Chains.
+   1.  Verify the signature of the Manifest.
 
+   2.  Verify the applicability of the Manifest.
 
+   3.  Resolve Dependencies.
 
+   4.  Fetch Payload(s).
 
-Moran & Takayama          Expires 14 March 2024                 [Page 6]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
-   2.  Verify the signature of the Manifest.
-
-   3.  Verify the applicability of the Manifest.
-
-   4.  Resolve Dependencies.
-
-   5.  Fetch Payload(s).
+   5.  Verify Candidate.
 
    6.  Install Payload(s).
 
@@ -358,9 +367,9 @@ Internet-Draft             SUIT Trust Domains             September 2023
    To accommodate the additional metadata needed to enable these
    features, the Envelope and Manifest have several new elements added.
 
-   The Envelope gains two more elements: Delegation Chains and
-   Integrated Dependencies.  The Common metadata section in the Manifest
-   also gains a list of Dependencies.
+   The Envelope gains one more elements: Integrated Dependencies.  The
+   Common metadata section in the Manifest also gains a list of
+   Dependencies.
 
    The new metadata structure is shown below.
 
@@ -380,24 +389,14 @@ Internet-Draft             SUIT Trust Domains             September 2023
 
 
 
-
-
-
-
-
-
-
-
-
-Moran & Takayama          Expires 14 March 2024                 [Page 7]
+Moran & Takayama        Expires 5 September 2024                [Page 7]
 
-Internet-Draft             SUIT Trust Domains             September 2023
+Internet-Draft             SUIT Trust Domains                 March 2024
 
 
    +-------------------------+
    | Envelope                |
    +-------------------------+
-   | Delegation Chains       |
    | Authentication Block    |
    | Manifest           --------------> +------------------------------+
    | Severable Elements      |          | Manifest                     |
@@ -420,46 +419,7 @@ Internet-Draft             SUIT Trust Domains             September 2023
                                         | ))                    |
                                         +-----------------------+
 
-5.  Delegation Chains
-
-   Delegation Chains allow a Recipient to establish a chain of trust
-   from a Trust Anchor to the signer of a Manifest by validating
-   delegation claims.  Each delegation claim is a [RFC8392] CBOR Web
-   Token (CWT).  The first claim in each list is signed by a Trust
-   Anchor.  Each subsequent claim in a list is signed by the public key
-   claimed in the preceding list element.  The last element in each list
-   claims a public key that can be used to verify a signature in the
-   Authentication Block (See Section 5.2 of [I-D.ietf-suit-manifest]).
-
-   See Section 5.1 for more detail.
-
-5.1.  Delegation Chains
-
-   The suit-delegation element MAY carry one or more CBOR Web Tokens
-   (CWTs) [RFC8392], with [RFC8747] cnf claims.  They can be used to
-   perform enhanced authorization decisions.  The CWTs are arranged into
-   a list of lists.  Each list starts with a CWT authorized by a Trust
-   Anchor, and finishes with a key used to authenticate the Manifest
-   (see Section 8.3 of [I-D.ietf-suit-manifest]).  This allows an Update
-   Authority to delegate from a long term Trust Anchor, down through
-
-
-
-Moran & Takayama          Expires 14 March 2024                 [Page 8]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
-   intermediaries, to a delegate without any out-of-band provisioning of
-   Trust Anchors or intermediary keys.
-
-   A Recipient MAY choose to cache intermediaries and/or delegates.  If
-   an intermediary knows that a targeted Recipient has cached some
-   intermediaries or delegates, it MAY choose to strip any cached
-   intermediaries or delegates from the Delegation Chains in order to
-   reduce bandwidth and energy.
-
-6.  Dependencies
+5.  Dependencies
 
    A Dependency is another SUIT_Envelope that describes additional
    Components.
@@ -467,7 +427,7 @@ Internet-Draft             SUIT Trust Domains             September 2023
    As described in Section 1, Dependencies enable several common use
    cases.
 
-6.1.    Changes to Required Checks
+5.1.    Changes to Required Checks
 
    This section augments the definitions in Required Checks
    (Section 6.2) of [I-D.ietf-suit-manifest].
@@ -482,6 +442,14 @@ Internet-Draft             SUIT Trust Domains             September 2023
    ACL, it MAY choose to defer the verification of signatures of
    Dependencies until the list of affected Components is known so that
    it can skip redundant signature verifications.  For example, if a
+
+
+
+Moran & Takayama        Expires 5 September 2024                [Page 8]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
+
    dependent's signer has access rights to all Components specified in a
    Dependency, then that Dependency does not require a signature
    verification.  Similarly, if the signer of the dependent has full
@@ -489,22 +457,13 @@ Internet-Draft             SUIT Trust Domains             September 2023
    verification is necessary on the Dependency.
 
    Components that should be treated as Dependency Manifests are
-   identified in the suit-common metadata.  See Section 6.2 for details.
+   identified in the suit-common metadata.  See Section 5.2 for details.
 
    If the Manifest contains more than one Component and/or Dependency,
    each Command sequence MUST begin with a Set Component Index Command.
 
    If a Dependency is specified, then the Manifest processor MUST
    perform the following checks:
-
-
-
-
-
-Moran & Takayama          Expires 14 March 2024                 [Page 9]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
 
    1.  The dependent MUST populate all Command sequences for the current
        Procedure (Update or Invoke).
@@ -527,12 +486,27 @@ Internet-Draft             SUIT Trust Domains             September 2023
 
    The single dependent Manifest is sometimes called a Root Manifest.
 
-6.2.  Changes to Manifest Structure
+5.2.  Changes to Manifest Structure
 
    This section augments the Manifest Structure (Section 8.4) in
    [I-D.ietf-suit-manifest].
 
-6.2.1.  Manifest Component ID
+
+
+
+
+
+
+
+
+
+
+Moran & Takayama        Expires 5 September 2024                [Page 9]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
+
+5.2.1.  Manifest Component ID
 
    In complex systems, it may not always be clear where the Root
    Manifest should be stored; this is particularly complex when a system
@@ -547,20 +521,13 @@ Internet-Draft             SUIT Trust Domains             September 2023
    $$SUIT_Manifest_Extensions //=
        (suit-manifest-component-id => SUIT_Component_Identifier)
 
-6.2.2.  SUIT_Dependencies Manifest Element
+5.2.2.  SUIT_Dependencies Manifest Element
 
    The suit-common section, as described in [I-D.ietf-suit-manifest],
    Section 8.4.5 is extended with a map of Component indices that
    indicate a Dependency Manifest.  The keys of the map are the
    Component indices and the values of the map are any extra metadata
    needed to describe those Dependency Manifests.
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 10]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
 
    Because some operations treat Dependency Manifests differently from
    other Components, it is necessary to identify them.
@@ -587,6 +554,14 @@ Internet-Draft             SUIT Trust Domains             September 2023
    size as a null).  SUIT_Dependencies MUST be sorted according to CBOR
    canonical encoding.
 
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 10]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
+
    The Components specified by SUIT_Dependency will contain a Manifest
    Envelope that describes a Dependency of the current Manifest.  The
    Manifest is identified, but the Recipient should expect an Envelope
@@ -609,15 +584,6 @@ Internet-Draft             SUIT Trust Domains             September 2023
    Manifest, removing the original signature, potentially with a
    different algorithm, or trading COSE_Sign for COSE_Mac.
 
-
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 11]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
    The suit-dependency-prefix element contains a
    SUIT_Component_Identifier (see Section 8.4.5.1 of
    [I-D.ietf-suit-manifest]).  This specifies the scope at which the
@@ -635,15 +601,22 @@ Internet-Draft             SUIT Trust Domains             September 2023
 
    A Dependency prefix can also be used to indicate when a Dependency
    Manifest needs to be processed by a secondary Manifest processor, as
-   described in Section 6.4.1.
+   described in Section 5.4.1.
 
-6.3.  Changes to Abstract Machine Description
+5.3.  Changes to Abstract Machine Description
 
    This section augments the Abstract Machine Description (Section 6.4)
    in [I-D.ietf-suit-manifest].  With the addition of Dependencies, some
    changes are necessary to the abstract machine, outside the typical
    scope of added Commands.  These changes alter the behaviour of an
    existing Command and way that the parser processes Manifests:
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 11]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
 
    *  Five new Commands are introduced:
 
@@ -662,18 +635,6 @@ Internet-Draft             SUIT Trust Domains             September 2023
       process Dependency.  Commands defined outside of this draft and
       [I-D.ietf-suit-manifest] MAY have additional restrictions.
 
-
-
-
-
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 12]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
    *  Dependencies are processed in lockstep with the Root Manifest.
       This means that every Dependency's current Command sequence must
       be executed before a dependent's later Command sequence may be
@@ -690,9 +651,9 @@ Internet-Draft             SUIT Trust Domains             September 2023
       overwritten.  The Manifest Uninstall section must be called, then
       the component MUST be Unlinked.
 
-6.4.  Processing Dependencies
+5.4.  Processing Dependencies
 
-   As described in Section 6.1, each Manifest must invoke each of its
+   As described in Section 5.1, each Manifest must invoke each of its
    Dependencies' sections from the corresponding section of the
    dependent.  Any changes made to Parameters by the Dependency persist
    in the dependent.
@@ -703,6 +664,15 @@ Internet-Draft             SUIT Trust Domains             September 2023
    1.  Checks whether the map of Dependencies contains an entry for the
        current Component Index.  If not present, it causes an immediate
        Abort.
+
+
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 12]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
 
    2.  Checks whether the Dependency has been the target of a Dependency
        integrity check.  If not, it causes an immediate Abort.
@@ -719,18 +689,10 @@ Internet-Draft             SUIT Trust Domains             September 2023
    If the specified Dependency does not contain the current section,
    Process Dependency succeeds immediately.
 
-   The interpreter also performs the checks described in Section 6.1 to
+   The interpreter also performs the checks described in Section 5.1 to
    ensure that the dependent is processing the Dependency correctly.
 
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 13]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
-6.4.1.  Multiple Manifest Processors
+5.4.1.  Multiple Manifest Processors
 
    When a system has multiple trust domains, each domain might require
    independent verification of authenticity or security policies.  Trust
@@ -761,6 +723,13 @@ Internet-Draft             SUIT Trust Domains             September 2023
    separation of privilege infrastructure, such as TEEs, or physical
    separation.
 
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 13]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
+
    When the first Manifest processor encounters a Dependency prefix,
    that informs the first Manifest processor that it should provide the
    second Manifest processor with the corresponding Dependency Envelope.
@@ -778,14 +747,6 @@ Internet-Draft             SUIT Trust Domains             September 2023
    This mechanism ensures that the two or more Manifest processors do
    not need to trust each other, except in a very limited case.  When
    Parameter setting across trust domains is used, it must be very
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 14]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
    carefully considered.  Only Parameters that do not have an effect on
    security properties should be allowed.  The Dependency Manifest MAY
    control which Parameters are allowed to be set by using the Override
@@ -795,7 +756,7 @@ Internet-Draft             SUIT Trust Domains             September 2023
    be set by a dependent without a substantial impact on the security
    properties of the Manifest.
 
-6.5.  Dependency Resolution
+5.5.  Dependency Resolution
 
    The Dependency Resolution Command Sequence is a container for the
    Commands needed to acquire and process the Dependencies of the
@@ -803,10 +764,27 @@ Internet-Draft             SUIT Trust Domains             September 2023
    any Payload is fetched to ensure that all Manifests are available and
    authenticated before any of the (larger) Payloads are acquired.
 
-6.6.  Added and Modified Commands
+5.6.  Added and Modified Commands
 
    All Commands are modified in that they can also target Dependencies.
    However, Set Component Index has a larger modification.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 14]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
 
           +================+====================================+
           | Command Name   | Semantic of the Operation          |
@@ -828,21 +806,7 @@ Internet-Draft             SUIT Trust Domains             September 2023
 
                                   Table 1
 
-
-
-
-
-
-
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 15]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
-6.6.1.  suit-directive-set-parameters
+5.6.1.  suit-directive-set-parameters
 
    Similar to suit-directive-override-parameters, suit-directive-set-
    parameters allows the Manifest to configure behavior of future
@@ -861,7 +825,7 @@ Internet-Draft             SUIT Trust Domains             September 2023
 
    suit-directive-set-parameters does not specify a reporting policy.
 
-6.6.2.  suit-directive-process-dependency
+5.6.2.  suit-directive-process-dependency
 
    Execute the Commands in the common section of the current Dependency,
    followed by the Commands in the equivalent section of the current
@@ -870,6 +834,13 @@ Internet-Draft             SUIT Trust Domains             September 2023
    "Payload Fetch" in the current Dependency.  Once this is complete,
    the Command following suit-directive-process-dependency will be
    processed.
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 15]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
 
    If the current Component index does not have an entry in the suit-
    dependencies map, then this Command MUST Abort.
@@ -884,21 +855,7 @@ Internet-Draft             SUIT Trust Domains             September 2023
    When SUIT_Process_Dependency completes, it forwards the last status
    code that occurred in the Dependency.
 
-
-
-
-
-
-
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 16]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
-6.6.3.  suit-condition-is-dependency
+5.6.3.  suit-condition-is-dependency
 
    Check whether the current Component index is present in the
    Dependency list.  If the current Component is in the Dependency list,
@@ -906,19 +863,17 @@ Internet-Draft             SUIT Trust Domains             September 2023
    can be used along with component-id = True to act on all Dependencies
    or on all non-Dependency Components.  See Section 8 for more details.
 
-6.6.4.  suit-condition-dependency-integrity
+5.6.4.  suit-condition-dependency-integrity
 
    Verify the integrity of a Dependency Manifest.  When a Manifest
    Processor executes suit-condition-dependency-integrity, it performs
    the following operations:
 
-   1.  Evaluate any Delegation Chains
+   1.  Verify the signature of the Manifest hash
 
-   2.  Verify the signature of the Manifest hash
+   2.  Compare the Manifest hash to the provided hash
 
-   3.  Compare the Manifest hash to the provided hash
-
-   4.  Verify the Manifest against the Manifest hash
+   3.  Verify the Manifest against the Manifest hash
 
    If any of these steps fails, the Manifest Process MUST immediately
    Abort.
@@ -930,7 +885,20 @@ Internet-Draft             SUIT Trust Domains             September 2023
    checks, it MUST eliminate this cache if any Fetch, or Copy operation
    targets the Dependency Manifest's Component ID.
 
-6.6.5.  suit-directive-unlink
+
+
+
+
+
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 16]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
+
+5.6.5.  suit-directive-unlink
 
    A manifest processor that supports multiple independent root
    manifests MUST support suit-directive-unlink.  When a Component is no
@@ -943,16 +911,6 @@ Internet-Draft             SUIT Trust Domains             September 2023
    reference count of the unlinked Manifest.  The suit-uninstall section
    of a manifest typically contains an unlink of all its dependencies
    and components.
-
-
-
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 17]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
 
    All components, including Manifests must be unlinked before deletion
    or overwrite.  If the reference count of a component is non-zero, any
@@ -973,13 +931,13 @@ Internet-Draft             SUIT Trust Domains             September 2023
    on device policy.
 
    When the reference counter of a Manifest reaches zero, the suit-
-   uninstall Command sequence is invoked (see Section 7).
+   uninstall Command sequence is invoked (see Section 6).
 
    suit-directive-unlink is OPTIONAL to implement in Manifest
    processors, but Manifest processors that support multiple independent
    Root Manifests MUST support suit-directive-unlink.
 
-7.  Uninstall
+6.  Uninstall
 
    In some systems, particularly with multiple, independent, optional
    Components, it may be that there is a need to uninstall the
@@ -989,6 +947,13 @@ Internet-Draft             SUIT Trust Domains             September 2023
    its Dependencies.  In general, the suit-uninstall Command Sequence
    will contain primarily unlink Directives.
 
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 17]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
+
    WARNING: This can cause faults where there are loose Dependencies
    (e.g., version range matching, see
    [I-D.ietf-suit-update-management]), since a Component can be removed
@@ -996,19 +961,61 @@ Internet-Draft             SUIT Trust Domains             September 2023
    faults, a Manifest author MAY use explicit Dependencies where
    possible, or a Manifest processor MAY track references to loose
    Dependencies via reference counting in the same way as explicit
-   Dependencies, as described in Section 6.6.5.
+   Dependencies, as described in Section 5.6.5.
 
    The suit-uninstall Command Sequence is not severable, since it must
    always be available to enable uninstalling.
 
+7.  Staging and Installation
+
+   In order to coordinate between download and installation in different
+   trust domains, the Update Procedure defined in
+   [I-D.ietf-suit-manifest], Section 8.4.6 is divided into two sub-
+   procedures:
+
+   *  The Staging Procedure: This procedure is responsible for
+      dependency resolution and acquiring all payloads required for the
+      Update to proceed.  It is composed of two command sequences
+
+      -  suit-dependency-resolution
+
+      -  suit-payload-fetch
+
+   *  The Installation Procedure: This procedure is responsible for
+      validating staged components and installing them.  It is composed
+      of:
+
+      -  suit-candidate-validation
+
+      -  suit-install
+
+   This extension is backwards compatible when used with a Manifest
+   Processor that supports the Update Procedure but = does not support
+   the Staging Procedure and Installation Procedure: the payload-fetch
+   command sequence already contains suit-condition-image tests for each
+   payload (see [I-D.ietf-suit-manifest], section 7.3) which means that
+   images are already validated when suit-install is invoked.  This
+   makes suit-candidate-verification OPTIONAL to implement and OPTIONAL
+   to parse.
+
+   The Staging and Installation Procedures are only required when
+   Staging occurs in a different trust domain to Installation.
 
 
 
 
-Moran & Takayama          Expires 14 March 2024                [Page 18]
+
+Moran & Takayama        Expires 5 September 2024               [Page 18]
 
-Internet-Draft             SUIT Trust Domains             September 2023
+Internet-Draft             SUIT Trust Domains                 March 2024
 
+
+7.1.  suit-candidate-verification
+
+   This command sequence is responsible for verifying that all elements
+   of an update are present and correct prior to installation.  This is
+   only required when Installation occurs in a trust domain different
+   from Staging, such as an installer invoked by the bootloader.
 
 8.  Creating Manifests
 
@@ -1026,7 +1033,7 @@ Internet-Draft             SUIT Trust Domains             September 2023
    *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
-   *  Set Parameters Directive (see Section 6.6.1) for digest (see
+   *  Set Parameters Directive (see Section 5.6.1) for digest (see
       Section 8.4.8.6 of [I-D.ietf-suit-manifest]).  Note that the
       digest MUST match the SUIT_Digest in the Dependency's suit-
       authentication-block (see Section 8.3 of
@@ -1038,33 +1045,33 @@ Internet-Draft             SUIT Trust Domains             September 2023
    *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
-   *  Set Parameters Directive (see Section 6.6.1) for a URI (see
+   *  Set Parameters Directive (see Section 5.6.1) for a URI (see
       Section 8.4.8.10 of [I-D.ietf-suit-manifest])
 
    *  Fetch Directive (see Section 8.4.10.4 of [I-D.ietf-suit-manifest])
 
-   *  Dependency Integrity Condition (see Section 6.6.4)
+   *  Dependency Integrity Condition (see Section 5.6.4)
 
-   *  Process Dependency Directive (see Section 6.6.2)
+   *  Process Dependency Directive (see Section 5.6.2)
 
    Then, the validate sequence contains the following operations:
 
    *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
-   *  Dependency Integrity Condition (see Section 6.6.4)
 
-   *  Process Dependency Directive (see Section 6.6.2)
+
+Moran & Takayama        Expires 5 September 2024               [Page 19]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
+
+   *  Dependency Integrity Condition (see Section 5.6.4)
+
+   *  Process Dependency Directive (see Section 5.6.2)
 
    If any Dependency is declared, the dependent MUST populate all
    Command sequences for the current Procedure (Update or Invoke).
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 19]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
 
    NOTE: Any changes made to Parameters in a Dependency persist in the
    dependent.
@@ -1095,7 +1102,7 @@ Internet-Draft             SUIT Trust Domains             September 2023
    *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
-   *  Set Parameters Directive (see Section 6.6.1) for digest (see
+   *  Set Parameters Directive (see Section 5.6.1) for digest (see
       Section 8.4.8.6 of [I-D.ietf-suit-manifest]).  Note that the
       digest MUST match the SUIT_Digest in the Dependency's suit-
       authentication-block (see Section 8.3 of
@@ -1107,7 +1114,15 @@ Internet-Draft             SUIT Trust Domains             September 2023
    *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
-   *  Set Parameters Directive (see Section 6.6.1) for
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 20]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
+
+   *  Set Parameters Directive (see Section 5.6.1) for
 
       -  URI (see Section 8.4.8.9 of [I-D.ietf-suit-manifest])
 
@@ -1115,16 +1130,9 @@ Internet-Draft             SUIT Trust Domains             September 2023
 
    *  Fetch Directive (see Section 8.4.10.4 of [I-D.ietf-suit-manifest])
 
+   *  Dependency Integrity Condition (see Section 5.6.4)
 
-
-Moran & Takayama          Expires 14 March 2024                [Page 20]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
-   *  Dependency Integrity Condition (see Section 6.6.4)
-
-   *  Process Dependency Directive (see Section 6.6.2)
+   *  Process Dependency Directive (see Section 5.6.2)
 
    Then, the validate block contains the following operations:
 
@@ -1134,7 +1142,7 @@ Internet-Draft             SUIT Trust Domains             September 2023
    *  Check Image Match Condition (see Section 8.4.9.2 of
       [I-D.ietf-suit-manifest])
 
-   *  Process Dependency Directive (see Section 6.6.2)
+   *  Process Dependency Directive (see Section 5.6.2)
 
    A plaintext Manifest and its encrypted Dependency may also form a
    composite Manifest (Section 8.1.1).
@@ -1162,7 +1170,15 @@ Internet-Draft             SUIT Trust Domains             September 2023
    *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest]) pointing at dependency Manifest
 
-   *  Set Parameters Directive (see Section 6.6.1) for
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 21]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
+
+   *  Set Parameters Directive (see Section 5.6.1) for
 
       -  Image Digest (see Section 8.4.8.6 of [I-D.ietf-suit-manifest])
 
@@ -1171,14 +1187,7 @@ Internet-Draft             SUIT Trust Domains             September 2023
 
    *  Fetch Directive (see Section 8.4.10.4 of [I-D.ietf-suit-manifest])
 
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 21]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
-   *  Dependency Integrity Condition (see Section 6.6.4)
+   *  Dependency Integrity Condition (see Section 5.6.4)
 
    The following Commands are placed into the Fetch/Install block of
    dependent Manifest
@@ -1186,18 +1195,18 @@ Internet-Draft             SUIT Trust Domains             September 2023
    *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest]) pointing at encrypted Payload
 
-   *  Set Parameters Directive (see Section 6.6.1) for
+   *  Set Parameters Directive (see Section 5.6.1) for
 
       -  URI (see Section 8.4.8.9 of [I-D.ietf-suit-manifest])
 
    *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest]) pointing at dependency Manifest
 
-   *  Set Parameters Directive (see Section 6.6.1) for
+   *  Set Parameters Directive (see Section 5.6.1) for
 
       -  Encryption Info (See [I-D.ietf-suit-firmware-encryption])
 
-   *  Process Dependency Directive (see Section 6.6.2)
+   *  Process Dependency Directive (see Section 5.6.2)
 
    The following Commands are placed into the same block of dependency
    Manifest:
@@ -1216,6 +1225,15 @@ Internet-Draft             SUIT Trust Domains             September 2023
       -  Source Component (see Section 8.4.8.11 of
          [I-D.ietf-suit-manifest]) pointing at encrypted Payload
 
+
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 22]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
+
    *  Copy Directive (see Section 8.4.10.5 of [I-D.ietf-suit-manifest])
       consuming the Encryption Info above
 
@@ -1226,14 +1244,6 @@ Internet-Draft             SUIT Trust Domains             September 2023
    Because the Author and the Distribution System have different roles
    and MAY be separate entities, it is highly RECOMMENDED to leverage
    permissions (see Section 9 of [I-D.ietf-suit-manifest]).  For
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 22]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
    example, The Device can protect itself from attacker who breaches the
    Distribution System by allowing only the Author's Manifest to modify
    the Component of (to be) decrypted Payload.
@@ -1254,7 +1264,7 @@ Internet-Draft             SUIT Trust Domains             September 2023
    *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
-   *  Set Parameters Directive (see Section 6.6.1) for a URI (see
+   *  Set Parameters Directive (see Section 5.6.1) for a URI (see
       Section 8.4.8.9 of [I-D.ietf-suit-manifest])
 
    *  Set Component Index Directive, with argument "True" (see
@@ -1268,9 +1278,17 @@ Internet-Draft             SUIT Trust Domains             September 2023
 
          o  Fetch
 
-         o  Dependency Integrity Condition (see Section 6.6.4)
+         o  Dependency Integrity Condition (see Section 5.6.4)
 
          o  Process Dependency
+
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 23]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
 
       -  Sequence 1 (Empty; no Commands, succeeds immediately)
 
@@ -1280,15 +1298,8 @@ Internet-Draft             SUIT Trust Domains             September 2023
    *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
-   *  Set Parameters Directive (see Section 6.6.1) for a URI (see
+   *  Set Parameters Directive (see Section 5.6.1) for a URI (see
       Section 8.4.8.9 of [I-D.ietf-suit-manifest])
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 23]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
 
    *  Set Component Index Directive, with argument "True" (see
       Section 8.4.10.1 of [I-D.ietf-suit-manifest])
@@ -1315,7 +1326,7 @@ Internet-Draft             SUIT Trust Domains             September 2023
    *  Set Component Index Directive (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
-   *  Set Parameters Directive (see Section 6.6.1) for the Source
+   *  Set Parameters Directive (see Section 5.6.1) for the Source
       Component (see Section 8.4.8.11 of [I-D.ietf-suit-manifest])
 
    *  Set Component Index Directive, with argument containing list of
@@ -1328,6 +1339,13 @@ Internet-Draft             SUIT Trust Domains             September 2023
       Dependency Component indices (see Section 8.4.10.1 of
       [I-D.ietf-suit-manifest])
 
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 24]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
+
    *  Process Dependency
 
 9.  IANA Considerations
@@ -1335,39 +1353,28 @@ Internet-Draft             SUIT Trust Domains             September 2023
    IANA is requested to allocate the following numbers in the listed
    registries created by draft-ietf-suit-manifest:
 
-
-
-
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 24]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
 9.1.  SUIT Envelope Elements
 
-              +=======+=======================+=============+
-              | Label | Name                  | Reference   |
-              +=======+=======================+=============+
-              | 1     | Delegation            | Section 5   |
-              +-------+-----------------------+-------------+
-              | 15    | Dependency Resolution | Section 6.5 |
-              +-------+-----------------------+-------------+
+             +=======+========================+=============+
+             | Label | Name                   | Reference   |
+             +=======+========================+=============+
+             | 15    | Dependency Resolution  | Section 5.5 |
+             +-------+------------------------+-------------+
+             | 18    | Candidate Verification | Section 7.1 |
+             +-------+------------------------+-------------+
 
-                                  Table 2
+                                 Table 2
 
 9.2.  SUIT Manifest Elements
 
              +=======+=======================+===============+
              | Label | Name                  | Reference     |
              +=======+=======================+===============+
-             | 5     | Manifest Component ID | Section 6.2.1 |
+             | 5     | Manifest Component ID | Section 5.2.1 |
              +-------+-----------------------+---------------+
-             | 15    | Dependency Resolution | Section 6.5   |
+             | 15    | Dependency Resolution | Section 5.5   |
              +-------+-----------------------+---------------+
-             | 24    | Uninstall             | Section 7     |
+             | 24    | Uninstall             | Section 6     |
              +-------+-----------------------+---------------+
 
                                   Table 3
@@ -1377,33 +1384,38 @@ Internet-Draft             SUIT Trust Domains             September 2023
                  +=======+==============+===============+
                  | Label | Name         | Reference     |
                  +=======+==============+===============+
-                 | 1     | Dependencies | Section 6.2.2 |
+                 | 1     | Dependencies | Section 5.2.2 |
                  +-------+--------------+---------------+
 
                                  Table 4
+
+
+
+
+
+
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 25]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
 
 9.4.  SUIT Commands
 
              +=======+======================+===============+
              | Label | Name                 | Reference     |
              +=======+======================+===============+
-             | 7     | Dependency Integrity | Section 6.6.4 |
+             | 7     | Dependency Integrity | Section 5.6.4 |
              +-------+----------------------+---------------+
-             | 8     | Is Dependency        | Section 6.6.3 |
+             | 8     | Is Dependency        | Section 5.6.3 |
              +-------+----------------------+---------------+
-             | 11    | Process Dependency   | Section 6.6.2 |
+             | 11    | Process Dependency   | Section 5.6.2 |
              +-------+----------------------+---------------+
-             | 19    | Set Parameters       | Section 6.6.1 |
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 25]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
+             | 19    | Set Parameters       | Section 5.6.1 |
              +-------+----------------------+---------------+
-             | 33    | Unlink               | Section 6.6.5 |
+             | 33    | Unlink               | Section 5.6.5 |
              +-------+----------------------+---------------+
 
                                  Table 5
@@ -1425,9 +1437,9 @@ Internet-Draft             SUIT Trust Domains             September 2023
               O. Rønningstad, "A Concise Binary Object Representation
               (CBOR)-based Serialization Format for the Software Updates
               for Internet of Things (SUIT) Manifest", Work in Progress,
-              Internet-Draft, draft-ietf-suit-manifest-23, 10 September
-              2023, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              suit-manifest-23>.
+              Internet-Draft, draft-ietf-suit-manifest-25, 5 February
+              2024, <https://datatracker.ietf.org/doc/html/draft-ietf-
+              suit-manifest-25>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1439,6 +1451,13 @@ Internet-Draft             SUIT Trust Domains             September 2023
               RFC 3986, DOI 10.17487/RFC3986, January 2005,
               <https://www.rfc-editor.org/rfc/rfc3986>.
 
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 26]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
+
    [RFC6024]  Reddy, R. and C. Wallace, "Trust Anchor Management
               Requirements", RFC 6024, DOI 10.17487/RFC6024, October
               2010, <https://www.rfc-editor.org/rfc/rfc6024>.
@@ -1447,16 +1466,6 @@ Internet-Draft             SUIT Trust Domains             September 2023
               Constrained-Node Networks", RFC 7228,
               DOI 10.17487/RFC7228, May 2014,
               <https://www.rfc-editor.org/rfc/rfc7228>.
-
-
-
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 26]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -1487,17 +1496,31 @@ Internet-Draft             SUIT Trust Domains             September 2023
               Tschofenig, H., Housley, R., Moran, B., Brown, D., and K.
               Takayama, "Encrypted Payloads in SUIT Manifests", Work in
               Progress, Internet-Draft, draft-ietf-suit-firmware-
-              encryption-15, 5 September 2023,
+              encryption-19, 3 March 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-suit-
-              firmware-encryption-15>.
+              firmware-encryption-19>.
+
+
+
+
+
+
+
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 27]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
 
    [I-D.ietf-suit-update-management]
-              Moran, B., "Update Management Extensions for Software
-              Updates for Internet of Things (SUIT) Manifests", Work in
-              Progress, Internet-Draft, draft-ietf-suit-update-
-              management-02, 27 April 2023,
+              Moran, B. and K. Takayama, "Update Management Extensions
+              for Software Updates for Internet of Things (SUIT)
+              Manifests", Work in Progress, Internet-Draft, draft-ietf-
+              suit-update-management-05, 8 November 2023,
               <https://datatracker.ietf.org/doc/html/draft-ietf-suit-
-              update-management-02>.
+              update-management-05>.
 
    [I-D.ietf-teep-architecture]
               Pei, M., Tschofenig, H., Thaler, D., and D. M. Wheeler,
@@ -1506,13 +1529,6 @@ Internet-Draft             SUIT Trust Domains             September 2023
               ietf-teep-architecture-19, 24 October 2022,
               <https://datatracker.ietf.org/doc/html/draft-ietf-teep-
               architecture-19>.
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 27]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
 
 Appendix A.  A.  Full CDDL
 
@@ -1535,6 +1551,9 @@ Appendix A.  A.  Full CDDL
    $$SUIT_severable-members-extensions //=
        (suit-dependency-resolution => bstr .cbor SUIT_Command_Sequence)
 
+   $$SUIT_severable-members-extensions //=
+       (suit-candidate-verification => bstr .cbor SUIT_Command_Sequence)
+
    $$unseverable-manifest-member-extensions //=
        (suit-uninstall => bstr .cbor SUIT_Command_Sequence)
 
@@ -1543,6 +1562,13 @@ Appendix A.  A.  Full CDDL
    $$severable-manifest-members-choice-extensions //= (
        suit-dependency-resolution =>
            bstr .cbor SUIT_Command_Sequence / SUIT_Digest)
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 28]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
 
    $$SUIT_Common-extensions //= (
        suit-dependencies => SUIT_Dependencies
@@ -1562,14 +1588,6 @@ Appendix A.  A.  Full CDDL
 
    SUIT_Directive //= (
        suit-directive-process-dependency, SUIT_Rep_Policy)
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 28]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
    SUIT_Directive //= (suit-directive-set-parameters,
        {+ $$SUIT_Parameters})
    SUIT_Directive //= (
@@ -1579,6 +1597,7 @@ Internet-Draft             SUIT Trust Domains             September 2023
 
    suit-delegation = 1
    suit-dependency-resolution = 15
+   suit-candidate-verification = 18
    suit-uninstall = 24
 
    suit-dependencies = 1
@@ -1598,6 +1617,15 @@ Appendix B.  B.  Examples
 
    The examples are signed using the following ECDSA secp256r1 key:
 
+
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 29]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
+
    -----BEGIN PRIVATE KEY-----
    MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgApZYjZCUGLM50VBC
    CjYStX+09jGmnyJPrpDLTz/hiXOhRANCAASEloEarguqq9JhVxie7NomvqqL8Rtv
@@ -1613,132 +1641,7 @@ Appendix B.  B.  Examples
 
    Each example uses SHA256 as the digest function.
 
-B.1.  Example 0: Delegation Chain
-
-   This example uses functionalities:
-
-   *  manifest component id
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 29]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
-   *  delegation chain
-
-/ SUIT_Envelope_Tagged / 107({
-  / delegation / 1: << [
-    [
-      / NOTE: signed by trust anchor /
-      << 18([
-        / protected: / << {
-          / alg / 1: -7 / ES256 /
-        } >>,
-        / unprotected / {
-        },
-        / payload: / << {
-          / cnf / 8: {
-            / NOTE: public key of delegated authority /
-            / COSE_Key / 1: {
-              / kty / 1: 2 / EC2 /,
-              / crv / -1: 1 / P-256 /,
-              / x / -2:
-                h'0E908AA8F066DB1F084E0C3652C63952
-                  BD99F2A5BDB22F9E01367AAD03ABA68B',
-              / y / -3:
-                h'77DA1BD8AC4F0CB490BA210648BF79AB
-                  164D49AD3551D71D314B2749EE42D29A'
-            }
-          }
-        } >>,
-        / signature: /
-          h'FB2D5ACF66B9C8573CE92E13BFB8D113F798715CC10B5A0010B11925C155E724
-            5A64E131073B87AC50CAC71650A21315B82D06CA2298CD1A95519AAE4C4B5315'
-      ]) >>
-    ]
-  ] >>,
-  / NOTE: signed by delegated authority /
-  / authentication-wrapper / 2: << [
-    << [
-      / digest-algorithm-id: / -16 / SHA256 /,
-      / digest-bytes: /
-        h'6EA128D7BB19B86F77C4227F2A29F22026A41958ACC45CC0A35BA388B13E2F51'
-    ] >>,
-    << / COSE_Sign1_Tagged / 18([
-      / protected: / << {
-        / algorithm-id / 1: -7 / ES256 /
-      } >>,
-      / unprotected: / {},
-      / payload: / null,
-      / signature: /
-        h'99F949043701D7BDBA38904A0B49F004DED6B64A4900DECA5C66AE8A9EBA9135
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 30]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
-          76DEF136B74EA89C14FA64624DBD33B4C0BB41C153CA51548C73FF71A2BAF274'
-    ]) >>
-  ] >>,
-  / manifest / 3: << {
-    / manifest-version / 1: 1,
-    / manifest-sequence-number / 2: 0,
-    / common / 3: << {
-      / components / 2: [
-        [
-          '00'
-        ]
-      ]
-    } >>,
-    / manifest-component-id / 5: [
-      'dependent.suit'
-    ],
-    / invoke / 9: << [
-      / directive-override-parameters / 20, {
-        / parameter-invoke-args / 23: 'cat 00'
-      },
-      / directive-invoke / 23, 15
-    ] >>,
-    / install / 17: << [
-      / directive-override-parameters / 20, {
-        / parameter-content / 18: 'hello world'
-      },
-      / directive-write / 18, 15
-    ] >>
-  } >>
-})
-
-   Total size of Envelope with COSE authentication object: 352
-
-   Envelope with COSE authentication object:
-
-   D86BA301589E8181589AD28443A10126A0584FA108A101A4010220012158
-   200E908AA8F066DB1F084E0C3652C63952BD99F2A5BDB22F9E01367AAD03
-   ABA68B22582077DA1BD8AC4F0CB490BA210648BF79AB164D49AD3551D71D
-   314B2749EE42D29A5840FB2D5ACF66B9C8573CE92E13BFB8D113F798715C
-   C10B5A0010B11925C155E7245A64E131073B87AC50CAC71650A21315B82D
-   06CA2298CD1A95519AAE4C4B5315025874835824822F58206EA128D7BB19
-   B86F77C4227F2A29F22026A41958ACC45CC0A35BA388B13E2F51584AD284
-   43A10126A0F6584099F949043701D7BDBA38904A0B49F004DED6B64A4900
-   DECA5C66AE8A9EBA913576DEF136B74EA89C14FA64624DBD33B4C0BB41C1
-   53CA51548C73FF71A2BAF27440035842A6010102000347A1028181423030
-   05814E646570656E64656E742E73756974094D8414A11746636174203030
-   170F11528414A1124B68656C6C6F20776F726C64120F
-
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 31]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
-B.2.  Example 1: Process Dependency
+B.1.  Example 0: Process Dependency
 
    This example uses functionalities:
 
@@ -1771,6 +1674,14 @@ B.2.  Example 1: Process Dependency
     / manifest-sequence-number / 2: 0,
     / common / 3: << {
       / dependencies / 1: {
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 30]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
+
         / component-index / 1: {
           / dependency-prefix / 1: [
             'dependent.suit'
@@ -1786,14 +1697,6 @@ B.2.  Example 1: Process Dependency
     / manifest-component-id / 5: [
       'depending.suit'
     ],
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 32]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
     / invoke / 9: << [
       / directive-set-component-index / 12, 0,
       / directive-override-parameters / 20, {
@@ -1827,6 +1730,14 @@ Internet-Draft             SUIT Trust Domains             September 2023
       / condition-dependency-integrity / 7, 15,
       / directive-process-dependency / 11, 0,
 
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 31]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
+
       / directive-set-component-index / 12, 0,
       / directive-override-parameters / 20, {
         / parameter-content / 18: ' in multiple trust domains'
@@ -1839,16 +1750,6 @@ Internet-Draft             SUIT Trust Domains             September 2023
    Total size of Envelope with COSE authentication object: 374
 
    Envelope with COSE authentication object:
-
-
-
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 33]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
 
    D86BA2025873825824822F58204874ADC80A9128A2B2057F5FE59C45F8ED
    10A9BF9C5308FCF951B8BBAF434B95584AD28443A10126A0F65840C257E2
@@ -1864,7 +1765,7 @@ Internet-Draft             SUIT Trust Domains             September 2023
    88B13E2F51070F0B000C0014A112581A20696E206D756C7469706C652074
    7275737420646F6D61696E73120F
 
-B.3.  Example 2: Integrated Dependency
+B.2.  Example 1: Integrated Dependency
 
    *  manifest component id
 
@@ -1885,6 +1786,14 @@ B.3.  Example 2: Integrated Dependency
       / protected: / << {
         / algorithm-id / 1: -7 / ES256 /
       } >>,
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 32]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
+
       / unprotected: / {},
       / payload: / null,
       / signature: /
@@ -1898,14 +1807,6 @@ B.3.  Example 2: Integrated Dependency
     / common / 3: << {
       / dependencies / 1: {
         / component-index / 1: {
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 34]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
           / dependency-prefix / 1: [
             'dependent.suit'
           ]
@@ -1941,6 +1842,14 @@ Internet-Draft             SUIT Trust Domains             September 2023
       / directive-fetch / 21, 2,
       / condition-image-match / 3, 15
     ] >>,
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 33]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
+
     / install / 17: << [
       / directive-set-component-index / 12, 1,
       / directive-process-dependency / 11, 0,
@@ -1954,14 +1863,6 @@ Internet-Draft             SUIT Trust Domains             September 2023
   } >>,
   / NOTE: Example 0 /
   "#dependent.suit":
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 35]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
     h'D86BA301589E8181589AD28443A10126A0584FA108A101A4010220012158200E
       908AA8F066DB1F084E0C3652C63952BD99F2A5BDB22F9E01367AAD03ABA68B22
       582077DA1BD8AC4F0CB490BA210648BF79AB164D49AD3551D71D314B2749EE42
@@ -1978,6 +1879,32 @@ Internet-Draft             SUIT Trust Domains             September 2023
    Total size of Envelope with COSE authentication object: 683
 
    Envelope with COSE authentication object:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Moran & Takayama        Expires 5 September 2024               [Page 34]
+
+Internet-Draft             SUIT Trust Domains                 March 2024
+
 
    D86BA3025873825824822F5820318EAD5F671A6D2593D7ADB7B6CCADC49F
    72704507004F297A25AF16A48A2111584AD28443A10126A0F65840287D5A
@@ -2010,14 +1937,6 @@ Authors' Addresses
    Email: brendan.moran.ietf@gmail.com
 
 
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 36]
-
-Internet-Draft             SUIT Trust Domains             September 2023
-
-
    Ken Takayama
    SECOM CO., LTD.
    Email: ken.takayama.ietf@gmail.com
@@ -2038,35 +1957,4 @@ Internet-Draft             SUIT Trust Domains             September 2023
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Moran & Takayama          Expires 14 March 2024                [Page 37]
+Moran & Takayama        Expires 5 September 2024               [Page 35]
