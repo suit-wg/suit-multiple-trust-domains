@@ -37,11 +37,8 @@ author:
       email: ken.takayama.ietf@gmail.com
 
 normative:
-  RFC3986:
   RFC6024:
   RFC7228:
-  RFC8392:
-  RFC8747:
   RFC9019:
   RFC9124:
   I-D.ietf-suit-manifest:
