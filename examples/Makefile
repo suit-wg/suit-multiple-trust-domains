@@ -5,3 +5,7 @@ all: $(EXAMPLES)
 
 %.suit: %.diag
 	diag2cbor.rb < $< > $@
+
+.PHONY: clean
+clean:
+	$(RM) *.suit
