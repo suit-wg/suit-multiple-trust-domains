@@ -1,0 +1,16 @@
+name: Validating SUIT Multiple Trust Domains examples
+on: pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2' # Not needed with a .ruby-version file
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - run: gem install cbor-diag
+    - run: gem install cddl
+    - name: Vaildate examples
+      run: make -C cddl/ validate
