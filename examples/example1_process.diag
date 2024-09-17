@@ -2,7 +2,7 @@
   / authentication-wrapper / 2: << [
     << [
       / digest-algorithm-id: / -16 / SHA256 /,
-      / digest-bytes: / h'DCF344CEF63C615213B669E6FAB48881D154069EE6BD4CD18120935466AA3978'
+      / digest-bytes: / h'A2FFB59E9F1A29D20BF655BC1DE909CB7EDD972A6C09D50FC42983778670715E'
     ] >>,
     << / COSE_Sign1_Tagged / 18([
       / protected: / << {
@@ -10,7 +10,7 @@
       } >>,
       / unprotected: / {},
       / payload: / null,
-      / signature: / h'F86311478A7DCD474700B052CAF14A757CE00709404113B390218E93AE319D564127C4DC3D58CC143FFFB8657E294AA7936B93F51D4A78209479FA66E3186789'
+      / signature: / h'A506F1647E3A9E0F54A07F303443F33E3CFA28520BE1E93C467CD8B14954E460C604A7623F146D833B6F0A2454095855573C48B18570066FA7472077313E80CE'
     ]) >>
   ] >>,
   / manifest / 3: << {
@@ -43,10 +43,9 @@
       / directive-override-parameters / 20, {
         / parameter-image-digest / 3: << [
           / digest-algorithm-id: / -16 / SHA256 /,
-          / digest-bytes: /
-            h'CC1758F629D2CDD18698D5A279B532C7003A0331237729C604EE6FD3F3DB535F'
+          / digest-bytes: / h'2EEEC4ACEC877EE13D8B52DB16C4390C93E5D84FD9F25AEAE0717B861BE0C4A2'
         ] >>,
-        / parameter-image-size / 14: 352,
+        / parameter-image-size / 14: 190,
         / parameter-uri / 21: "http://example.com/dependent.suit"
       },
       / directive-fetch / 21, 2,
@@ -57,8 +56,7 @@
       / directive-override-parameters / 20, {
         / parameter-image-digest / 3: << [
           / digest-algorithm-id: / -16 / SHA256 /,
-          / digest-bytes: /
-            h'0F02CAF6D3E61920D36BF3CEA7F862A13BB8FB1F09C3F4C29B121FEAB78EF3D8'
+          / digest-bytes: / h'0F02CAF6D3E61920D36BF3CEA7F862A13BB8FB1F09C3F4C29B121FEAB78EF3D8'
         ] >>
       },
       / condition-dependency-integrity / 7, 15,

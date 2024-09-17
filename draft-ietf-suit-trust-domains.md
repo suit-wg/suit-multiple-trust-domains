@@ -660,7 +660,7 @@ The dependency Manifest:
 {::include examples/example1_process.diag}
 ~~~
 
-Total size of Envelope with COSE authentication object: 374
+Total size of Envelope with COSE authentication object: 373
 
 ~~~
 {::include examples/example1_process.hex}
@@ -689,7 +689,7 @@ Total size of Envelope with COSE authentication object: 190
 {::include examples/example2_integrated.diag}
 ~~~
 
-Total size of Envelope with COSE authentication object: 683
+Total size of Envelope with COSE authentication object: 519
 
 Envelope with COSE authentication object:
 
