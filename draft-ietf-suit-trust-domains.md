@@ -654,15 +654,28 @@ This example uses functionalities:
 * dependency resolution
 * process dependency
 
+The dependency Manifest:
+
 ~~~
 {::include examples/example1_process.diag}
 ~~~
 
-Total size of Envelope with COSE authentication object:  374
+Total size of Envelope with COSE authentication object: 374
 
-Envelope with COSE authentication object:
 ~~~
 {::include examples/example1_process.hex}
+~~~
+
+The dependent Manifest (fetched from "https://example.com/dependent.suit"):
+
+~~~
+{::include examples/example0_dependent.diag}
+~~~
+
+Total size of Envelope with COSE authentication object: 190
+
+~~~
+{::include examples/example0_dependent.hex}
 ~~~
 
 ## Example 1: Integrated Dependency
@@ -676,9 +689,10 @@ Envelope with COSE authentication object:
 {::include examples/example2_integrated.diag}
 ~~~
 
-Total size of Envelope with COSE authentication object:  683
+Total size of Envelope with COSE authentication object: 683
 
 Envelope with COSE authentication object:
+
 ~~~
 {::include examples/example2_integrated.hex}
 ~~~
