@@ -353,9 +353,9 @@ Check whether the current Component index is present in the Dependency list. If 
 
 Verify the integrity of a Dependency Manifest. When a Manifest Processor executes suit-condition-dependency-integrity, it performs the following operations:
 
-1. Verify the signature of the Manifest hash
-2. Compare the Manifest hash to the provided hash
-3. Verify the Manifest against the Manifest hash
+1. Verify the signature of the Dependency's suit-authentication-wrapper.
+2. Compare the Dependency's suit-authentication-wrapper digest to the suit-parameter-image-digest
+3. Verify the Dependency Manifest against the Depedency's suit-authentication-wrapper digest
 
 If any of these steps fails, the Manifest Process MUST immediately Abort.
 
@@ -650,15 +650,28 @@ This example uses functionalities:
 * dependency resolution
 * process dependency
 
+The dependency Manifest:
+
 ~~~
 {::include examples/example1_process.diag}
 ~~~
 
-Total size of Envelope with COSE authentication object:  374
+Total size of Envelope with COSE authentication object: 373
 
-Envelope with COSE authentication object:
 ~~~
 {::include examples/example1_process.hex}
+~~~
+
+The dependent Manifest (fetched from "https://example.com/dependent.suit"):
+
+~~~
+{::include examples/example0_dependent.diag}
+~~~
+
+Total size of Envelope with COSE authentication object: 190
+
+~~~
+{::include examples/example0_dependent.hex}
 ~~~
 
 ## Example 1: Integrated Dependency
@@ -672,9 +685,10 @@ Envelope with COSE authentication object:
 {::include examples/example2_integrated.diag}
 ~~~
 
-Total size of Envelope with COSE authentication object:  683
+Total size of Envelope with COSE authentication object: 519
 
 Envelope with COSE authentication object:
+
 ~~~
 {::include examples/example2_integrated.hex}
 ~~~

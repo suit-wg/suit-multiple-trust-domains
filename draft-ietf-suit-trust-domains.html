@@ -1208,11 +1208,11 @@ li > p:last-of-type:only-child {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">SUIT Trust Domains</td>
-<td class="right">July 2024</td>
+<td class="right">October 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Moran &amp; Takayama</td>
-<td class="center">Expires 7 January 2025</td>
+<td class="center">Expires 24 April 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1225,12 +1225,12 @@ li > p:last-of-type:only-child {
 <dd class="internet-draft">draft-ietf-suit-trust-domains-07</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-07-06" class="published">6 July 2024</time>
+<time datetime="2024-10-21" class="published">21 October 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-01-07">7 January 2025</time></dd>
+<dd class="expires"><time datetime="2025-04-24">24 April 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1273,7 +1273,7 @@ or software update.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 7 January 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 24 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1882,11 +1882,11 @@ With the addition of Dependencies, some changes are necessary to the abstract ma
           </h4>
 <p id="section-5.6.4-1">Verify the integrity of a Dependency Manifest. When a Manifest Processor executes suit-condition-dependency-integrity, it performs the following operations:<a href="#section-5.6.4-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-5.6.4-2">
-<li id="section-5.6.4-2.1">Verify the signature of the Manifest hash<a href="#section-5.6.4-2.1" class="pilcrow">¶</a>
+<li id="section-5.6.4-2.1">Verify the signature of the Dependency's suit-authentication-wrapper.<a href="#section-5.6.4-2.1" class="pilcrow">¶</a>
 </li>
-            <li id="section-5.6.4-2.2">Compare the Manifest hash to the provided hash<a href="#section-5.6.4-2.2" class="pilcrow">¶</a>
+            <li id="section-5.6.4-2.2">Compare the Dependency's suit-authentication-wrapper digest to the suit-parameter-image-digest<a href="#section-5.6.4-2.2" class="pilcrow">¶</a>
 </li>
-            <li id="section-5.6.4-2.3">Verify the Manifest against the Manifest hash<a href="#section-5.6.4-2.3" class="pilcrow">¶</a>
+            <li id="section-5.6.4-2.3">Verify the Dependency Manifest against the Depedency's suit-authentication-wrapper digest<a href="#section-5.6.4-2.3" class="pilcrow">¶</a>
 </li>
           </ol>
 <p id="section-5.6.4-3">If any of these steps fails, the Manifest Process MUST immediately Abort.<a href="#section-5.6.4-3" class="pilcrow">¶</a></p>
@@ -2417,7 +2417,7 @@ For example, The Device can protect itself from attacker who breaches the Distri
 <dl class="references">
 <dt id="I-D.ietf-suit-manifest">[I-D.ietf-suit-manifest]</dt>
         <dd>
-<span class="refAuthor">Moran, B.</span>, <span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Zandberg, K.</span>, and <span class="refAuthor">O. Rønningstad</span>, <span class="refTitle">"A Concise Binary Object Representation (CBOR)-based Serialization Format for the Software Updates for Internet of Things (SUIT) Manifest"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-manifest-25</span>, <time datetime="2024-02-05" class="refDate">5 February 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-suit-manifest-25">https://datatracker.ietf.org/doc/html/draft-ietf-suit-manifest-25</a>&gt;</span>. </dd>
+<span class="refAuthor">Moran, B.</span>, <span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Zandberg, K.</span>, and <span class="refAuthor">O. Rønningstad</span>, <span class="refTitle">"A Concise Binary Object Representation (CBOR)-based Serialization Format for the Software Updates for Internet of Things (SUIT) Manifest"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-manifest-28</span>, <time datetime="2024-10-21" class="refDate">21 October 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-suit-manifest-28">https://datatracker.ietf.org/doc/html/draft-ietf-suit-manifest-28</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
@@ -2464,11 +2464,11 @@ For example, The Device can protect itself from attacker who breaches the Distri
 <dl class="references">
 <dt id="I-D.ietf-suit-firmware-encryption">[I-D.ietf-suit-firmware-encryption]</dt>
         <dd>
-<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Housley, R.</span>, <span class="refAuthor">Moran, B.</span>, <span class="refAuthor">Brown, D.</span>, and <span class="refAuthor">K. Takayama</span>, <span class="refTitle">"Encrypted Payloads in SUIT Manifests"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-firmware-encryption-19</span>, <time datetime="2024-03-03" class="refDate">3 March 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-suit-firmware-encryption-19">https://datatracker.ietf.org/doc/html/draft-ietf-suit-firmware-encryption-19</a>&gt;</span>. </dd>
+<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Housley, R.</span>, <span class="refAuthor">Moran, B.</span>, <span class="refAuthor">Brown, D.</span>, and <span class="refAuthor">K. Takayama</span>, <span class="refTitle">"Encrypted Payloads in SUIT Manifests"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-firmware-encryption-20</span>, <time datetime="2024-07-08" class="refDate">8 July 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-suit-firmware-encryption-20">https://datatracker.ietf.org/doc/html/draft-ietf-suit-firmware-encryption-20</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-suit-update-management">[I-D.ietf-suit-update-management]</dt>
         <dd>
-<span class="refAuthor">Moran, B.</span> and <span class="refAuthor">K. Takayama</span>, <span class="refTitle">"Update Management Extensions for Software Updates for Internet of Things (SUIT) Manifests"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-update-management-06</span>, <time datetime="2024-03-04" class="refDate">4 March 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-suit-update-management-06">https://datatracker.ietf.org/doc/html/draft-ietf-suit-update-management-06</a>&gt;</span>. </dd>
+<span class="refAuthor">Moran, B.</span> and <span class="refAuthor">K. Takayama</span>, <span class="refTitle">"Update Management Extensions for Software Updates for Internet of Things (SUIT) Manifests"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-suit-update-management-07</span>, <time datetime="2024-07-08" class="refDate">8 July 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-suit-update-management-07">https://datatracker.ietf.org/doc/html/draft-ietf-suit-update-management-07</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-teep-architecture">[I-D.ietf-teep-architecture]</dt>
       <dd>
@@ -2596,14 +2596,14 @@ bz/m4rVlnIXbwK07HypLbAmBMcCjbazR14vTgdzfsJwFLbM5kdtzOLSolg==
           <li class="normal" id="appendix-B.1-2.3">process dependency<a href="#appendix-B.1-2.3" class="pilcrow">¶</a>
 </li>
         </ul>
-<div class="alignLeft art-text artwork" id="appendix-B.1-3">
+<p id="appendix-B.1-3">The dependency Manifest:<a href="#appendix-B.1-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-B.1-4">
 <pre>
 / SUIT_Envelope_Tagged / 107({
   / authentication-wrapper / 2: &lt;&lt; [
     &lt;&lt; [
       / digest-algorithm-id: / -16 / SHA256 /,
-      / digest-bytes: /
-        h'4874ADC80A9128A2B2057F5FE59C45F8ED10A9BF9C5308FCF951B8BBAF434B95'
+      / digest-bytes: / h'A2FFB59E9F1A29D20BF655BC1DE909CB7EDD972A6C09D50FC42983778670715E'
     ] &gt;&gt;,
     &lt;&lt; / COSE_Sign1_Tagged / 18([
       / protected: / &lt;&lt; {
@@ -2611,9 +2611,7 @@ bz/m4rVlnIXbwK07HypLbAmBMcCjbazR14vTgdzfsJwFLbM5kdtzOLSolg==
       } &gt;&gt;,
       / unprotected: / {},
       / payload: / null,
-      / signature: /
-        h'C257E23A34960BE215BB9B927A5A3CEEDD675DFD81AE6E55A66FDD2209886889
-          1DF42D71ADB962A64CC008AEF9465DA2153CCF383F00B505F079DB540F64B916'
+      / signature: / h'A506F1647E3A9E0F54A07F303443F33E3CFA28520BE1E93C467CD8B14954E460C604A7623F146D833B6F0A2454095855573C48B18570066FA7472077313E80CE'
     ]) &gt;&gt;
   ] &gt;&gt;,
   / manifest / 3: &lt;&lt; {
@@ -2628,9 +2626,7 @@ bz/m4rVlnIXbwK07HypLbAmBMcCjbazR14vTgdzfsJwFLbM5kdtzOLSolg==
         }
       },
       / components / 2: [
-        [
-          '10'
-        ]
+        ['10']
       ]
     } &gt;&gt;,
     / manifest-component-id / 5: [
@@ -2648,22 +2644,20 @@ bz/m4rVlnIXbwK07HypLbAmBMcCjbazR14vTgdzfsJwFLbM5kdtzOLSolg==
       / directive-override-parameters / 20, {
         / parameter-image-digest / 3: &lt;&lt; [
           / digest-algorithm-id: / -16 / SHA256 /,
-          / digest-bytes: /
-            h'6C86246B90D644F021671F6D42523B2CB5E156F764BE618AA46BFCD0DB23E768'
+          / digest-bytes: / h'2EEEC4ACEC877EE13D8B52DB16C4390C93E5D84FD9F25AEAE0717B861BE0C4A2'
         ] &gt;&gt;,
-        / parameter-image-size / 14: 352,
+        / parameter-image-size / 14: 190,
         / parameter-uri / 21: "http://example.com/dependent.suit"
       },
       / directive-fetch / 21, 2,
       / condition-image-match / 3, 15
     ] &gt;&gt;,
-    / install / 17: &lt;&lt; [
+    / install / 20: &lt;&lt; [
       / directive-set-component-index / 12, 1,
       / directive-override-parameters / 20, {
         / parameter-image-digest / 3: &lt;&lt; [
           / digest-algorithm-id: / -16 / SHA256 /,
-          / digest-bytes: /
-            h'6EA128D7BB19B86F77C4227F2A29F22026A41958ACC45CC0A35BA388B13E2F51'
+          / digest-bytes: / h'0F02CAF6D3E61920D36BF3CEA7F862A13BB8FB1F09C3F4C29B121FEAB78EF3D8'
         ] &gt;&gt;
       },
       / condition-dependency-integrity / 7, 15,
@@ -2677,26 +2671,82 @@ bz/m4rVlnIXbwK07HypLbAmBMcCjbazR14vTgdzfsJwFLbM5kdtzOLSolg==
     ] &gt;&gt;
   } &gt;&gt;
 })
-</pre><a href="#appendix-B.1-3" class="pilcrow">¶</a>
+</pre><a href="#appendix-B.1-4" class="pilcrow">¶</a>
 </div>
-<p id="appendix-B.1-4">Total size of Envelope with COSE authentication object:  374<a href="#appendix-B.1-4" class="pilcrow">¶</a></p>
-<p id="appendix-B.1-5">Envelope with COSE authentication object:<a href="#appendix-B.1-5" class="pilcrow">¶</a></p>
+<p id="appendix-B.1-5">Total size of Envelope with COSE authentication object: 373<a href="#appendix-B.1-5" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-B.1-6">
 <pre>
-D86BA2025873825824822F58204874ADC80A9128A2B2057F5FE59C45F8ED
-10A9BF9C5308FCF951B8BBAF434B95584AD28443A10126A0F65840C257E2
-3A34960BE215BB9B927A5A3CEEDD675DFD81AE6E55A66FDD22098868891D
-F42D71ADB962A64CC008AEF9465DA2153CCF383F00B505F079DB540F64B9
-160358FAA70101020003581CA201A101A101814E646570656E64656E742E
+D86BA2025873825824822F5820A2FFB59E9F1A29D20BF655BC1DE909CB7E
+DD972A6C09D50FC42983778670715E584AD28443A10126A0F65840A506F1
+647E3A9E0F54A07F303443F33E3CFA28520BE1E93C467CD8B14954E460C6
+04A7623F146D833B6F0A2454095855573C48B18570066FA7472077313E80
+CE0358F9A70101020003581CA201A101A101814E646570656E64656E742E
 7375697402818142313005814E646570656E64696E672E73756974095286
-0C0014A11749636174203030203130170F0F5858880C0114A3035824822F
-58206C86246B90D644F021671F6D42523B2CB5E156F764BE618AA46BFCD0
-DB23E7680E190160157821687474703A2F2F6578616D706C652E636F6D2F
-646570656E64656E742E737569741502030F1158538E0C0114A103582482
-2F58206EA128D7BB19B86F77C4227F2A29F22026A41958ACC45CC0A35BA3
-88B13E2F51070F0B000C0014A112581A20696E206D756C7469706C652074
-7275737420646F6D61696E73120F
+0C0014A11749636174203030203130170F0F5857880C0114A3035824822F
+58202EEEC4ACEC877EE13D8B52DB16C4390C93E5D84FD9F25AEAE0717B86
+1BE0C4A20E18BE157821687474703A2F2F6578616D706C652E636F6D2F64
+6570656E64656E742E737569741502030F1458538E0C0114A1035824822F
+58200F02CAF6D3E61920D36BF3CEA7F862A13BB8FB1F09C3F4C29B121FEA
+B78EF3D8070F0B000C0014A112581A20696E206D756C7469706C65207472
+75737420646F6D61696E73120F
 </pre><a href="#appendix-B.1-6" class="pilcrow">¶</a>
+</div>
+<p id="appendix-B.1-7">The dependent Manifest (fetched from "https://example.com/dependent.suit"):<a href="#appendix-B.1-7" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-B.1-8">
+<pre>
+/ SUIT_Envelope_Tagged / 107({
+  / authentication-wrapper / 2: &lt;&lt; [
+    &lt;&lt; [
+      / digest-algorithm-id: / -16 / SHA256 /,
+      / digest-bytes: / h'0F02CAF6D3E61920D36BF3CEA7F862A13BB8FB1F09C3F4C29B121FEAB78EF3D8'
+    ] &gt;&gt;,
+    &lt;&lt; / COSE_Sign1_Tagged / 18([
+      / protected: / &lt;&lt; {
+        / algorithm-id / 1: -7 / ES256 /
+      } &gt;&gt;,
+      / unprotected: / {},
+      / payload: / null,
+      / signature: / h'D0703EA193E12381A66FFADEF2F0949711CFE05ED2322818D73D19F2BBD91BE5C52F1604B45C405E96B0642F3D49B2D7C6E3B2C0B40030BDDFBD27AF930B1F8B'
+    ]) &gt;&gt;
+  ] &gt;&gt;,
+  / manifest / 3: &lt;&lt; {
+    / manifest-version / 1: 1,
+    / manifest-sequence-number / 2: 0,
+    / common / 3: &lt;&lt; {
+      / components / 2: [
+        ['00']
+      ]
+    } &gt;&gt;,
+    / manifest-component-id / 5: [
+      'dependent.suit'
+    ],
+    / invoke / 9: &lt;&lt; [
+      / directive-override-parameters / 20, {
+        / parameter-invoke-args / 23: 'cat 00'
+      },
+      / directive-invoke / 23, 15
+    ] &gt;&gt;,
+    / install / 20: &lt;&lt; [
+      / directive-override-parameters / 20, {
+        / parameter-content / 18: 'hello world'
+      },
+      / directive-write / 18, 15
+    ] &gt;&gt;
+  } &gt;&gt;
+})
+</pre><a href="#appendix-B.1-8" class="pilcrow">¶</a>
+</div>
+<p id="appendix-B.1-9">Total size of Envelope with COSE authentication object: 190<a href="#appendix-B.1-9" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-B.1-10">
+<pre>
+D86BA2025873825824822F58200F02CAF6D3E61920D36BF3CEA7F862A13B
+B8FB1F09C3F4C29B121FEAB78EF3D8584AD28443A10126A0F65840D0703E
+A193E12381A66FFADEF2F0949711CFE05ED2322818D73D19F2BBD91BE5C5
+2F1604B45C405E96B0642F3D49B2D7C6E3B2C0B40030BDDFBD27AF930B1F
+8B035842A6010102000347A102818142303005814E646570656E64656E74
+2E73756974094D8414A11746636174203030170F14528414A1124B68656C
+6C6F20776F726C64120F
+</pre><a href="#appendix-B.1-10" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -2721,8 +2771,7 @@ DB23E7680E190160157821687474703A2F2F6578616D706C652E636F6D2F
   / authentication-wrapper / 2: &lt;&lt; [
     &lt;&lt; [
       / digest-algorithm-id: / -16 / SHA256 /,
-      / digest-bytes: /
-        h'318EAD5F671A6D2593D7ADB7B6CCADC49F72704507004F297A25AF16A48A2111'
+      / digest-bytes: / h'6391CBC36495B9C87AC3EC841DB124DABD8D3C9FE2DEEFE16569AFC349E7DDB2'
     ] &gt;&gt;,
     &lt;&lt; / COSE_Sign1_Tagged / 18([
       / protected: / &lt;&lt; {
@@ -2730,9 +2779,7 @@ DB23E7680E190160157821687474703A2F2F6578616D706C652E636F6D2F
       } &gt;&gt;,
       / unprotected: / {},
       / payload: / null,
-      / signature: /
-        h'287D5AAB44D08A34954663942B2732825426893ACD735BF3A79B8B5B38EC3C99
-          50D917D72D5586867C8FF58CF5827B0C2B94952359C3971DBF202B0774627DC3'
+      / signature: / h'517250281E6567FF9DF519CF9D76A440D86DFEB65B505D180D7D794FEC67823FA0E98EBC526FBC985777EAB4E2FFE813A44F205C015AEB3FA842F33E37B52716'
     ]) &gt;&gt;
   ] &gt;&gt;,
   / manifest / 3: &lt;&lt; {
@@ -2747,9 +2794,7 @@ DB23E7680E190160157821687474703A2F2F6578616D706C652E636F6D2F
         }
       },
       / components / 2: [
-        [
-          '10'
-        ]
+        ['10']
       ]
     } &gt;&gt;,
     / manifest-component-id / 5: [
@@ -2767,16 +2812,15 @@ DB23E7680E190160157821687474703A2F2F6578616D706C652E636F6D2F
       / directive-override-parameters / 20, {
         / parameter-image-digest / 3: &lt;&lt; [
           / digest-algorithm-id: / -16 / SHA256 /,
-          / digest-bytes: /
-            h'6C86246B90D644F021671F6D42523B2CB5E156F764BE618AA46BFCD0DB23E768'
+          / digest-bytes: / h'2EEEC4ACEC877EE13D8B52DB16C4390C93E5D84FD9F25AEAE0717B861BE0C4A2'
         ] &gt;&gt;,
-        / parameter-image-size / 14: 352,
+        / parameter-image-size / 14: 190,
         / parameter-uri / 21: "#dependent.suit"
       },
       / directive-fetch / 21, 2,
       / condition-image-match / 3, 15
     ] &gt;&gt;,
-    / install / 17: &lt;&lt; [
+    / install / 20: &lt;&lt; [
       / directive-set-component-index / 12, 1,
       / directive-process-dependency / 11, 0,
 
@@ -2787,49 +2831,32 @@ DB23E7680E190160157821687474703A2F2F6578616D706C652E636F6D2F
       / directive-write / 18, 15
     ] &gt;&gt;
   } &gt;&gt;,
-  / NOTE: Example 0 /
-  "#dependent.suit":
-    h'D86BA301589E8181589AD28443A10126A0584FA108A101A4010220012158200E
-      908AA8F066DB1F084E0C3652C63952BD99F2A5BDB22F9E01367AAD03ABA68B22
-      582077DA1BD8AC4F0CB490BA210648BF79AB164D49AD3551D71D314B2749EE42
-      D29A5840FB2D5ACF66B9C8573CE92E13BFB8D113F798715CC10B5A0010B11925
-      C155E7245A64E131073B87AC50CAC71650A21315B82D06CA2298CD1A95519AAE
-      4C4B5315025874835824822F58206EA128D7BB19B86F77C4227F2A29F22026A4
-      1958ACC45CC0A35BA388B13E2F51584AD28443A10126A0F6584099F949043701
-      D7BDBA38904A0B49F004DED6B64A4900DECA5C66AE8A9EBA913576DEF136B74E
-      A89C14FA64624DBD33B4C0BB41C153CA51548C73FF71A2BAF27440035842A601
-      0102000347A102818142303005814E646570656E64656E742E73756974094D84
-      14A11746636174203030170F11528414A1124B68656C6C6F20776F726C64120F'
+  "#dependent.suit": h'D86BA2025873825824822F58200F02CAF6D3E61920D36BF3CEA7F862A13BB8FB1F09C3F4C29B121FEAB78EF3D8584AD28443A10126A0F65840D0703EA193E12381A66FFADEF2F0949711CFE05ED2322818D73D19F2BBD91BE5C52F1604B45C405E96B0642F3D49B2D7C6E3B2C0B40030BDDFBD27AF930B1F8B035842A6010102000347A102818142303005814E646570656E64656E742E73756974094D8414A11746636174203030170F14528414A1124B68656C6C6F20776F726C64120F'
 })
 </pre><a href="#appendix-B.2-2" class="pilcrow">¶</a>
 </div>
-<p id="appendix-B.2-3">Total size of Envelope with COSE authentication object:  683<a href="#appendix-B.2-3" class="pilcrow">¶</a></p>
+<p id="appendix-B.2-3">Total size of Envelope with COSE authentication object: 519<a href="#appendix-B.2-3" class="pilcrow">¶</a></p>
 <p id="appendix-B.2-4">Envelope with COSE authentication object:<a href="#appendix-B.2-4" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-B.2-5">
 <pre>
-D86BA3025873825824822F5820318EAD5F671A6D2593D7ADB7B6CCADC49F
-72704507004F297A25AF16A48A2111584AD28443A10126A0F65840287D5A
-AB44D08A34954663942B2732825426893ACD735BF3A79B8B5B38EC3C9950
-D917D72D5586867C8FF58CF5827B0C2B94952359C3971DBF202B0774627D
-C30358BCA70101020003581CA201A101A101814E646570656E64656E742E
+D86BA3025873825824822F58206391CBC36495B9C87AC3EC841DB124DABD
+8D3C9FE2DEEFE16569AFC349E7DDB2584AD28443A10126A0F65840517250
+281E6567FF9DF519CF9D76A440D86DFEB65B505D180D7D794FEC67823FA0
+E98EBC526FBC985777EAB4E2FFE813A44F205C015AEB3FA842F33E37B527
+160358BBA70101020003581CA201A101A101814E646570656E64656E742E
 7375697402818142313005814E646570656E64696E672E73756974095286
-0C0014A11749636174203030203130170F0F5845880C0114A3035824822F
-58206C86246B90D644F021671F6D42523B2CB5E156F764BE618AA46BFCD0
-DB23E7680E190160156F23646570656E64656E742E737569741502030F11
-58288A0C010B000C0014A112581A20696E206D756C7469706C6520747275
-737420646F6D61696E73120F6F23646570656E64656E742E737569745901
-60D86BA301589E8181589AD28443A10126A0584FA108A101A40102200121
-58200E908AA8F066DB1F084E0C3652C63952BD99F2A5BDB22F9E01367AAD
-03ABA68B22582077DA1BD8AC4F0CB490BA210648BF79AB164D49AD3551D7
-1D314B2749EE42D29A5840FB2D5ACF66B9C8573CE92E13BFB8D113F79871
-5CC10B5A0010B11925C155E7245A64E131073B87AC50CAC71650A21315B8
-2D06CA2298CD1A95519AAE4C4B5315025874835824822F58206EA128D7BB
-19B86F77C4227F2A29F22026A41958ACC45CC0A35BA388B13E2F51584AD2
-8443A10126A0F6584099F949043701D7BDBA38904A0B49F004DED6B64A49
-00DECA5C66AE8A9EBA913576DEF136B74EA89C14FA64624DBD33B4C0BB41
-C153CA51548C73FF71A2BAF27440035842A6010102000347A10281814230
-3005814E646570656E64656E742E73756974094D8414A117466361742030
-30170F11528414A1124B68656C6C6F20776F726C64120F
+0C0014A11749636174203030203130170F0F5844880C0114A3035824822F
+58202EEEC4ACEC877EE13D8B52DB16C4390C93E5D84FD9F25AEAE0717B86
+1BE0C4A20E18BE156F23646570656E64656E742E737569741502030F1458
+288A0C010B000C0014A112581A20696E206D756C7469706C652074727573
+7420646F6D61696E73120F6F23646570656E64656E742E7375697458BED8
+6BA2025873825824822F58200F02CAF6D3E61920D36BF3CEA7F862A13BB8
+FB1F09C3F4C29B121FEAB78EF3D8584AD28443A10126A0F65840D0703EA1
+93E12381A66FFADEF2F0949711CFE05ED2322818D73D19F2BBD91BE5C52F
+1604B45C405E96B0642F3D49B2D7C6E3B2C0B40030BDDFBD27AF930B1F8B
+035842A6010102000347A102818142303005814E646570656E64656E742E
+73756974094D8414A11746636174203030170F14528414A1124B68656C6C
+6F20776F726C64120F
 </pre><a href="#appendix-B.2-5" class="pilcrow">¶</a>
 </div>
 </section>

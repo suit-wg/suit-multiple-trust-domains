@@ -6,6 +6,8 @@ suit-manifest-multiple.cddl: draft-ietf-suit-manifest.cddl rfc-9052.cddl
 
 draft-ietf-suit-manifest.cddl:
 	curl --retry 3 https://raw.githubusercontent.com/suit-wg/manifest-spec/master/draft-ietf-suit-manifest.cddl -o $@
+	sed -i -e 's/suit-install = 17/suit-install = 20/' $@
+# The sed command above can be removed after the CDDL file is updated
 
 rfc-9052.cddl: rfc-9052.xml
 	sed -n -e '/<sourcecode type="CDDL"/,/<\/sourcecode/ p' $< | sed -e '/<sourcecode type="CDDL"/ d' -e '/<\/sourcecode/ d' -e '/<\/section>/,/<figure title=""/ d' -e 's/\&gt;/>/g' > $@

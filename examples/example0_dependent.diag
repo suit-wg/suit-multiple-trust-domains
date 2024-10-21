@@ -1,0 +1,40 @@
+/ SUIT_Envelope_Tagged / 107({
+  / authentication-wrapper / 2: << [
+    << [
+      / digest-algorithm-id: / -16 / SHA256 /,
+      / digest-bytes: / h'0F02CAF6D3E61920D36BF3CEA7F862A13BB8FB1F09C3F4C29B121FEAB78EF3D8'
+    ] >>,
+    << / COSE_Sign1_Tagged / 18([
+      / protected: / << {
+        / algorithm-id / 1: -7 / ES256 /
+      } >>,
+      / unprotected: / {},
+      / payload: / null,
+      / signature: / h'D0703EA193E12381A66FFADEF2F0949711CFE05ED2322818D73D19F2BBD91BE5C52F1604B45C405E96B0642F3D49B2D7C6E3B2C0B40030BDDFBD27AF930B1F8B'
+    ]) >>
+  ] >>,
+  / manifest / 3: << {
+    / manifest-version / 1: 1,
+    / manifest-sequence-number / 2: 0,
+    / common / 3: << {
+      / components / 2: [
+        ['00']
+      ]
+    } >>,
+    / manifest-component-id / 5: [
+      'dependent.suit'
+    ],
+    / invoke / 9: << [
+      / directive-override-parameters / 20, {
+        / parameter-invoke-args / 23: 'cat 00'
+      },
+      / directive-invoke / 23, 15
+    ] >>,
+    / install / 20: << [
+      / directive-override-parameters / 20, {
+        / parameter-content / 18: 'hello world'
+      },
+      / directive-write / 18, 15
+    ] >>
+  } >>
+})

@@ -2,8 +2,7 @@
   / authentication-wrapper / 2: << [
     << [
       / digest-algorithm-id: / -16 / SHA256 /,
-      / digest-bytes: /
-        h'4874ADC80A9128A2B2057F5FE59C45F8ED10A9BF9C5308FCF951B8BBAF434B95'
+      / digest-bytes: / h'A2FFB59E9F1A29D20BF655BC1DE909CB7EDD972A6C09D50FC42983778670715E'
     ] >>,
     << / COSE_Sign1_Tagged / 18([
       / protected: / << {
@@ -11,9 +10,7 @@
       } >>,
       / unprotected: / {},
       / payload: / null,
-      / signature: /
-        h'C257E23A34960BE215BB9B927A5A3CEEDD675DFD81AE6E55A66FDD2209886889
-          1DF42D71ADB962A64CC008AEF9465DA2153CCF383F00B505F079DB540F64B916'
+      / signature: / h'A506F1647E3A9E0F54A07F303443F33E3CFA28520BE1E93C467CD8B14954E460C604A7623F146D833B6F0A2454095855573C48B18570066FA7472077313E80CE'
     ]) >>
   ] >>,
   / manifest / 3: << {
@@ -28,9 +25,7 @@
         }
       },
       / components / 2: [
-        [
-          '10'
-        ]
+        ['10']
       ]
     } >>,
     / manifest-component-id / 5: [
@@ -48,22 +43,20 @@
       / directive-override-parameters / 20, {
         / parameter-image-digest / 3: << [
           / digest-algorithm-id: / -16 / SHA256 /,
-          / digest-bytes: /
-            h'6C86246B90D644F021671F6D42523B2CB5E156F764BE618AA46BFCD0DB23E768'
+          / digest-bytes: / h'2EEEC4ACEC877EE13D8B52DB16C4390C93E5D84FD9F25AEAE0717B861BE0C4A2'
         ] >>,
-        / parameter-image-size / 14: 352,
+        / parameter-image-size / 14: 190,
         / parameter-uri / 21: "http://example.com/dependent.suit"
       },
       / directive-fetch / 21, 2,
       / condition-image-match / 3, 15
     ] >>,
-    / install / 17: << [
+    / install / 20: << [
       / directive-set-component-index / 12, 1,
       / directive-override-parameters / 20, {
         / parameter-image-digest / 3: << [
           / digest-algorithm-id: / -16 / SHA256 /,
-          / digest-bytes: /
-            h'6EA128D7BB19B86F77C4227F2A29F22026A41958ACC45CC0A35BA388B13E2F51'
+          / digest-bytes: / h'0F02CAF6D3E61920D36BF3CEA7F862A13BB8FB1F09C3F4C29B121FEAB78EF3D8'
         ] >>
       },
       / condition-dependency-integrity / 7, 15,
