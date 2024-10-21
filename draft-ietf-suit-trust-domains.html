@@ -8,16 +8,15 @@
 <meta content="Brendan Moran" name="author">
 <meta content="Ken Takayama" name="author">
 <meta content="
-       This specification describes extensions to the SUIT Manifest format (as
-defined in  ) for use in deployments with
-multiple trust domains. A device has more than one trust domain when it
-enables delegation of different rights to mutually distrusting entities
-for use for different purposes or Components in the context of firmware
-or software update. 
+       This specification describes extensions to the SUIT Manifest format for
+use in deployments with multiple trust domains. A device has more than
+one trust domain when it enables delegation of different rights to
+mutually distrusting entities for use for different purposes or
+Components in the context of firmware or software update. 
     " name="description">
 <meta content="xml2rfc 3.17.1" name="generator">
 <meta content="Internet-Draft" name="keyword">
-<meta content="draft-ietf-suit-trust-domains-07" name="ietf.draft">
+<meta content="draft-ietf-suit-trust-domains-08" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.17.1
     Python 3.11.9
@@ -1222,7 +1221,7 @@ li > p:last-of-type:only-child {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">SUIT</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-ietf-suit-trust-domains-07</dd>
+<dd class="internet-draft">draft-ietf-suit-trust-domains-08</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
 <time datetime="2024-10-21" class="published">21 October 2024</time>
@@ -1247,12 +1246,11 @@ li > p:last-of-type:only-child {
 <h1 id="title">SUIT Manifest Extensions for Multiple Trust Domains</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This specification describes extensions to the SUIT Manifest format (as
-defined in <span>[<a href="#I-D.ietf-suit-manifest" class="cite xref">I-D.ietf-suit-manifest</a>]</span>) for use in deployments with
-multiple trust domains. A device has more than one trust domain when it
-enables delegation of different rights to mutually distrusting entities
-for use for different purposes or Components in the context of firmware
-or software update.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This specification describes extensions to the SUIT Manifest format for
+use in deployments with multiple trust domains. A device has more than
+one trust domain when it enables delegation of different rights to
+mutually distrusting entities for use for different purposes or
+Components in the context of firmware or software update.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1884,7 +1882,7 @@ With the addition of Dependencies, some changes are necessary to the abstract ma
 <ol start="1" type="1" class="normal type-1" id="section-5.6.4-2">
 <li id="section-5.6.4-2.1">Verify the signature of the Dependency's suit-authentication-wrapper.<a href="#section-5.6.4-2.1" class="pilcrow">¶</a>
 </li>
-            <li id="section-5.6.4-2.2">Compare the Dependency's suit-authentication-wrapper digest to the suit-parameter-image-digest<a href="#section-5.6.4-2.2" class="pilcrow">¶</a>
+            <li id="section-5.6.4-2.2">Compare the Dependency's suit-authentication-wrapper digest to the dependent's suit-parameter-image-digest<a href="#section-5.6.4-2.2" class="pilcrow">¶</a>
 </li>
             <li id="section-5.6.4-2.3">Verify the Dependency Manifest against the Depedency's suit-authentication-wrapper digest<a href="#section-5.6.4-2.3" class="pilcrow">¶</a>
 </li>
@@ -2423,10 +2421,6 @@ For example, The Device can protect itself from attacker who breaches the Distri
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC3986">[RFC3986]</dt>
-        <dd>
-<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC6024">[RFC6024]</dt>
         <dd>
 <span class="refAuthor">Reddy, R.</span> and <span class="refAuthor">C. Wallace</span>, <span class="refTitle">"Trust Anchor Management Requirements"</span>, <span class="seriesInfo">RFC 6024</span>, <span class="seriesInfo">DOI 10.17487/RFC6024</span>, <time datetime="2010-10" class="refDate">October 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6024">https://www.rfc-editor.org/rfc/rfc6024</a>&gt;</span>. </dd>
@@ -2438,14 +2432,6 @@ For example, The Device can protect itself from attacker who breaches the Distri
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8392">[RFC8392]</dt>
-        <dd>
-<span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Wahlstroem, E.</span>, <span class="refAuthor">Erdtman, S.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"CBOR Web Token (CWT)"</span>, <span class="seriesInfo">RFC 8392</span>, <span class="seriesInfo">DOI 10.17487/RFC8392</span>, <time datetime="2018-05" class="refDate">May 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8392">https://www.rfc-editor.org/rfc/rfc8392</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8747">[RFC8747]</dt>
-        <dd>
-<span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Seitz, L.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Erdtman, S.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"Proof-of-Possession Key Semantics for CBOR Web Tokens (CWTs)"</span>, <span class="seriesInfo">RFC 8747</span>, <span class="seriesInfo">DOI 10.17487/RFC8747</span>, <time datetime="2020-03" class="refDate">March 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8747">https://www.rfc-editor.org/rfc/rfc8747</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9019">[RFC9019]</dt>
         <dd>

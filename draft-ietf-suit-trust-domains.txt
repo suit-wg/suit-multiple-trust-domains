@@ -10,16 +10,15 @@ Expires: 24 April 2025                                   SECOM CO., LTD.
 
 
           SUIT Manifest Extensions for Multiple Trust Domains
-                    draft-ietf-suit-trust-domains-07
+                    draft-ietf-suit-trust-domains-08
 
 Abstract
 
    This specification describes extensions to the SUIT Manifest format
-   (as defined in [I-D.ietf-suit-manifest]) for use in deployments with
-   multiple trust domains.  A device has more than one trust domain when
-   it enables delegation of different rights to mutually distrusting
-   entities for use for different purposes or Components in the context
-   of firmware or software update.
+   for use in deployments with multiple trust domains.  A device has
+   more than one trust domain when it enables delegation of different
+   rights to mutually distrusting entities for use for different
+   purposes or Components in the context of firmware or software update.
 
 Status of This Memo
 
@@ -43,21 +42,6 @@ Copyright Notice
    Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
-
-
-
-
-
-
-
-
-
-
-Moran & Takayama          Expires 24 April 2025                 [Page 1]
-
-Internet-Draft             SUIT Trust Domains               October 2024
-
-
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents (https://trustee.ietf.org/
    license-info) in effect on the date of publication of this document.
@@ -66,6 +50,13 @@ Internet-Draft             SUIT Trust Domains               October 2024
    extracted from this document must include Revised BSD License text as
    described in Section 4.e of the Trust Legal Provisions and are
    provided without warranty as described in the Revised BSD License.
+
+
+
+Moran & Takayama          Expires 24 April 2025                 [Page 1]
+
+Internet-Draft             SUIT Trust Domains               October 2024
+
 
 Table of Contents
 
@@ -106,6 +97,15 @@ Table of Contents
    11. References  . . . . . . . . . . . . . . . . . . . . . . . . .  26
      11.1.  Normative References . . . . . . . . . . . . . . . . . .  26
      11.2.  Informative References . . . . . . . . . . . . . . . . .  27
+   Appendix A.  A.  Full CDDL  . . . . . . . . . . . . . . . . . . .  28
+   Appendix B.  B.  Examples . . . . . . . . . . . . . . . . . . . .  29
+     B.1.  Example 0: Process Dependency . . . . . . . . . . . . . .  30
+     B.2.  Example 1: Integrated Dependency  . . . . . . . . . . . .  34
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  36
+
+
+
+
 
 
 
@@ -113,12 +113,6 @@ Moran & Takayama          Expires 24 April 2025                 [Page 2]
 
 Internet-Draft             SUIT Trust Domains               October 2024
 
-
-   Appendix A.  A.  Full CDDL  . . . . . . . . . . . . . . . . . . .  28
-   Appendix B.  B.  Examples . . . . . . . . . . . . . . . . . . . .  29
-     B.1.  Example 0: Process Dependency . . . . . . . . . . . . . .  30
-     B.2.  Example 1: Integrated Dependency  . . . . . . . . . . . .  34
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  36
 
 1.  Introduction
 
@@ -162,6 +156,12 @@ Internet-Draft             SUIT Trust Domains               October 2024
       Manifest from the Software author in their own Manifest which also
       defines the configuration.
 
+   *  An Author wants to entrust a Distributor to provide devices with
+      firmware decryption keys, but not permit the Distributor to sign
+      code.  Dependencies allow the Distributor to deliver a device's
+      decryption information without also granting code signing
+      authority.
+
 
 
 
@@ -169,12 +169,6 @@ Moran & Takayama          Expires 24 April 2025                 [Page 3]
 
 Internet-Draft             SUIT Trust Domains               October 2024
 
-
-   *  An Author wants to entrust a Distributor to provide devices with
-      firmware decryption keys, but not permit the Distributor to sign
-      code.  Dependencies allow the Distributor to deliver a device's
-      decryption information without also granting code signing
-      authority.
 
    *  A Trusted Application Manager (TAM) wants to distribute
       personalisation information to a Trusted Execution Environment in
@@ -219,17 +213,18 @@ Internet-Draft             SUIT Trust Domains               October 2024
       Components for a device, where to find them, and the devices to
       which they apply.
 
+   *  Envelope: A container with the Manifest, an authentication wrapper
+      with cryptographic information protecting the Manifest,
+      authorization information, and severable elements (see Section 5.1
+      of [I-D.ietf-suit-manifest]).
+
+
 
 
 Moran & Takayama          Expires 24 April 2025                 [Page 4]
 
 Internet-Draft             SUIT Trust Domains               October 2024
 
-
-   *  Envelope: A container with the Manifest, an authentication wrapper
-      with cryptographic information protecting the Manifest,
-      authorization information, and severable elements (see Section 5.1
-      of [I-D.ietf-suit-manifest]).
 
    *  Update: One or more Manifests that describe one or more Payloads.
 
@@ -275,16 +270,17 @@ Internet-Draft             SUIT Trust Domains               October 2024
    *  Staging Procedure: A procedure that fetches dependencies and
       images referenced by an Update and stores them to a Staging Area.
 
+   *  Installation Procedure: A procedure that installs dependencies and
+      images stored in a Staging Area; copying (and optionally,
+      transforming them) into an active Image storage location.
+
+
 
 
 Moran & Takayama          Expires 24 April 2025                 [Page 5]
 
 Internet-Draft             SUIT Trust Domains               October 2024
 
-
-   *  Installation Procedure: A procedure that installs dependencies and
-      images stored in a Staging Area; copying (and optionally,
-      transforming them) into an active Image storage location.
 
    *  Invocation Procedure: A Procedure in which a Recipient verifies
       Dependencies and Images, loading Images, and invokes one or more
@@ -330,6 +326,10 @@ Internet-Draft             SUIT Trust Domains               October 2024
    *  All Dependency Manifests must be present before any Payload is
       fetched.
 
+   One additional assumption is added to the Invocation Procedure:
+
+   *  All Dependencies must be validated prior to loading.
+
 
 
 
@@ -337,10 +337,6 @@ Moran & Takayama          Expires 24 April 2025                 [Page 6]
 
 Internet-Draft             SUIT Trust Domains               October 2024
 
-
-   One additional assumption is added to the Invocation Procedure:
-
-   *  All Dependencies must be validated prior to loading.
 
    Steps 3 and 5 are added to the expected installation workflow of a
    Recipient:
@@ -372,6 +368,10 @@ Internet-Draft             SUIT Trust Domains               October 2024
    Dependencies.
 
    The new metadata structure is shown below.
+
+
+
+
 
 
 
@@ -873,7 +873,7 @@ Internet-Draft             SUIT Trust Domains               October 2024
        wrapper.
 
    2.  Compare the Dependency's suit-authentication-wrapper digest to
-       the suit-parameter-image-digest
+       the dependent's suit-parameter-image-digest
 
    3.  Verify the Dependency Manifest against the Depedency's suit-
        authentication-wrapper digest
@@ -1446,10 +1446,10 @@ Internet-Draft             SUIT Trust Domains               October 2024
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
 
-   [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
-              Resource Identifier (URI): Generic Syntax", STD 66,
-              RFC 3986, DOI 10.17487/RFC3986, January 2005,
-              <https://www.rfc-editor.org/rfc/rfc3986>.
+   [RFC6024]  Reddy, R. and C. Wallace, "Trust Anchor Management
+              Requirements", RFC 6024, DOI 10.17487/RFC6024, October
+              2010, <https://www.rfc-editor.org/rfc/rfc6024>.
+
 
 
 
@@ -1457,10 +1457,6 @@ Moran & Takayama          Expires 24 April 2025                [Page 26]
 
 Internet-Draft             SUIT Trust Domains               October 2024
 
-
-   [RFC6024]  Reddy, R. and C. Wallace, "Trust Anchor Management
-              Requirements", RFC 6024, DOI 10.17487/RFC6024, October
-              2010, <https://www.rfc-editor.org/rfc/rfc6024>.
 
    [RFC7228]  Bormann, C., Ersue, M., and A. Keranen, "Terminology for
               Constrained-Node Networks", RFC 7228,
@@ -1470,15 +1466,6 @@ Internet-Draft             SUIT Trust Domains               October 2024
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
-
-   [RFC8392]  Jones, M., Wahlstroem, E., Erdtman, S., and H. Tschofenig,
-              "CBOR Web Token (CWT)", RFC 8392, DOI 10.17487/RFC8392,
-              May 2018, <https://www.rfc-editor.org/rfc/rfc8392>.
-
-   [RFC8747]  Jones, M., Seitz, L., Selander, G., Erdtman, S., and H.
-              Tschofenig, "Proof-of-Possession Key Semantics for CBOR
-              Web Tokens (CWTs)", RFC 8747, DOI 10.17487/RFC8747, March
-              2020, <https://www.rfc-editor.org/rfc/rfc8747>.
 
    [RFC9019]  Moran, B., Tschofenig, H., Brown, D., and M. Meriac, "A
               Firmware Update Architecture for Internet of Things",
@@ -1500,20 +1487,6 @@ Internet-Draft             SUIT Trust Domains               October 2024
               <https://datatracker.ietf.org/doc/html/draft-ietf-suit-
               firmware-encryption-20>.
 
-
-
-
-
-
-
-
-
-
-Moran & Takayama          Expires 24 April 2025                [Page 27]
-
-Internet-Draft             SUIT Trust Domains               October 2024
-
-
    [I-D.ietf-suit-update-management]
               Moran, B. and K. Takayama, "Update Management Extensions
               for Software Updates for Internet of Things (SUIT)
@@ -1529,6 +1502,17 @@ Internet-Draft             SUIT Trust Domains               October 2024
               ietf-teep-architecture-19, 24 October 2022,
               <https://datatracker.ietf.org/doc/html/draft-ietf-teep-
               architecture-19>.
+
+
+
+
+
+
+
+Moran & Takayama          Expires 24 April 2025                [Page 27]
+
+Internet-Draft             SUIT Trust Domains               October 2024
+
 
 Appendix A.  A.  Full CDDL
 
@@ -1563,13 +1547,6 @@ Appendix A.  A.  Full CDDL
        suit-dependency-resolution =>
            bstr .cbor SUIT_Command_Sequence / SUIT_Digest)
 
-
-
-Moran & Takayama          Expires 24 April 2025                [Page 28]
-
-Internet-Draft             SUIT Trust Domains               October 2024
-
-
    $$SUIT_Common-extensions //= (
        suit-dependencies => SUIT_Dependencies
    )
@@ -1585,6 +1562,13 @@ Internet-Draft             SUIT Trust Domains               October 2024
        suit-condition-dependency-integrity, SUIT_Rep_Policy)
    SUIT_Condition //= (
        suit-condition-is-dependency, SUIT_Rep_Policy)
+
+
+
+Moran & Takayama          Expires 24 April 2025                [Page 28]
+
+Internet-Draft             SUIT Trust Domains               October 2024
+
 
    SUIT_Directive //= (
        suit-directive-process-dependency, SUIT_Rep_Policy)
@@ -1617,15 +1601,6 @@ Appendix B.  B.  Examples
 
    The examples are signed using the following ECDSA secp256r1 key:
 
-
-
-
-
-Moran & Takayama          Expires 24 April 2025                [Page 29]
-
-Internet-Draft             SUIT Trust Domains               October 2024
-
-
    -----BEGIN PRIVATE KEY-----
    MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgApZYjZCUGLM50VBC
    CjYStX+09jGmnyJPrpDLTz/hiXOhRANCAASEloEarguqq9JhVxie7NomvqqL8Rtv
@@ -1640,6 +1615,16 @@ Internet-Draft             SUIT Trust Domains               October 2024
    -----END PUBLIC KEY-----
 
    Each example uses SHA256 as the digest function.
+
+
+
+
+
+
+Moran & Takayama          Expires 24 April 2025                [Page 29]
+
+Internet-Draft             SUIT Trust Domains               October 2024
+
 
 B.1.  Example 0: Process Dependency
 
@@ -1674,14 +1659,6 @@ B.1.  Example 0: Process Dependency
     / common / 3: << {
       / dependencies / 1: {
         / component-index / 1: {
-
-
-
-Moran & Takayama          Expires 24 April 2025                [Page 30]
-
-Internet-Draft             SUIT Trust Domains               October 2024
-
-
           / dependency-prefix / 1: [
             'dependent.suit'
           ]
@@ -1697,6 +1674,14 @@ Internet-Draft             SUIT Trust Domains               October 2024
     / invoke / 9: << [
       / directive-set-component-index / 12, 0,
       / directive-override-parameters / 20, {
+
+
+
+Moran & Takayama          Expires 24 April 2025                [Page 30]
+
+Internet-Draft             SUIT Trust Domains               October 2024
+
+
         / parameter-invoke-args / 23: 'cat 00 10'
       },
       / directive-invoke / 23, 15
@@ -1730,6 +1715,21 @@ Internet-Draft             SUIT Trust Domains               October 2024
         / parameter-content / 18: ' in multiple trust domains'
       },
       / directive-write / 18, 15
+    ] >>
+  } >>
+})
+
+   Total size of Envelope with COSE authentication object: 373
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1737,12 +1737,6 @@ Moran & Takayama          Expires 24 April 2025                [Page 31]
 
 Internet-Draft             SUIT Trust Domains               October 2024
 
-
-    ] >>
-  } >>
-})
-
-   Total size of Envelope with COSE authentication object: 373
 
    D86BA2025873825824822F5820A2FFB59E9F1A29D20BF655BC1DE909CB7E
    DD972A6C09D50FC42983778670715E584AD28443A10126A0F65840A506F1
@@ -1760,6 +1754,12 @@ Internet-Draft             SUIT Trust Domains               October 2024
 
    The dependent Manifest (fetched from "https://example.com/
    dependent.suit"):
+
+
+
+
+
+
 
 
 
