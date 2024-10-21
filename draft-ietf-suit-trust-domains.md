@@ -357,9 +357,9 @@ Check whether the current Component index is present in the Dependency list. If 
 
 Verify the integrity of a Dependency Manifest. When a Manifest Processor executes suit-condition-dependency-integrity, it performs the following operations:
 
-1. Verify the signature of the Manifest hash
-2. Compare the Manifest hash to the provided hash
-3. Verify the Manifest against the Manifest hash
+1. Verify the signature of the Dependency's suit-authentication-wrapper.
+2. Compare the Dependency's suit-authentication-wrapper digest to the suit-parameter-image-digest
+3. Verify the Dependency Manifest against the Depedency's suit-authentication-wrapper digest
 
 If any of these steps fails, the Manifest Process MUST immediately Abort.
 
