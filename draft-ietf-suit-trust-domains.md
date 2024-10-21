@@ -650,7 +650,16 @@ This example uses functionalities:
 * dependency resolution
 * process dependency
 
-{::include examples/example1_process.txt}
+~~~
+{::include examples/example1_process.diag}
+~~~
+
+Total size of Envelope with COSE authentication object:  374
+
+Envelope with COSE authentication object:
+~~~
+{::include examples/example1_process.hex}
+~~~
 
 ## Example 1: Integrated Dependency
 
@@ -659,4 +668,13 @@ This example uses functionalities:
 * process dependency
 * integrated dependency
 
-{::include examples/example2_integrated.txt}
+~~~
+{::include examples/example2_integrated.diag}
+~~~
+
+Total size of Envelope with COSE authentication object:  683
+
+Envelope with COSE authentication object:
+~~~
+{::include examples/example2_integrated.hex}
+~~~
