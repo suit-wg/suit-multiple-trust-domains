@@ -37,16 +37,16 @@ author:
       email: ken.takayama.ietf@gmail.com
 
 normative:
-  RFC6024:
-  RFC7228:
-  RFC9019:
-  RFC9124:
   I-D.ietf-suit-manifest:
 
 informative:
   I-D.ietf-suit-update-management:
   I-D.ietf-suit-firmware-encryption:
   I-D.ietf-teep-architecture:
+  RFC6024:
+  RFC7228:
+  RFC9019:
+  RFC9124:
 
 --- abstract
 
