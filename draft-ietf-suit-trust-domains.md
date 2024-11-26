@@ -42,10 +42,10 @@ normative:
   RFC9019:
   RFC9124:
   I-D.ietf-suit-manifest:
+  I-D.ietf-suit-firmware-encryption:
 
 informative:
   I-D.ietf-suit-update-management:
-  I-D.ietf-suit-firmware-encryption:
   I-D.ietf-teep-architecture:
 
 --- abstract
