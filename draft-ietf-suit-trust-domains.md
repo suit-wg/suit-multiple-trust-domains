@@ -610,7 +610,7 @@ This document is about a Manifest format protecting and describing how to retrie
 
 To be valid, the following CDDL MUST be appended to the SUIT Manifest CDDL. The SUIT CDDL is defined in Appendix A of {{I-D.ietf-suit-manifest}}
 
-~~~  cddl
+~~~ cddl
 {::include draft-ietf-suit-trust-domains.cddl}
 ~~~
 
@@ -649,25 +649,25 @@ This example uses functionalities:
 
 The dependency Manifest:
 
-~~~
+~~~ cbor-diag
 {::include-fold examples/example1_process.diag}
 ~~~
 
 Total size of Envelope with COSE authentication object: 373
 
-~~~
+~~~ cbor-pretty
 {::include examples/example1_process.hex}
 ~~~
 
 The dependent Manifest (fetched from "https://example.com/dependent.suit"):
 
-~~~
+~~~ cbor-diag
 {::include-fold examples/example0_dependent.diag}
 ~~~
 
 Total size of Envelope with COSE authentication object: 190
 
-~~~
+~~~ cbor-pretty
 {::include examples/example0_dependent.hex}
 ~~~
 
@@ -678,7 +678,7 @@ Total size of Envelope with COSE authentication object: 190
 * process dependency
 * integrated dependency
 
-~~~
+~~~ cbor-diag
 {::include-fold examples/example2_integrated.diag}
 ~~~
 
@@ -686,6 +686,6 @@ Total size of Envelope with COSE authentication object: 519
 
 Envelope with COSE authentication object:
 
-~~~
+~~~ cbor-pretty
 {::include examples/example2_integrated.hex}
 ~~~
