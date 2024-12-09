@@ -5,8 +5,8 @@
 SUIT                                                            B. Moran
 Internet-Draft                                               Arm Limited
 Intended status: Standards Track                             K. Takayama
-Expires: 7 June 2025                                     SECOM CO., LTD.
-                                                         4 December 2024
+Expires: 12 June 2025                                    SECOM CO., LTD.
+                                                         9 December 2024
 
 
           SUIT Manifest Extensions for Multiple Trust Domains
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 June 2025.
+   This Internet-Draft will expire on 12 June 2025.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Moran & Takayama           Expires 7 June 2025                  [Page 1]
+Moran & Takayama          Expires 12 June 2025                  [Page 1]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Moran & Takayama           Expires 7 June 2025                  [Page 2]
+Moran & Takayama          Expires 12 June 2025                  [Page 2]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -165,7 +165,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                  [Page 3]
+Moran & Takayama          Expires 12 June 2025                  [Page 3]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -221,7 +221,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                  [Page 4]
+Moran & Takayama          Expires 12 June 2025                  [Page 4]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -277,7 +277,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                  [Page 5]
+Moran & Takayama          Expires 12 June 2025                  [Page 5]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -333,7 +333,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                  [Page 6]
+Moran & Takayama          Expires 12 June 2025                  [Page 6]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -389,7 +389,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                  [Page 7]
+Moran & Takayama          Expires 12 June 2025                  [Page 7]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -445,7 +445,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                  [Page 8]
+Moran & Takayama          Expires 12 June 2025                  [Page 8]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -501,7 +501,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                  [Page 9]
+Moran & Takayama          Expires 12 June 2025                  [Page 9]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -557,7 +557,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 10]
+Moran & Takayama          Expires 12 June 2025                 [Page 10]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -613,7 +613,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 11]
+Moran & Takayama          Expires 12 June 2025                 [Page 11]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -669,7 +669,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 12]
+Moran & Takayama          Expires 12 June 2025                 [Page 12]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -725,7 +725,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 13]
+Moran & Takayama          Expires 12 June 2025                 [Page 13]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -781,7 +781,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 14]
+Moran & Takayama          Expires 12 June 2025                 [Page 14]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -837,7 +837,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 15]
+Moran & Takayama          Expires 12 June 2025                 [Page 15]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -893,7 +893,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 16]
+Moran & Takayama          Expires 12 June 2025                 [Page 16]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -949,7 +949,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 17]
+Moran & Takayama          Expires 12 June 2025                 [Page 17]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -1005,7 +1005,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 18]
+Moran & Takayama          Expires 12 June 2025                 [Page 18]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -1061,7 +1061,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 19]
+Moran & Takayama          Expires 12 June 2025                 [Page 19]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -1117,7 +1117,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 20]
+Moran & Takayama          Expires 12 June 2025                 [Page 20]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -1173,7 +1173,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 21]
+Moran & Takayama          Expires 12 June 2025                 [Page 21]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -1229,7 +1229,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 22]
+Moran & Takayama          Expires 12 June 2025                 [Page 22]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -1285,7 +1285,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 23]
+Moran & Takayama          Expires 12 June 2025                 [Page 23]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -1341,7 +1341,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 24]
+Moran & Takayama          Expires 12 June 2025                 [Page 24]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -1397,7 +1397,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 25]
+Moran & Takayama          Expires 12 June 2025                 [Page 25]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -1436,24 +1436,24 @@ Internet-Draft             SUIT Trust Domains              December 2024
               Tschofenig, H., Housley, R., Moran, B., Brown, D., and K.
               Takayama, "Encrypted Payloads in SUIT Manifests", Work in
               Progress, Internet-Draft, draft-ietf-suit-firmware-
-              encryption-21, 21 October 2024,
+              encryption-22, 7 December 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-suit-
-              firmware-encryption-21>.
+              firmware-encryption-22>.
 
    [I-D.ietf-suit-manifest]
               Moran, B., Tschofenig, H., Birkholz, H., Zandberg, K., and
               O. Rønningstad, "A Concise Binary Object Representation
               (CBOR)-based Serialization Format for the Software Updates
               for Internet of Things (SUIT) Manifest", Work in Progress,
-              Internet-Draft, draft-ietf-suit-manifest-30, 3 December
+              Internet-Draft, draft-ietf-suit-manifest-32, 9 December
               2024, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              suit-manifest-30>.
+              suit-manifest-32>.
 
 
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 26]
+Moran & Takayama          Expires 12 June 2025                 [Page 26]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -1509,7 +1509,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 27]
+Moran & Takayama          Expires 12 June 2025                 [Page 27]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -1565,7 +1565,7 @@ Appendix A.  A.  Full CDDL
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 28]
+Moran & Takayama          Expires 12 June 2025                 [Page 28]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -1621,7 +1621,7 @@ Appendix B.  B.  Examples
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 29]
+Moran & Takayama          Expires 12 June 2025                 [Page 29]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -1638,86 +1638,93 @@ B.1.  Example 0: Process Dependency
 
    The dependency Manifest:
 
-/ SUIT_Envelope_Tagged / 107({
-  / authentication-wrapper / 2: << [
-    << [
-      / digest-algorithm-id: / -16 / SHA256 /,
-      / digest-bytes: / h'A2FFB59E9F1A29D20BF655BC1DE909CB7EDD972A6C09D50FC42983778670715E'
-    ] >>,
-    << / COSE_Sign1_Tagged / 18([
-      / protected: / << {
-        / algorithm-id / 1: -7 / ES256 /
-      } >>,
-      / unprotected: / {},
-      / payload: / null,
-      / signature: / h'A506F1647E3A9E0F54A07F303443F33E3CFA28520BE1E93C467CD8B14954E460C604A7623F146D833B6F0A2454095855573C48B18570066FA7472077313E80CE'
-    ]) >>
-  ] >>,
-  / manifest / 3: << {
-    / manifest-version / 1: 1,
-    / manifest-sequence-number / 2: 0,
-    / common / 3: << {
-      / dependencies / 1: {
-        / component-index / 1: {
-          / dependency-prefix / 1: [
-            'dependent.suit'
-          ]
-        }
-      },
-      / components / 2: [
-        ['10']
-      ]
-    } >>,
-    / manifest-component-id / 5: [
-      'depending.suit'
-    ],
-    / invoke / 9: << [
-      / directive-set-component-index / 12, 0,
-      / directive-override-parameters / 20, {
+   =============== NOTE: '\' line wrapping per RFC 8792 ================
+
+   / SUIT_Envelope_Tagged / 107({
+     / authentication-wrapper / 2: << [
+       << [
+         / digest-algorithm-id: / -16 / SHA256 /,
+         / digest-bytes: / h'\
+       A2FFB59E9F1A29D20BF655BC1DE909CB7EDD972A6C09D50FC42983778670715E'
+       ] >>,
+       << / COSE_Sign1_Tagged / 18([
+         / protected: / << {
+           / algorithm-id / 1: -7 / ES256 /
+         } >>,
+         / unprotected: / {},
+         / payload: / null,
+         / signature: / h'\
+   A506F1647E3A9E0F54A07F303443F33E3CFA28520BE1E93C467CD8B14954E460C604\
+           A7623F146D833B6F0A2454095855573C48B18570066FA7472077313E80CE'
+       ]) >>
+     ] >>,
+     / manifest / 3: << {
+       / manifest-version / 1: 1,
+       / manifest-sequence-number / 2: 0,
+       / common / 3: << {
+         / dependencies / 1: {
+           / component-index / 1: {
+             / dependency-prefix / 1: [
+               'dependent.suit'
+             ]
+           }
+         },
+         / components / 2: [
+           ['10']
+         ]
+       } >>,
+       / manifest-component-id / 5: [
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 30]
+Moran & Takayama          Expires 12 June 2025                 [Page 30]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
 
-        / parameter-invoke-args / 23: 'cat 00 10'
-      },
-      / directive-invoke / 23, 15
-    ] >>,
-    / dependency-resolution / 15: << [
-      / directive-set-component-index / 12, 1,
-      / directive-override-parameters / 20, {
-        / parameter-image-digest / 3: << [
-          / digest-algorithm-id: / -16 / SHA256 /,
-          / digest-bytes: / h'2EEEC4ACEC877EE13D8B52DB16C4390C93E5D84FD9F25AEAE0717B861BE0C4A2'
-        ] >>,
-        / parameter-image-size / 14: 190,
-        / parameter-uri / 21: "http://example.com/dependent.suit"
-      },
-      / directive-fetch / 21, 2,
-      / condition-image-match / 3, 15
-    ] >>,
-    / install / 20: << [
-      / directive-set-component-index / 12, 1,
-      / directive-override-parameters / 20, {
-        / parameter-image-digest / 3: << [
-          / digest-algorithm-id: / -16 / SHA256 /,
-          / digest-bytes: / h'0F02CAF6D3E61920D36BF3CEA7F862A13BB8FB1F09C3F4C29B121FEAB78EF3D8'
-        ] >>
-      },
-      / condition-dependency-integrity / 7, 15,
-      / directive-process-dependency / 11, 0,
+         'depending.suit'
+       ],
+       / invoke / 9: << [
+         / directive-set-component-index / 12, 0,
+         / directive-override-parameters / 20, {
+           / parameter-invoke-args / 23: 'cat 00 10'
+         },
+         / directive-invoke / 23, 15
+       ] >>,
+       / dependency-resolution / 15: << [
+         / directive-set-component-index / 12, 1,
+         / directive-override-parameters / 20, {
+           / parameter-image-digest / 3: << [
+             / digest-algorithm-id: / -16 / SHA256 /,
+             / digest-bytes: / h'\
+       2EEEC4ACEC877EE13D8B52DB16C4390C93E5D84FD9F25AEAE0717B861BE0C4A2'
+           ] >>,
+           / parameter-image-size / 14: 190,
+           / parameter-uri / 21: "http://example.com/dependent.suit"
+         },
+         / directive-fetch / 21, 2,
+         / condition-image-match / 3, 15
+       ] >>,
+       / install / 20: << [
+         / directive-set-component-index / 12, 1,
+         / directive-override-parameters / 20, {
+           / parameter-image-digest / 3: << [
+             / digest-algorithm-id: / -16 / SHA256 /,
+             / digest-bytes: / h'\
+       0F02CAF6D3E61920D36BF3CEA7F862A13BB8FB1F09C3F4C29B121FEAB78EF3D8'
+           ] >>
+         },
+         / condition-dependency-integrity / 7, 15,
+         / directive-process-dependency / 11, 0,
 
-      / directive-set-component-index / 12, 0,
-      / directive-override-parameters / 20, {
-        / parameter-content / 18: ' in multiple trust domains'
-      },
-      / directive-write / 18, 15
-    ] >>
-  } >>
-})
+         / directive-set-component-index / 12, 0,
+         / directive-override-parameters / 20, {
+           / parameter-content / 18: ' in multiple trust domains'
+         },
+         / directive-write / 18, 15
+       ] >>
+     } >>
+   })
 
    Total size of Envelope with COSE authentication object: 373
 
@@ -1726,14 +1733,7 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-
-
-
-
-
-
-
-Moran & Takayama           Expires 7 June 2025                 [Page 31]
+Moran & Takayama          Expires 12 June 2025                 [Page 31]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -1789,63 +1789,63 @@ Internet-Draft             SUIT Trust Domains              December 2024
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 32]
+Moran & Takayama          Expires 12 June 2025                 [Page 32]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
 
-/ SUIT_Envelope_Tagged / 107({
-  / authentication-wrapper / 2: << [
-    << [
-      / digest-algorithm-id: / -16 / SHA256 /,
-      / digest-bytes: / h'0F02CAF6D3E61920D36BF3CEA7F862A13BB8FB1F09C3F4C29B121FEAB78EF3D8'
-    ] >>,
-    << / COSE_Sign1_Tagged / 18([
-      / protected: / << {
-        / algorithm-id / 1: -7 / ES256 /
-      } >>,
-      / unprotected: / {},
-      / payload: / null,
-      / signature: / h'D0703EA193E12381A66FFADEF2F0949711CFE05ED2322818D73D19F2BBD91BE5C52F1604B45C405E96B0642F3D49B2D7C6E3B2C0B40030BDDFBD27AF930B1F8B'
-    ]) >>
-  ] >>,
-  / manifest / 3: << {
-    / manifest-version / 1: 1,
-    / manifest-sequence-number / 2: 0,
-    / common / 3: << {
-      / components / 2: [
-        ['00']
-      ]
-    } >>,
-    / manifest-component-id / 5: [
-      'dependent.suit'
-    ],
-    / invoke / 9: << [
-      / directive-override-parameters / 20, {
-        / parameter-invoke-args / 23: 'cat 00'
-      },
-      / directive-invoke / 23, 15
-    ] >>,
-    / install / 20: << [
-      / directive-override-parameters / 20, {
-        / parameter-content / 18: 'hello world'
-      },
-      / directive-write / 18, 15
-    ] >>
-  } >>
-})
+   =============== NOTE: '\' line wrapping per RFC 8792 ================
+
+   / SUIT_Envelope_Tagged / 107({
+     / authentication-wrapper / 2: << [
+       << [
+         / digest-algorithm-id: / -16 / SHA256 /,
+         / digest-bytes: / h'\
+       0F02CAF6D3E61920D36BF3CEA7F862A13BB8FB1F09C3F4C29B121FEAB78EF3D8'
+       ] >>,
+       << / COSE_Sign1_Tagged / 18([
+         / protected: / << {
+           / algorithm-id / 1: -7 / ES256 /
+         } >>,
+         / unprotected: / {},
+         / payload: / null,
+         / signature: / h'\
+   D0703EA193E12381A66FFADEF2F0949711CFE05ED2322818D73D19F2BBD91BE5C52F\
+           1604B45C405E96B0642F3D49B2D7C6E3B2C0B40030BDDFBD27AF930B1F8B'
+       ]) >>
+     ] >>,
+     / manifest / 3: << {
+       / manifest-version / 1: 1,
+       / manifest-sequence-number / 2: 0,
+       / common / 3: << {
+         / components / 2: [
+           ['00']
+         ]
+       } >>,
+       / manifest-component-id / 5: [
+         'dependent.suit'
+       ],
+       / invoke / 9: << [
+         / directive-override-parameters / 20, {
+           / parameter-invoke-args / 23: 'cat 00'
+         },
+         / directive-invoke / 23, 15
+       ] >>,
+       / install / 20: << [
+         / directive-override-parameters / 20, {
+           / parameter-content / 18: 'hello world'
+         },
+         / directive-write / 18, 15
+       ] >>
+     } >>
+   })
 
    Total size of Envelope with COSE authentication object: 190
 
 
 
 
-
-
-
-
-
-Moran & Takayama           Expires 7 June 2025                 [Page 33]
+Moran & Takayama          Expires 12 June 2025                 [Page 33]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
@@ -1868,99 +1868,103 @@ B.2.  Example 1: Integrated Dependency
 
    *  integrated dependency
 
-/ SUIT_Envelope_Tagged / 107({
-  / authentication-wrapper / 2: << [
-    << [
-      / digest-algorithm-id: / -16 / SHA256 /,
-      / digest-bytes: / h'6391CBC36495B9C87AC3EC841DB124DABD8D3C9FE2DEEFE16569AFC349E7DDB2'
-    ] >>,
-    << / COSE_Sign1_Tagged / 18([
-      / protected: / << {
-        / algorithm-id / 1: -7 / ES256 /
-      } >>,
-      / unprotected: / {},
-      / payload: / null,
-      / signature: / h'517250281E6567FF9DF519CF9D76A440D86DFEB65B505D180D7D794FEC67823FA0E98EBC526FBC985777EAB4E2FFE813A44F205C015AEB3FA842F33E37B52716'
-    ]) >>
-  ] >>,
-  / manifest / 3: << {
-    / manifest-version / 1: 1,
-    / manifest-sequence-number / 2: 0,
-    / common / 3: << {
-      / dependencies / 1: {
-        / component-index / 1: {
-          / dependency-prefix / 1: [
-            'dependent.suit'
-          ]
-        }
-      },
-      / components / 2: [
-        ['10']
-      ]
-    } >>,
+   =============== NOTE: '\' line wrapping per RFC 8792 ================
+
+   / SUIT_Envelope_Tagged / 107({
+     / authentication-wrapper / 2: << [
+       << [
+         / digest-algorithm-id: / -16 / SHA256 /,
+         / digest-bytes: / h'\
+       6391CBC36495B9C87AC3EC841DB124DABD8D3C9FE2DEEFE16569AFC349E7DDB2'
+       ] >>,
+       << / COSE_Sign1_Tagged / 18([
+         / protected: / << {
+           / algorithm-id / 1: -7 / ES256 /
+         } >>,
+         / unprotected: / {},
+         / payload: / null,
+         / signature: / h'\
+   517250281E6567FF9DF519CF9D76A440D86DFEB65B505D180D7D794FEC67823FA0E9\
+           8EBC526FBC985777EAB4E2FFE813A44F205C015AEB3FA842F33E37B52716'
+       ]) >>
+     ] >>,
+     / manifest / 3: << {
+       / manifest-version / 1: 1,
+       / manifest-sequence-number / 2: 0,
+       / common / 3: << {
+         / dependencies / 1: {
+           / component-index / 1: {
+             / dependency-prefix / 1: [
+               'dependent.suit'
+             ]
+           }
 
 
 
-Moran & Takayama           Expires 7 June 2025                 [Page 34]
+Moran & Takayama          Expires 12 June 2025                 [Page 34]
 
 Internet-Draft             SUIT Trust Domains              December 2024
 
 
-    / manifest-component-id / 5: [
-      'depending.suit'
-    ],
-    / invoke / 9: << [
-      / directive-set-component-index / 12, 0,
-      / directive-override-parameters / 20, {
-        / parameter-invoke-args / 23: 'cat 00 10'
-      },
-      / directive-invoke / 23, 15
-    ] >>,
-    / dependency-resolution / 15: << [
-      / directive-set-component-index / 12, 1,
-      / directive-override-parameters / 20, {
-        / parameter-image-digest / 3: << [
-          / digest-algorithm-id: / -16 / SHA256 /,
-          / digest-bytes: / h'2EEEC4ACEC877EE13D8B52DB16C4390C93E5D84FD9F25AEAE0717B861BE0C4A2'
-        ] >>,
-        / parameter-image-size / 14: 190,
-        / parameter-uri / 21: "#dependent.suit"
-      },
-      / directive-fetch / 21, 2,
-      / condition-image-match / 3, 15
-    ] >>,
-    / install / 20: << [
-      / directive-set-component-index / 12, 1,
-      / directive-process-dependency / 11, 0,
+         },
+         / components / 2: [
+           ['10']
+         ]
+       } >>,
+       / manifest-component-id / 5: [
+         'depending.suit'
+       ],
+       / invoke / 9: << [
+         / directive-set-component-index / 12, 0,
+         / directive-override-parameters / 20, {
+           / parameter-invoke-args / 23: 'cat 00 10'
+         },
+         / directive-invoke / 23, 15
+       ] >>,
+       / dependency-resolution / 15: << [
+         / directive-set-component-index / 12, 1,
+         / directive-override-parameters / 20, {
+           / parameter-image-digest / 3: << [
+             / digest-algorithm-id: / -16 / SHA256 /,
+             / digest-bytes: / h'\
+       2EEEC4ACEC877EE13D8B52DB16C4390C93E5D84FD9F25AEAE0717B861BE0C4A2'
+           ] >>,
+           / parameter-image-size / 14: 190,
+           / parameter-uri / 21: "#dependent.suit"
+         },
+         / directive-fetch / 21, 2,
+         / condition-image-match / 3, 15
+       ] >>,
+       / install / 20: << [
+         / directive-set-component-index / 12, 1,
+         / directive-process-dependency / 11, 0,
 
-      / directive-set-component-index / 12, 0,
-      / directive-override-parameters / 20, {
-        / parameter-content / 18: ' in multiple trust domains'
-      },
-      / directive-write / 18, 15
-    ] >>
-  } >>,
-  "#dependent.suit": h'D86BA2025873825824822F58200F02CAF6D3E61920D36BF3CEA7F862A13BB8FB1F09C3F4C29B121FEAB78EF3D8584AD28443A10126A0F65840D0703EA193E12381A66FFADEF2F0949711CFE05ED2322818D73D19F2BBD91BE5C52F1604B45C405E96B0642F3D49B2D7C6E3B2C0B40030BDDFBD27AF930B1F8B035842A6010102000347A102818142303005814E646570656E64656E742E73756974094D8414A11746636174203030170F14528414A1124B68656C6C6F20776F726C64120F'
-})
+         / directive-set-component-index / 12, 0,
+         / directive-override-parameters / 20, {
+           / parameter-content / 18: ' in multiple trust domains'
+         },
+         / directive-write / 18, 15
+       ] >>
+     } >>,
+     "#dependent.suit": h'\
+   D86BA2025873825824822F58200F02CAF6D3E61920D36BF3CEA7F862A13BB8FB1F09\
+   C3F4C29B121FEAB78EF3D8584AD28443A10126A0F65840D0703EA193E12381A66FFA\
+   DEF2F0949711CFE05ED2322818D73D19F2BBD91BE5C52F1604B45C405E96B0642F3D\
+   49B2D7C6E3B2C0B40030BDDFBD27AF930B1F8B035842A6010102000347A102818142\
+   303005814E646570656E64656E742E73756974094D8414A11746636174203030170F\
+                               14528414A1124B68656C6C6F20776F726C64120F'
+   })
+
+
+
+Moran & Takayama          Expires 12 June 2025                 [Page 35]
+
+Internet-Draft             SUIT Trust Domains              December 2024
+
 
    Total size of Envelope with COSE authentication object: 519
 
    Envelope with COSE authentication object:
-
-
-
-
-
-
-
-
-
-
-
-Moran & Takayama           Expires 7 June 2025                 [Page 35]
-
-Internet-Draft             SUIT Trust Domains              December 2024
-
 
    D86BA3025873825824822F58206391CBC36495B9C87AC3EC841DB124DABD
    8D3C9FE2DEEFE16569AFC349E7DDB2584AD28443A10126A0F65840517250
@@ -2009,8 +2013,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-Moran & Takayama           Expires 7 June 2025                 [Page 36]
+Moran & Takayama          Expires 12 June 2025                 [Page 36]
