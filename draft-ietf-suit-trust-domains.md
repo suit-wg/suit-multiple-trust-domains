@@ -584,6 +584,7 @@ Label | Name | Reference
 ---|---|---
 5 | Manifest Component ID | {{manifest-id}}
 15 | Dependency Resolution | {{suit-dependency-resolution}}
+18 | Candidate Verification | {{suit-candidate-verification}}
 24 | Uninstall | {{suit-uninstall}}
 
 ## SUIT Common Elements
