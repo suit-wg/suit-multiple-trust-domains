@@ -1,7 +1,7 @@
 ---
 title: SUIT Manifest Extensions for Multiple Trust Domains
 abbrev: SUIT Trust Domains
-docname: draft-ietf-suit-trust-domains-09
+docname: draft-ietf-suit-trust-domains-10
 category: std
 
 ipr: trust200902
@@ -43,8 +43,8 @@ normative:
 informative:
   I-D.ietf-suit-update-management:
   I-D.ietf-teep-architecture:
+  I-D.ietf-iotops-7228bis:
   RFC6024:
-  RFC7228:
   RFC9019:
   RFC9124:
 
@@ -67,6 +67,8 @@ Devices that go beyond single-signer update require more complex rules for deplo
 * single-object Dependencies
 * a partly encrypted Manifest so that distribution does not reveal private information
 * installation performed by a different execution mode than payload fetch
+
+Because of the more complex use cases that are typically targetted by devices implementing this specification, the applicable device class is typically Class 2+ and often isolation level Is8, for example Arm TrustZone for Cortex-M, as described in {{I-D.ietf-iotops-7228bis}}
 
 Dependency Manifests enable several additional use cases. In particular, they enable two or more entities who are trusted for different privileges to coordinate. This can be used in many scenarios. For example:
 
@@ -114,7 +116,7 @@ find them, and the devices to which they apply.
 * Invocation Procedure: A Procedure in which a Recipient verifies Dependencies and Images, loading Images, and invokes one or more Image.
 * Staging Area: A Component or group of Components that are used for transient storage of Images between fetch and installation. Images in this area are opaque, except for use by the Installation Procedure.
 * Software: Instructions and data that allow a Recipient to perform a useful function.
-* Firmware: Software that is typically changed infrequently, stored in nonvolatile memory, and small enough to apply to {{RFC7228}} Class 0-2 devices.
+* Firmware: Software that is typically changed infrequently, stored in nonvolatile memory, and small enough to apply to {{I-D.ietf-iotops-7228bis}} Class 0-2 devices.
 * Image: Information that a Recipient uses to perform its function, typically Firmware/Software, configuration, or Resource data such as text or images. Also, a Payload, once installed is an Image.
 * Slot: One of several possible storage locations for a given Component, typically used in A/B Image systems
 * Abort: An event in which the Manifest Processor immediately halts execution of the current Procedure. It creates a Record of an error Condition.
