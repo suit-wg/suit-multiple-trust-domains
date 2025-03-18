@@ -1,15 +1,16 @@
 ---
+v: 3
+
 title: SUIT Manifest Extensions for Multiple Trust Domains
 abbrev: SUIT Trust Domains
 docname: draft-ietf-suit-trust-domains-10
 category: std
+stream: IETF
 
-ipr: trust200902
 area: Security
 workgroup: SUIT
 keyword: Internet-Draft
 
-stand_alone: yes
 pi:
   rfcedstyle: yes
   toc: yes
@@ -24,15 +25,11 @@ pi:
   toc_levels: 4
 
 author:
- -
-      ins: B. Moran
-      name: Brendan Moran
+ -    name: Brendan Moran
       organization: Arm Limited
       email: brendan.moran.ietf@gmail.com
 
- -
-      ins: K. Takayama
-      name: Ken Takayama
+ -    name: Ken Takayama
       organization: SECOM CO., LTD.
       email: ken.takayama.ietf@gmail.com
 
@@ -224,7 +221,7 @@ In complex systems, it may not always be clear where the Root Manifest should be
 
 The following CDDL describes the Manifest Component ID:
 
-~~~CDDL
+~~~ cddl
 $$SUIT_Manifest_Extensions //= 
     (suit-manifest-component-id => SUIT_Component_Identifier)
 ~~~
@@ -235,7 +232,7 @@ The suit-common section, as described in {{I-D.ietf-suit-manifest}}, Section 8.4
 
 Because some operations treat Dependency Manifests differently from other Components, it is necessary to identify them. SUIT_Dependencies identifies which Components from suit-components (see Section 8.4.5 of {{I-D.ietf-suit-manifest}}) are to be treated as Dependency Manifest Envelopes. SUIT_Dependencies is a map of Components, referenced by Component Index. Optionally, a Component prefix or other metadata may be delivered with the Component index. The CDDL for suit-dependencies is shown below:
 
-~~~CDDL
+~~~ cddl
 $$SUIT_Common-extensions //= (
     suit-dependencies => SUIT_Dependencies
 )
@@ -616,7 +613,7 @@ This document is about a Manifest format protecting and describing how to retrie
 
 To be valid, the following CDDL MUST be appended to the SUIT Manifest CDDL. The SUIT CDDL is defined in Appendix A of {{I-D.ietf-suit-manifest}}
 
-~~~ CDDL
+~~~ cddl
 {::include draft-ietf-suit-trust-domains.cddl}
 ~~~
 
@@ -655,25 +652,25 @@ This example uses functionalities:
 
 The dependency Manifest:
 
-~~~
-{::include examples/example1_process.diag}
+~~~ cbor-diag
+{::include-fold examples/example1_process.diag}
 ~~~
 
 Total size of Envelope with COSE authentication object: 373
 
-~~~
+~~~ cbor-pretty
 {::include examples/example1_process.hex}
 ~~~
 
 The dependent Manifest (fetched from "https://example.com/dependent.suit"):
 
-~~~
-{::include examples/example0_dependent.diag}
+~~~ cbor-diag
+{::include-fold examples/example0_dependent.diag}
 ~~~
 
 Total size of Envelope with COSE authentication object: 190
 
-~~~
+~~~ cbor-pretty
 {::include examples/example0_dependent.hex}
 ~~~
 
@@ -684,14 +681,14 @@ Total size of Envelope with COSE authentication object: 190
 * process dependency
 * integrated dependency
 
-~~~
-{::include examples/example2_integrated.diag}
+~~~ cbor-diag
+{::include-fold examples/example2_integrated.diag}
 ~~~
 
 Total size of Envelope with COSE authentication object: 519
 
 Envelope with COSE authentication object:
 
-~~~
+~~~ cbor-pretty
 {::include examples/example2_integrated.hex}
 ~~~
