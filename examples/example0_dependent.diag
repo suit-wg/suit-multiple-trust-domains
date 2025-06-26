@@ -2,15 +2,19 @@
   / authentication-wrapper / 2: << [
     << [
       / digest-algorithm-id: / -16 / SHA256 /,
-      / digest-bytes: / h'0F02CAF6D3E61920D36BF3CEA7F862A13BB8FB1F09C3F4C29B121FEAB78EF3D8'
+      / digest-bytes: / h'0F02CAF6D3E61920D36BF3CEA7F862A1
+                          3BB8FB1F09C3F4C29B121FEAB78EF3D8'
     ] >>,
     << / COSE_Sign1_Tagged / 18([
       / protected: / << {
-        / algorithm-id / 1: -7 / ES256 /
+        / algorithm-id / 1: -9 / ESP256 /
       } >>,
       / unprotected: / {},
       / payload: / null,
-      / signature: / h'D0703EA193E12381A66FFADEF2F0949711CFE05ED2322818D73D19F2BBD91BE5C52F1604B45C405E96B0642F3D49B2D7C6E3B2C0B40030BDDFBD27AF930B1F8B'
+      / signature: / h'A25F337126369D2E0B451C01DBD8CDB8
+                       4A77E7F6C39E789DB3D227753494000C
+                       9D250001FDDCA39B4B4E3755A7278C11
+                       998171905F56C394CFBB907105DA804F'
     ]) >>
   ] >>,
   / manifest / 3: << {
