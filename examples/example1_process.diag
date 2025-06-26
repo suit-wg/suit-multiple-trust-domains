@@ -2,8 +2,8 @@
   / authentication-wrapper / 2: << [
     << [
       / digest-algorithm-id: / -16 / SHA256 /,
-      / digest-bytes: / h'8D83D0BE98C2F3DE0E4C5C31AB54E5D5
-                          3FB87C055A932BF89C39D25F252894D1'
+      / digest-bytes: / h'AEBA316A9A1E38253B29E6C99B605383
+                          68B8AC8B5E6B9ACE1D239970830BBE62'
     ] >>,
     << / COSE_Sign1_Tagged / 18([
       / protected: / << {
@@ -11,10 +11,10 @@
       } >>,
       / unprotected: / {},
       / payload: / null,
-      / signature: / h'32186303CCBC4ED4B4FAB6F187C6782A
-                       5089ED89A4D832933A633CAD500A1503
-                       F5232B09FBD337C4EE031BB6746526C0
-                       DFEF0917297BB50F603FA9A0114BB4AF'
+      / signature: / h'3F3E9A2CA98208FEAEAEEADF7E1A0323
+                       C97896ABFB79F91E8D0C1509B0A533CD
+                       0B96BFC876A8F3B8ACE712FFF8EF7EA9
+                       45E62A61E0BA5BD9929E4A1B47EC6475'
     ]) >>
   ] >>,
   / manifest / 3: << {
@@ -47,8 +47,8 @@
       / directive-override-parameters / 20, {
         / parameter-image-digest / 3: << [
           / digest-algorithm-id: / -16 / SHA256 /,
-          / digest-bytes: / h'7F686AEBB25E2C325663ED35D8A2FA2E
-                              C4AF17362E09F1C14508EC77C815C34E'
+          / digest-bytes: / h'0F02CAF6D3E61920D36BF3CEA7F862A1
+                              3BB8FB1F09C3F4C29B121FEAB78EF3D8'
         ] >>,
         / parameter-image-size / 14: 190,
         / parameter-uri / 21: "http://example.com/dependent.suit"
