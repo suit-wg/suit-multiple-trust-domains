@@ -47,11 +47,13 @@ informative:
 
 --- abstract
 
-This specification describes extensions to the SUIT Manifest format for
-use in deployments with multiple trust domains. A device has more than
-one trust domain when it enables delegation of different rights to
-mutually distrusting entities for use for different purposes or
-Components in the context of firmware or software update.
+A device has
+more than one trust domain when it enables delegation of different
+rights to mutually distrusting entities for use for different
+purposes or Components in the context of firmware or software update. This
+specification describes extensions to the Software Update for the Internet
+of Things (SUIT) Manifest format for use in deployments with multiple trust
+domains.
 
 --- middle
 
