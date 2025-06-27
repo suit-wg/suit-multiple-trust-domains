@@ -270,9 +270,9 @@ With the addition of Dependencies, some changes are necessary to the abstract ma
     * Dependency Integrity
     * Unlink
 
-* Dependency Manifests are also Components. All Commands may target Dependency Manifests as well as Components, with one exception: process Dependency. Commands defined outside of this draft and {{I-D.ietf-suit-manifest}} MAY have additional restrictions.
-* Dependencies are processed in lockstep with the Root Manifest. This means that every Dependency's current Command sequence must be executed before a dependent's later Command sequence may be executed. For example, every Dependency's Dependency Resolution step MUST be executed before any dependent's Payload fetch step.
-* When a Manifest Processor supports multiple independent Components, they MAY have shared Dependencies.
+* Dependency Manifests are also Components. All Commands may target Dependency Manifests as well as Components, with one exception: process Dependency. Additional restrictions may be added by future commands.
+* Dependencies are processed in lockstep with the Root Manifest. This means that every Dependency's current Command sequence must be executed before a dependent's later Command sequence may be executed. For example, every Dependency's Dependency Resolution step must be executed before any dependent's Payload fetch step.
+* When a Manifest Processor supports multiple independent Components, they may have shared Dependencies.
 * When a Manifest Processor supports shared Dependencies, it MUST support reference counting of those Dependencies.
 * When reference counting is used, Components MUST NOT be overwritten. The Manifest Uninstall section must be called, then the component MUST be Unlinked.
 
@@ -524,8 +524,8 @@ The following Commands are placed into the same block of dependency Manifest:
 
 The Distribution System can Set the Parameter URI in the Fetch/Install block of dependent Manifest if it wants to overwrite the URI of encrypted Payload.
 
-Because the Author and the Distribution System have different roles and MAY be separate entities, it is highly RECOMMENDED to leverage permissions (see Section 9 of {{I-D.ietf-suit-manifest}}).
-For example, The Device can protect itself from attacker who breaches the Distribution System by allowing only the Author's Manifest to modify the Component of (to be) decrypted Payload.
+Because the Author and the Distribution System have different roles and may be separate entities, it is highly recommended to leverage permissions (see Section 9 of {{I-D.ietf-suit-manifest}}).
+For example, the Device can protect itself from attacker who breaches the Distribution System by allowing only the Author's Manifest to modify the Component of (to be) decrypted Payload.
 
 ## Operating on Multiple Components
 
