@@ -69,10 +69,7 @@ single authority also require more complex rules for deploying software updates.
 * a partly encrypted Manifest so that distribution does not reveal private information
 * installation performed by a different execution mode than payload fetch
 
-Because of the more complex use cases that are typically targeted by
-devices implementing this specification, the applicable device class
-is typically Class 2+ and often isolation level Is8, for example Arm
-TrustZone for Cortex-M, as described in {{rfc7228bis}}.
+Devices implementing this specification typically partition their software, dividing it, according to physical or logical features, into multiple "domains" with different requirements for authorities: multiple trust domains. Because of the more complex use cases that are typically targetted by devices implementing this specification, the applicable device class is typically Class 2+ and often isolation level Is8, for example Arm TrustZone for Cortex-M, as described in {{I-D.ietf-iotops-7228bis}}.
 
 Dependency Manifests enable several additional use cases. In particular, they enable two or more entities who are trusted for different privileges to coordinate. This can be used in many scenarios. For example:
 
@@ -149,11 +146,11 @@ find them, and the devices to which they apply.
 
 The use of the features presented for use with multiple trust domains requires some augmentation of the workflow presented in the SUIT Manifest specification ({{I-D.ietf-suit-manifest}}):
 
-One additional assumption is added for the Update Procedure: 
+One additional assumption is added to the list of assumptions for the Update Procedure in {{I-D.ietf-suit-manifest}}, Section 4.2: 
 
 * All Dependency Manifests must be present before any Payload is fetched.
 
-One additional assumption is added to the Invocation Procedure:
+One additional assumption is added to the list of assumptions for the Invocation Procedure in {{I-D.ietf-suit-manifest}}, Section 4.2:
 
 * All Dependencies must be validated prior to loading.
 
