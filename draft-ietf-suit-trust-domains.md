@@ -522,10 +522,10 @@ The following Commands are placed into the same block of dependency Manifest:
     - Source Component (see Section 8.4.8.11 of {{I-D.ietf-suit-manifest}}) pointing at encrypted Payload
 - Copy Directive (see Section 8.4.10.5 of {{I-D.ietf-suit-manifest}}) consuming the Encryption Info above
 
-The Distribution System can Set the Parameter URI in the Fetch/Install block of dependent Manifest if it wants to overwrite the URI of encrypted Payload.
+The Distribution System can Set the URI Parameter in the Fetch/Install block of dependent Manifest if it wants to overwrite the URI of the encrypted Payload.
 
 Because the Author and the Distribution System have different roles and MAY be separate entities, it is highly RECOMMENDED to leverage permissions (see Section 9 of {{I-D.ietf-suit-manifest}}).
-For example, The Device can protect itself from attacker who breaches the Distribution System by allowing only the Author's Manifest to modify the Component of (to be) decrypted Payload.
+For example, The Device can protect itself from an attacker who breaches the Distribution System by allowing only the Author's Manifest to modify the Component of (to be) decrypted Payload.
 
 ## Operating on Multiple Components
 
