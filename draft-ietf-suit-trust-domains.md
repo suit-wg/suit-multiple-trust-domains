@@ -1,7 +1,7 @@
 ---
 v: 3
 
-title: SUIT Manifest Extensions for Multiple Trust Domains
+title: Software Update for the Internet of Things (SUIT) Manifest Extensions for Multiple Trust Domain
 abbrev: SUIT Trust Domains
 docname: draft-ietf-suit-trust-domains-10
 category: std
@@ -36,10 +36,11 @@ author:
 normative:
   I-D.ietf-suit-manifest:
   I-D.ietf-suit-firmware-encryption:
+  RFC8610:
 
 informative:
   I-D.ietf-suit-update-management:
-  I-D.ietf-teep-architecture:
+  rfc9397:
   I-D.ietf-iotops-7228bis:
   RFC6024:
   RFC9019:
@@ -47,39 +48,54 @@ informative:
 
 --- abstract
 
-This specification describes extensions to the SUIT Manifest format for
-use in deployments with multiple trust domains. A device has more than
-one trust domain when it enables delegation of different rights to
-mutually distrusting entities for use for different purposes or
-Components in the context of firmware or software update.
+A device has
+more than one trust domain when it enables delegation of different
+rights to mutually distrusting entities for use for different
+purposes or Components in the context of firmware or software update. This
+specification describes extensions to the Software Update for the Internet
+of Things (SUIT) Manifest format for use in deployments with multiple trust
+domains.
 
 --- middle
 
 #  Introduction {#Introduction}
 
-Devices that go beyond single-signer update require more complex rules for deploying software updates. For example, devices may require:
+Devices that require more advanced configurations than a Manifest signed by a
+single authority also require more complex rules for deploying software updates. For example, devices may require:
 
-* software Components from multiple software signing authorities.
+* Components from multiple software signing authorities
 * a mechanism to remove an unneeded Component
-* single-object Dependencies
+* Dependencies delivered in the same envelope as the Manifest
 * a partly encrypted Manifest so that distribution does not reveal private information
 * installation performed by a different execution mode than payload fetch
 
-Because of the more complex use cases that are typically targetted by devices implementing this specification, the applicable device class is typically Class 2+ and often isolation level Is8, for example Arm TrustZone for Cortex-M, as described in {{I-D.ietf-iotops-7228bis}}
+Devices implementing this specification typically partition their software, dividing it, according to physical or logical features, into multiple "domains" with different requirements for authorities: multiple trust domains. Because of the more complex use cases that are typically targetted by devices implementing this specification, the applicable device class is typically Class 2+ and often isolation level Is8, for example Arm TrustZone for Cortex-M, as described in {{I-D.ietf-iotops-7228bis}}.
 
 Dependency Manifests enable several additional use cases. In particular, they enable two or more entities who are trusted for different privileges to coordinate. This can be used in many scenarios. For example:
 
-* A device may contain a processor in its radio in addition to the primary processor. These two processors may have separate Software with separate signing authorities. Dependencies allow the Software for the primary processor to reference a Manifest signed by a different authority.
+* Devices with network interface controllers (NICs), including radios, may contain secondary processors in the NICs in addition to the device primary processor. These two processors may have separate Software with separate signing authorities. Dependencies allow the Manifest for the primary processor to reference a Manifest signed by a different authority.
 * A network operator may wish to provide local caching of Update Payloads. The network operator overrides the URI of a Payload by providing a dependent Manifest that references the original Manifest, but replaces its URI.
 * A device operator provides a device with some additional configuration. The device operator wants to test their configuration with each new Software version before releasing it. The configuration is delivered as a binary in the same way as a Software Image. The device operator references the Software Manifest from the Software author in their own Manifest which also defines the configuration.
 * An Author wants to entrust a Distributor to provide devices with firmware decryption keys, but not permit the Distributor to sign code. Dependencies allow the Distributor to deliver a device's decryption information without also granting code signing authority.
-* A Trusted Application Manager (TAM) wants to distribute personalisation information to a Trusted Execution Environment in addition to a Trusted Application (TA), but does not have code signing authority. Dependencies enable the TAM to construct an update containing the personalisation information and a dependency on the TA, but leaves the TA signed by the TA's Author.
+* A Trusted Application Manager (TAM) wants to distribute personalisation information to a Trusted Execution Environment in addition to a Trusted Application (TA), but does not have code signing authority (see {{RFC9397}}, Section 2). Dependencies enable the TAM to construct an update containing the personalisation information and a dependency on the TA, but leaves the TA signed by the TA's Author.
+
+When a system has multiple trust domains, each domain might require independent verification of authenticity or security policies. Trust domains might be divided by separation technology such as Arm TrustZone, Intel SGX, or another Trusted Execution Environment (TEE) technology. Trust domains might also be divided into separate processors and memory spaces, with a communication interface between them.
+
+For example, an application processor may have an attached communications module that contains a processor. The communications module might require metadata signed by a specific Trust Authority for regulatory approval. This may be a different Trust Authority than the application processor.
 
 By using Dependencies, Components such as Software, configuration, and other Resource data authenticated by different Trust Anchors can be delivered to devices.
 
-These mechanisms are not part of the core Manifest specification, but they are needed for more advanced use cases, such as the architecture described in {{I-D.ietf-teep-architecture}}.
+These mechanisms are not part of the core Manifest specification ({{I-D.ietf-suit-manifest}}), but they are needed for more advanced use cases, such as the architecture described in {{RFC9397}}.
 
-This specification extends the SUIT Manifest specification ({{I-D.ietf-suit-manifest}}).
+This specification extends the SUIT Manifest specification ({{I-D.ietf-suit-manifest}}) with:
+
+* Integrated Components
+* Dependencies
+* Manifest Component Identifier
+* Candidate Verification
+* Parameter Override support
+* Uninstall support
+
 
 #  Conventions and Terminology
 
@@ -92,13 +108,14 @@ Additionally, the following terminology is used throughout this document:
 * Resource: A piece of information that is used to construct a Payload.
 * Manifest: A Manifest is a bundle of metadata about one or more Components for a device, where to
 find them, and the devices to which they apply.
-* Envelope: A container with the Manifest, an authentication wrapper with cryptographic information protecting the Manifest, authorization information, and severable elements (see Section 5.1 of {{I-D.ietf-suit-manifest}}).
+* Envelope: A container with the Manifest, an authentication wrapper with cryptographic information protecting the Manifest, authorization information, and severable elements ({{I-D.ietf-suit-manifest}}, Section 5.1).
 * Update: One or more Manifests that describe one or more Payloads.
 * Update Authority: The owner of a cryptographic key used to sign Updates, trusted by Recipients.
 * Recipient: The system that receives and processes a Manifest.
 * Manifest Processor: A component of the Recipient that consumes Manifests and executes the Commands in the Manifest.
 * Component: An updatable logical block of the Firmware, Software, configuration, or data of the Recipient.
 * Component Set: A group of interdependent Components that must be updated simultaneously.
+* Root Manifest: A manifest that has no dependents and, combined with all Dependency Manifests (recursively) specifies a complete Component Set.
 * Command: A Condition or a Directive.
 * Condition: A test for a property of the Recipient or its Components.
 * Directive: An action for the Recipient to perform.
@@ -122,16 +139,19 @@ find them, and the devices to which they apply.
       public key is used to verify digital signatures, and the
       associated data is used to constrain the types of information for
       which the Trust Anchor is authoritative.
+* Reference Count: An implementation-defined mechanism to track the number of manifests that refer to another manifest.
+* Device Operator: An entity that is responsible to for the day-to-day management
+    of a device. Not necessarily the OEM or the Device Owner.
 
 #  Changes to SUIT Workflow Model
 
 The use of the features presented for use with multiple trust domains requires some augmentation of the workflow presented in the SUIT Manifest specification ({{I-D.ietf-suit-manifest}}):
 
-One additional assumption is added for the Update Procedure: 
+One additional assumption is added to the list of assumptions for the Update Procedure in {{I-D.ietf-suit-manifest}}, Section 4.2: 
 
 * All Dependency Manifests must be present before any Payload is fetched.
 
-One additional assumption is added to the Invocation Procedure:
+One additional assumption is added to the list of assumptions for the Invocation Procedure in {{I-D.ietf-suit-manifest}}, Section 4.2:
 
 * All Dependencies must be validated prior to loading.
 
@@ -141,16 +161,46 @@ Steps 3 and 5 are added to the expected installation workflow of a Recipient:
 2. Verify the applicability of the Manifest.
 3. Resolve Dependencies.
 4. Fetch Payload(s).
-5. Verify Candidate.
+5. Verify Candidate Component Set.
 6. Install Payload(s).
+7. Verify image(s).
 
 In addition, when multiple Manifests are used for an Update, each Manifest's steps occur in a lockstep fashion; all Manifests have Dependency resolution performed before any Manifest performs a Payload fetch, etc.
 
 #  Changes to Manifest Metadata Structure {#metadata-structure-overview}
 
-To accommodate the additional metadata needed to enable these features, the Envelope and Manifest have several new elements added.
+To accommodate the additional metadata needed to enable these features, the Envelope and Manifest are augmented with several new elements:
 
-The Envelope gains one more elements: Integrated Dependencies. The Common metadata section in the Manifest also gains a list of Dependencies.
+* Envelope
+
+    * Integrated Dependency
+
+* Manifest
+
+    * Common
+
+        * Dependency Metadata
+
+    * Component Identifier
+    * Dependency Resolution SUIT\_Command\_Sequence
+    * Candidate Verification SUIT\_Command\_Sequence
+
+In addition several new SUIT\_Commands are added:
+
+* SUIT Conditions
+
+    * Dependency Integrity Check
+    * Component Is Dependency Check
+
+* SUIT Directives
+
+    * Process Dependency
+    * Set Parameters
+    * Unlink
+
+
+The Envelope gains two more elements: Integrated Dependencies and Integrated Payloads.
+The Common metadata section in the Manifest also gains a list of Dependencies.
 
 The new metadata structure is shown below.
 
@@ -161,11 +211,11 @@ The new metadata structure is shown below.
 | Authentication Block    |
 | Manifest           --------------> +------------------------------+
 | Severable Elements      |          | Manifest                     |
-| Human-Readable Text     |          +------------------------------+
-| CoSWID                  |          | Structure Version            |
-| Integrated Dependencies |          | Sequence Number              |
-| Integrated Payloads     |          | Reference to Full Manifest   |
-+-------------------------+    +------ Common Structure             |
+| Integrated Dependencies |          +------------------------------+
+| Integrated Payloads     |          | Structure Version            |
++-------------------------+          | Sequence Number              |
+                                     | Reference to Full Manifest   |
+                               +------ Common Structure             |
                                | +---- Command Sequences            |
 +-------------------------+    | |   | Digests of Envelope Elements |
 | Common Structure        | <--+ |   +------------------------------+
@@ -181,25 +231,28 @@ The new metadata structure is shown below.
                                      +-----------------------+
 ~~~
 
+This is an update of the figure in Section 4.2 of {{I-D.ietf-suit-manifest}}
+
 #  Dependencies 
 
-A Dependency is another SUIT_Envelope that describes additional Components. 
+A Dependency is another SUIT_Envelope ({{I-D.ietf-suit-manifest}}, section 8.2) that describes additional Components. 
 
-As described in {{Introduction}}, Dependencies enable several common use cases.
 
 ##  Changes to Required Checks {#required-checks}
 
-This section augments the definitions in Required Checks (Section 6.2) of {{I-D.ietf-suit-manifest}}.
+This section augments the definitions in Required Checks ({{I-D.ietf-suit-manifest}}, Section 6.2).
 
-More checks are required when handling Dependencies. By default, any signature of a Dependency MUST be verified. However, there are some exceptions to this rule: where a device supports only one level of access (no ACLs defining which authorities have access to different Components/Commands/Parameters), it MAY choose to skip signature verification of Dependencies, since they are verified by digest. Where a device differentiates between trust levels, such as with an ACL, it MAY choose to defer the verification of signatures of Dependencies until the list of affected Components is known so that it can skip redundant signature verifications. For example, if a dependent's signer has access rights to all Components specified in a Dependency, then that Dependency does not require a signature verification. Similarly, if the signer of the dependent has full rights to the device, according to the ACL, then no signature verification is necessary on the Dependency.
+More checks are required when handling Dependencies. By default, any signature of a Dependency MUST be verified. However, there are some exceptions to this rule: where a device supports only one level of access (no ACLs, {{I-D.ietf-suit-manifest}}, Section 9, declaring which authorities have access to different Components/Commands/Parameters), it MAY choose to skip signature verification of Dependencies, since they are verified by digest. Where a device differentiates between trust levels, such as with an ACL, it MAY choose to defer the verification of signatures of Dependencies until the list of affected Components is known so that it can skip redundant signature verifications. For example, if a dependent's signer has access rights to all Components specified in a Dependency, then that Dependency does not require a signature verification. Similarly, if the signer of the dependent has full rights to the device, according to the ACL, then no signature verification is necessary on the Dependency.
 
-Components that should be treated as Dependency Manifests are identified in the suit-common metadata. See {{structure-change}} for details.
+Components that should be treated as Dependency Manifests are identified in the suit-common metadata ({{structure-change}}).
+
+Any required check that fails MUST result in an Abort.
 
 If the Manifest contains more than one Component and/or Dependency, each Command sequence MUST begin with a Set Component Index Command.
 
 If a Dependency is specified, then the Manifest processor MUST perform the following checks:
 
-1. The dependent MUST populate all Command sequences for the current Procedure (Update or Invoke).
+1. The dependent MUST populate all Command sequences for the current Procedure; either the Staging Procedure, the Update Procedure, the Installation Procedure, or the Invocation Procedure.
 2. At the end of each section in the dependent: The corresponding section in each Dependency has been executed.
 
 If the interpreter does not support Dependencies and a Manifest specifies a Dependency, then the interpreter MUST Abort.
@@ -217,9 +270,9 @@ This section augments the Manifest Structure (Section 8.4) in {{I-D.ietf-suit-ma
 
 ### Manifest Component ID {#manifest-id}
 
-In complex systems, it may not always be clear where the Root Manifest should be stored; this is particularly complex when a system has multiple, independent Root Manifests. The Manifest Component ID resolves this contention. The manifest-component-id is intended to be used by the Root Manifest. When a Dependency Manifest also declares a Component ID, the Dependency Manifest's Component ID is overridden by the Component ID declared by the dependent.
+In complex systems, it may not always be clear where the Root Manifest is stored; this is particularly complex when a system has multiple, independent Root Manifests. The Manifest Component ID resolves this contention. The manifest-component-id is intended to be used by the Root Manifest. When a Dependency Manifest also declares a Component ID, the Dependency Manifest's Component ID is overridden by the Component ID declared by the dependent.
 
-The following CDDL describes the Manifest Component ID:
+The following CDDL (see {{RFC8610}}) describes the Manifest Component ID:
 
 ~~~ cddl
 $$SUIT_Manifest_Extensions //= 
@@ -230,7 +283,7 @@ $$SUIT_Manifest_Extensions //=
 
 The suit-common section, as described in {{I-D.ietf-suit-manifest}}, Section 8.4.5 is extended with a map of Component indices that indicate a Dependency Manifest. The keys of the map are the Component indices and the values of the map are any extra metadata needed to describe those Dependency Manifests.
 
-Because some operations treat Dependency Manifests differently from other Components, it is necessary to identify them. SUIT_Dependencies identifies which Components from suit-components (see Section 8.4.5 of {{I-D.ietf-suit-manifest}}) are to be treated as Dependency Manifest Envelopes. SUIT_Dependencies is a map of Components, referenced by Component Index. Optionally, a Component prefix or other metadata may be delivered with the Component index. The CDDL for suit-dependencies is shown below:
+Because some operations treat Dependency Manifests differently from other Components, it is necessary to identify them. SUIT_Dependencies identifies which Components from suit-components ({{I-D.ietf-suit-manifest}}, Section 8.4.5) are to be treated as Dependency Manifest Envelopes. SUIT_Dependencies is a map of Components, referenced by Component Index. Optionally, a Component prefix or other metadata may be delivered with the Component index. The CDDL for suit-dependencies is shown below:
 
 ~~~ cddl
 $$SUIT_Common-extensions //= (
@@ -243,15 +296,16 @@ SUIT_Dependency_Metadata = {
     ? suit-dependency-prefix => SUIT_Component_Identifier
     * $$SUIT_Dependency_Extensions
 }
+
 ~~~
 
 If no extended metadata is needed for an extension, SUIT_Dependency_Metadata is an empty map (this is the same encoding size as a null). SUIT_Dependencies MUST be sorted according to CBOR canonical encoding.
 
-The Components specified by SUIT_Dependency will contain a Manifest Envelope that describes a Dependency of the current Manifest. The Manifest is identified, but the Recipient should expect an Envelope when it acquires the Dependency. This is because the Manifest is the one invariant element of the Envelope, where other elements may change by countersigning, adding authentication blocks, or severing elements.
+The Components specified by SUIT_Dependency_Metadata will contain a Manifest Envelope that describes a Dependency of the current Manifest. The Manifest is identified, but the Recipient should expect an Envelope when it acquires the Dependency. This is because the Manifest is the one invariant element of the Envelope, where other elements may change by countersigning, adding authentication blocks, or severing elements.
 
-When executing suit-condition-image-match over a Component that is designated in SUIT_Dependency, the digest MUST be computed over just the bstr-wrapped SUIT_Manifest contained in the Manifest Envelope designated by the Component Index. This enables a Dependency reference to uniquely identify a particular Manifest structure. This is identical to the digest that is present as the first element of the suit-authentication-block in the Dependency's Envelope. The digest is calculated over the Manifest structure to ensure that removing a signature from a Manifest does not break Dependencies due to missing signature elements. This is also necessary to support the trusted intermediary use case, where an intermediary re-signs the Manifest, removing the original signature, potentially with a different algorithm, or trading COSE_Sign for COSE_Mac.
+When executing suit-condition-image-match over a Component that is designated in SUIT_Dependency_Metadata, the digest MUST be computed over just the bstr-wrapped SUIT_Manifest contained in the Manifest Envelope designated by the Component Index. This enables a Dependency reference to uniquely identify a particular Manifest structure. This is identical to the digest that is present as the first element of the suit-authentication-block in the Dependency's Envelope. The digest is calculated over the Manifest structure to ensure that removing a signature from a Manifest does not break Dependencies due to missing signature elements. This is also necessary to support the trusted intermediary use case, where an intermediary re-signs the Manifest, removing the original signature, potentially with a different algorithm, or trading COSE_Sign for COSE_Mac.
 
-The suit-dependency-prefix element contains a SUIT_Component_Identifier (see Section 8.4.5.1 of {{I-D.ietf-suit-manifest}}). This specifies the scope at which the Dependency operates. This allows the Dependency to be forwarded on to a Component that is capable of parsing its own Manifests. It also allows one Manifest to be deployed to multiple dependent Recipients without those Recipients needing consistent Component hierarchy. This element is OPTIONAL for Recipients to implement.
+The suit-dependency-prefix element contains a SUIT_Component_Identifier ({{I-D.ietf-suit-manifest}}, Section 8.4.5.1). This specifies the scope at which the Dependency operates. This allows the Dependency to be forwarded on to a Component that is capable of parsing its own Manifests. It also allows one Manifest to be deployed to multiple dependent Recipients without those Recipients needing consistent Component hierarchy. This element is OPTIONAL for Recipients to implement.
 
 A Dependency prefix can be used with a Component identifier. This allows complex systems to understand where Dependencies need to be applied. The Dependency prefix can be used in one of two ways. The first simply prepends the prefix to all Component Identifiers in the Dependency.
 
@@ -259,10 +313,10 @@ A Dependency prefix can also be used to indicate when a Dependency Manifest need
 
 ##  Changes to Abstract Machine Description
 
-This section augments the Abstract Machine Description (Section 6.4) in {{I-D.ietf-suit-manifest}}.
+This section augments the Abstract Machine Description in {{I-D.ietf-suit-manifest}}, Section 6.4.
 With the addition of Dependencies, some changes are necessary to the abstract machine, outside the typical scope of added Commands. These changes alter the behaviour of an existing Command and way that the parser processes Manifests:
 
-* Five new Commands are introduced:
+* Five new Commands are introduced in {{new-commands}}:
 
     * Set Parameters
     * Process Dependency
@@ -270,9 +324,9 @@ With the addition of Dependencies, some changes are necessary to the abstract ma
     * Dependency Integrity
     * Unlink
 
-* Dependency Manifests are also Components. All Commands may target Dependency Manifests as well as Components, with one exception: process Dependency. Commands defined outside of this draft and {{I-D.ietf-suit-manifest}} MAY have additional restrictions.
-* Dependencies are processed in lockstep with the Root Manifest. This means that every Dependency's current Command sequence must be executed before a dependent's later Command sequence may be executed. For example, every Dependency's Dependency Resolution step MUST be executed before any dependent's Payload fetch step.
-* When a Manifest Processor supports multiple independent Components, they MAY have shared Dependencies.
+* Dependency Manifests are also Components. All Commands may target Dependency Manifests as well as Components, with one exception: process Dependency. Additional restrictions may be added by future commands.
+* Dependencies are processed in lockstep with the Root Manifest. This means that every Dependency's current Command sequence must be executed before a dependent's later Command sequence may be executed. For example, every Dependency's Dependency Resolution step must be executed before any dependent's Payload fetch step.
+* When a Manifest Processor supports multiple independent Components, they may have shared Dependencies.
 * When a Manifest Processor supports shared Dependencies, it MUST support reference counting of those Dependencies.
 * When reference counting is used, Components MUST NOT be overwritten. The Manifest Uninstall section must be called, then the component MUST be Unlinked.
 
@@ -284,7 +338,7 @@ When a Process Dependency Command is encountered, the Manifest processor:
 
 1. Checks whether the map of Dependencies contains an entry for the current Component Index. If not present, it causes an immediate Abort.
 2. Checks whether the Dependency has been the target of a Dependency integrity check. If not, it causes an immediate Abort.
-2. Loads the specified Component as a Dependency Manifest Envelope.
+2. Performs any application-specific setup that is required to parse the specified Component as a Dependency Manifest Envelope.
 3. Authenticates the Dependency Manifest.
 4. Executes the common-sequence section of the Dependency Manifest.
 5. Executes the section of the Dependency Manifest that corresponds to the currently executing section of the dependent.
@@ -294,10 +348,6 @@ If the specified Dependency does not contain the current section, Process Depend
 The interpreter also performs the checks described in {{required-checks}} to ensure that the dependent is processing the Dependency correctly.
 
 ###  Multiple Manifest Processors {#hierarchical-interpreters}
-
-When a system has multiple trust domains, each domain might require independent verification of authenticity or security policies. Trust domains might be divided by separation technology such as Arm TrustZone, Intel SGX, or another Trusted Execution Environment (TEE) technology. Trust domains might also be divided into separate processors and memory spaces, with a communication interface between them.
-
-For example, an application processor may have an attached communications module that contains a processor. The communications module might require metadata signed by a specific Trust Authority for regulatory approval. This may be a different Trust Authority than the application processor.
 
 When there are two or more trust domains, a Manifest processor might be required in each. The first Manifest processor is the normal Manifest processor as described for the Recipient in Section 6 of {{I-D.ietf-suit-manifest}}. The second Manifest processor only executes sections when the first Manifest processor requests it. An API interface is provided from the second Manifest processor to the first. This allows the first Manifest processor to request a limited set of operations from the second. These operations are limited to: setting Parameters, inserting an Envelope, and invoking a Manifest Command Sequence. The second Manifest processor declares a prefix to the first, which tells the first Manifest processor when it should delegate to the second. These rules are enforced by underlying separation of privilege infrastructure, such as TEEs, or physical separation.
 
@@ -309,7 +359,7 @@ This mechanism ensures that the two or more Manifest processors do not need to t
 
 The Dependency Resolution Command Sequence is a container for the Commands needed to acquire and process the Dependencies of the current Manifest. All Dependency Manifests SHOULD be fetched before any Payload is fetched to ensure that all Manifests are available and authenticated before any of the (larger) Payloads are acquired.
 
-##  Added and Modified Commands
+##  Added and Modified Commands {#new-commands}
 
 All Commands are modified in that they can also target Dependencies. However, Set Component Index has a larger modification.
 
@@ -323,11 +373,26 @@ All Commands are modified in that they can also target Dependencies. However, Se
 
 ### suit-directive-set-parameters {#suit-directive-set-parameters}
 
-Similar to suit-directive-override-parameters, suit-directive-set-parameters allows the Manifest to configure behavior of future Directives by changing Parameters that are read by those Directives. Set Parameters is for use when Dependencies are used because it allows a Manifest to modify the behavior of its Dependencies.
+Similar to suit-directive-override-parameters ({{I-D.ietf-suit-manifest}}, section 8.4.10.3), suit-directive-set-parameters allows the Manifest to configure behavior of future Directives by changing Parameters that are read by those Directives. Set Parameters is for use when Dependencies are used because it allows a Manifest to modify the behavior of its Dependencies. Because of this modification behavior, suit-directive-set-parameters MUST only be used for parameters that are intended to be overridden.
 
 Available Parameters are defined in {{I-D.ietf-suit-manifest}}, section 8.4.8.
 
-If a Parameter is already set, suit-directive-set-parameters will skip setting the Parameter to its argument. This allows dependent Manifests to change the behavior of a Manifest, a Dependency that wishes to enforce a specific value of a Parameter MAY use suit-directive-override-parameters instead.
+If a Parameter is already set, suit-directive-set-parameters will skip setting the Parameter to its
+argument. This enables parameter replacement in Manifest trees. A Dependency Manifest can specify a
+default Parameter using suit-directive-set-parameters. Then, a dependent of that Dependency can use
+suit-directive-set-parameters prior to invoking suit-directive-process-dependency. Since
+suit-directive-set-parameters has set-if-unset behaviour, this means that the dependent has effectively
+overriden the Dependency's Parameter. Manifests that wish to enforce a specific value of a Parameter
+MUST use suit-directive-override-parameters instead. This satisfies USER_STORY.OVERRIDE and
+REQ.USE.MFST.COMPONENT of {{RFC9124}}.
+
+While suit-directive-set-parameters can be used outside of a Dependency use case, it has limited
+applicability: in linear manifests (without try-each, {{I-D.ietf-suit-manifest}}, section 8.4.10.2)
+it either behaves as suit-directive-override-parameters or has no effect, depending on whether its
+targets are already set. When used as a set-if-unset construction following a try-each,
+suit-directive-override-parameters has the same effect as if a suit-directive-override-parameters
+were placed in the final element of the try-each with no preceding condition. This limits the
+applicability of suit-directive-set-parameters outside dependency use cases.
 
 suit-directive-set-parameters does not specify a reporting policy.
 
@@ -336,17 +401,19 @@ suit-directive-set-parameters does not specify a reporting policy.
 
 Execute the Commands in the common section of the current Dependency, followed by the Commands in the equivalent section of the current Dependency. For example, if the current section is "Payload Fetch," this will execute "Common metadata" in the current Dependency, then "Payload Fetch" in the current Dependency. Once this is complete, the Command following suit-directive-process-dependency will be processed.
 
-If the current Component index does not have an entry in the suit-dependencies map, then this Command MUST Abort.
+If the current Component Index matches any of the following conditions, this Command MUST Abort:
 
-If the current Component index has not been the target of a suit-condition-dependency-integrity, then this Command MUST Abort.
+* The current Component index does not have an entry in the suit-dependencies map
+* The current Component index has not been the target of a suit-condition-dependency-integrity
+* The current section is "Common metadata"
 
-If the current Component is True, then this Directive applies to all Dependencies. If the current section is "Common metadata," then the Command sequence MUST Abort.
+If the current Component is True, then this Directive applies to all Dependencies.
 
 When SUIT_Process_Dependency completes, it forwards the last status code that occurred in the Dependency.
 
 ### suit-condition-is-dependency {#suit-condition-is-dependency}
 
-Check whether the current Component index is present in the Dependency list. If the current Component is in the Dependency list, suit-condition-is-dependency succeeds. Otherwise, it fails. This can be used along with component-id = True to act on all Dependencies or on all non-Dependency Components. See {{creating-manifests}} for more details.
+Check whether the current Component index is present in the Dependency list. If the current Component is in the Dependency list, suit-condition-is-dependency succeeds. Otherwise, it fails. This can be used along with component-id = True to act on all Dependencies or on all non-Dependency Components ({{creating-manifests}}).
 
 ### suit-condition-dependency-integrity {#suit-condition-dependency-integrity}
 
@@ -358,7 +425,13 @@ Verify the integrity of a Dependency Manifest. When a Manifest Processor execute
 
 If any of these steps fails, the Manifest Process MUST immediately Abort.
 
-The Manifest Processor MAY cache the results of these operations for later use from the context of the current Manifest. The Manifest Processor MUST NOT use cached results from any other Manifest context. If the Manifest Processor caches the results of these checks, it MUST eliminate this cache if any Fetch, or Copy operation targets the Dependency Manifest's Component ID. 
+The Manifest Processor MAY cache the results of these operations for later use from the context of the current Manifest. The Manifest Processor MUST NOT use cached results from any other Manifest context.
+The Manifest Processor MUST prevent tampering with the cached results, e.g. through tamper-evident memory.
+If the Manifest Processor caches the results of these checks, it MUST eliminate this cache if:
+
+* Any Fetch, or Copy operation targets the Dependency Manifest's Component ID
+* An Abort is encountered
+* A Procedure completes
 
 ### suit-directive-unlink {#suit-directive-unlink}
 
@@ -384,7 +457,7 @@ that component MUST cause an immediate ABORT. Affected commands are:
 
 The unlink Command decrements an implementation-defined reference counter. This reference counter MUST persist across restarts. The reference counter MUST NOT be decremented by a given Manifest more than once, and the Manifest processor must enforce this. The Manifest processor MAY choose to ignore an Unlink Directive depending on device policy.
 
-When the reference counter of a Manifest reaches zero, the suit-uninstall Command sequence is invoked (see {{suit-uninstall}}).
+When the reference counter of a Manifest reaches zero, the suit-uninstall Command sequence is invoked ({{suit-uninstall}}).
 
 suit-directive-unlink is OPTIONAL to implement in Manifest processors,
 but Manifest processors that support multiple independent Root Manifests
@@ -394,7 +467,7 @@ MUST support suit-directive-unlink.
 
 In some systems, particularly with multiple, independent, optional Components, it may be that there is a need to uninstall the Components that have been installed by a Manifest. Where this is expected, the uninstall Command sequence can provide the sequence needed to cleanly remove the Components defined by the Manifest and its Dependencies. In general, the suit-uninstall Command Sequence will contain primarily unlink Directives.
 
-WARNING: This can cause faults where there are loose Dependencies (e.g., version range matching, see {{I-D.ietf-suit-update-management}}), since a Component can be removed while it is depended upon by another Component. To avoid Dependency faults, a Manifest author MAY use explicit Dependencies where possible, or a Manifest processor MAY track references to loose Dependencies via reference counting in the same way as explicit Dependencies, as described in {{suit-directive-unlink}}.
+WARNING: This can cause faults where there are loose Dependencies (e.g., version range matching, {{I-D.ietf-suit-update-management}}, Section 5.5), since a Component can be removed while it is depended upon by another Component. To avoid Dependency faults, a Manifest author MAY use explicit Dependencies where possible, or a Manifest processor MAY track references to loose Dependencies via reference counting in the same way as explicit Dependencies, as described in {{suit-directive-unlink}}.
 
 The suit-uninstall Command Sequence is not severable, since it must always be available to enable uninstalling.
 
@@ -412,7 +485,7 @@ In order to coordinate between download and installation in different trust doma
     * suit-candidate-verification
     * suit-install
 
-This extension is backwards compatible when used with a Manifest Processor that supports the Update Procedure but = does not support the Staging Procedure and Installation Procedure: the payload-fetch command sequence already contains suit-condition-image tests for each payload (see {{I-D.ietf-suit-manifest}}, section 7.3) which means that images are already validated when suit-install is invoked. This makes suit-candidate-verification OPTIONAL to implement and OPTIONAL to parse.
+This extension is backwards compatible when used with a Manifest Processor that supports the Update Procedure but = does not support the Staging Procedure and Installation Procedure: the payload-fetch command sequence already contains suit-condition-image tests for each payload ({{I-D.ietf-suit-manifest}}, section 7.3) which means that images are already validated when suit-install is invoked. This makes suit-candidate-verification OPTIONAL to implement and OPTIONAL to parse.
 
 The Staging and Installation Procedures are only required when Staging occurs in a different trust domain to Installation.
 
@@ -430,22 +503,22 @@ The goal of the Dependency template is to obtain, verify, and process a Dependen
 
 The following Commands are added to the shared sequence:
 
-- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
-- Set Parameters Directive (see {{suit-directive-set-parameters}}) for digest (see Section 8.4.8.6 of {{I-D.ietf-suit-manifest}}). Note that the digest MUST match the SUIT_Digest in the Dependency's suit-authentication-block (see Section 8.3 of {{I-D.ietf-suit-manifest}}).
+- Set Component Index Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.1)
+- Set Parameters Directive ({{suit-directive-set-parameters}}) for digest ({{I-D.ietf-suit-manifest}}, Section 8.4.8.6). Note that the digest MUST match the SUIT_Digest in the Dependency's suit-authentication-block ({{I-D.ietf-suit-manifest}}, Section 8.3).
 
 The following Commands are placed into the Dependency resolution sequence:
 
-- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
-- Set Parameters Directive (see {{suit-directive-set-parameters}}) for a URI (see Section 8.4.8.10 of {{I-D.ietf-suit-manifest}})
-- Fetch Directive (see Section 8.4.10.4 of {{I-D.ietf-suit-manifest}})
-- Dependency Integrity Condition (see {{suit-condition-dependency-integrity}})
-- Process Dependency Directive (see {{suit-directive-process-dependency}})
+- Set Component Index Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.1)
+- Set Parameters Directive ({{suit-directive-set-parameters}}) for a URI ({{I-D.ietf-suit-manifest}}, Section 8.4.8.10)
+- Fetch Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.4)
+- Dependency Integrity Condition ({{suit-condition-dependency-integrity}})
+- Process Dependency Directive ({{suit-directive-process-dependency}})
 
 Then, the validate sequence contains the following operations:
 
-- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
-- Dependency Integrity Condition (see {{suit-condition-dependency-integrity}})
-- Process Dependency Directive (see {{suit-directive-process-dependency}})
+- Set Component Index Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.1)
+- Dependency Integrity Condition ({{suit-condition-dependency-integrity}})
+- Process Dependency Directive ({{suit-directive-process-dependency}})
 
 If any Dependency is declared, the dependent MUST populate all Command sequences for the current Procedure (Update or Invoke).
 
@@ -463,24 +536,24 @@ NOTE: This template also requires the extensions defined in {{I-D.ietf-suit-firm
 
 The following Commands are added to the shared sequence:
 
-- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
-- Set Parameters Directive (see {{suit-directive-set-parameters}}) for digest (see Section 8.4.8.6 of {{I-D.ietf-suit-manifest}}). Note that the digest MUST match the SUIT_Digest in the Dependency's suit-authentication-block (see Section 8.3 of {{I-D.ietf-suit-manifest}}).
+- Set Component Index Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.1)
+- Set Parameters Directive ({{suit-directive-set-parameters}}) for digest ({{I-D.ietf-suit-manifest}}, Section 8.4.8.6). Note that the digest MUST match the SUIT_Digest in the Dependency's suit-authentication-block ({{I-D.ietf-suit-manifest}}, Section 8.3).
 
 The following operations are placed into the Dependency resolution block:
 
-- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
-- Set Parameters Directive (see {{suit-directive-set-parameters}}) for
-    - URI (see Section 8.4.8.9 of {{I-D.ietf-suit-manifest}})
-    - Encryption Info (See {{I-D.ietf-suit-firmware-encryption}})
-- Fetch Directive (see Section 8.4.10.4 of {{I-D.ietf-suit-manifest}})
-- Dependency Integrity Condition (see {{suit-condition-dependency-integrity}})
-- Process Dependency Directive (see {{suit-directive-process-dependency}})
+- Set Component Index Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.1)
+- Set Parameters Directive ({{suit-directive-set-parameters}}) for
+    - URI ({{I-D.ietf-suit-manifest}}, Section 8.4.8.9)
+    - Encryption Info ({{I-D.ietf-suit-firmware-encryption}})
+- Fetch Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.4)
+- Dependency Integrity Condition ({{suit-condition-dependency-integrity}})
+- Process Dependency Directive ({{suit-directive-process-dependency}})
 
 Then, the validate block contains the following operations:
 
-- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
-- Check Image Match Condition (see Section 8.4.9.2 of {{I-D.ietf-suit-manifest}})
-- Process Dependency Directive (see {{suit-directive-process-dependency}})
+- Set Component Index Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.1)
+- Check Image Match Condition ({{I-D.ietf-suit-manifest}}, Section 8.4.9.2)
+- Process Dependency Directive ({{suit-directive-process-dependency}})
 
 A plaintext Manifest and its encrypted Dependency may also form a composite Manifest ({{integrated-dependencies}}).
 
@@ -496,36 +569,36 @@ NOTE: This template also requires the extensions defined in {{I-D.ietf-suit-firm
 
 The following operations are placed into the Dependency resolution block of dependent Manifest:
 
-- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}}) pointing at dependency Manifest
-- Set Parameters Directive (see {{suit-directive-set-parameters}}) for
-    - Image Digest (see Section 8.4.8.6 of {{I-D.ietf-suit-manifest}})
-    - URI (see Section 8.4.8.9 of {{I-D.ietf-suit-manifest}}) of dependency Manifest
-- Fetch Directive (see Section 8.4.10.4 of {{I-D.ietf-suit-manifest}})
-- Dependency Integrity Condition (see {{suit-condition-dependency-integrity}})
+- Set Component Index Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.1) pointing at dependency Manifest
+- Set Parameters Directive ({{suit-directive-set-parameters}}) for
+    - Image Digest ({{I-D.ietf-suit-manifest}}, Section 8.4.8.6)
+    - URI ({{I-D.ietf-suit-manifest}}, Section 8.4.8.9) of dependency Manifest
+- Fetch Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.4)
+- Dependency Integrity Condition ({{suit-condition-dependency-integrity}})
 
 The following Commands are placed into the Fetch/Install block of dependent Manifest
 
-- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}}) pointing at encrypted Payload
-- Set Parameters Directive (see {{suit-directive-set-parameters}}) for
-    - URI (see Section 8.4.8.9 of {{I-D.ietf-suit-manifest}})
-- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}}) pointing at dependency Manifest
-- Set Parameters Directive (see {{suit-directive-set-parameters}}) for
-    - Encryption Info (See {{I-D.ietf-suit-firmware-encryption}})
-- Process Dependency Directive (see {{suit-directive-process-dependency}})
+- Set Component Index Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.1) pointing at encrypted Payload
+- Set Parameters Directive ({{suit-directive-set-parameters}}) for
+    - URI ({{I-D.ietf-suit-manifest}}, Section 8.4.8.9)
+- Set Component Index Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.1) pointing at dependency Manifest
+- Set Parameters Directive ({{suit-directive-set-parameters}}) for
+    - Encryption Info ({{I-D.ietf-suit-firmware-encryption}})
+- Process Dependency Directive ({{suit-directive-process-dependency}})
 
 The following Commands are placed into the same block of dependency Manifest:
 
-- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}}) pointing at encrypted Payload
-- Fetch Directive (see Section 8.4.10.4 of {{I-D.ietf-suit-manifest}})
-- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}}) pointing at to be decrypted Payload
-- Override Parameters Directive (see Section 8.4.10.3 of {{I-D.ietf-suit-manifest}}) for
-    - Source Component (see Section 8.4.8.11 of {{I-D.ietf-suit-manifest}}) pointing at encrypted Payload
-- Copy Directive (see Section 8.4.10.5 of {{I-D.ietf-suit-manifest}}) consuming the Encryption Info above
+- Set Component Index Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.1) pointing at encrypted Payload
+- Fetch Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.4)
+- Set Component Index Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.1) pointing at to be decrypted Payload
+- Override Parameters Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.3) for
+    - Source Component ({{I-D.ietf-suit-manifest}}, Section 8.4.8.11) pointing at encrypted Payload
+- Copy Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.5) consuming the Encryption Info above
 
 The Distribution System can Set the URI Parameter in the Fetch/Install block of dependent Manifest if it wants to overwrite the URI of the encrypted Payload.
 
-Because the Author and the Distribution System have different roles and MAY be separate entities, it is highly RECOMMENDED to leverage permissions (see Section 9 of {{I-D.ietf-suit-manifest}}).
-For example, The Device can protect itself from an attacker who breaches the Distribution System by allowing only the Author's Manifest to modify the Component of (to be) decrypted Payload.
+Because the Author and the Distribution System have different roles and may be separate entities, it is highly recommended to leverage permissions ({{I-D.ietf-suit-manifest}}, Section 9).
+For example, the Device can protect itself from an attacker who breaches the Distribution System by allowing only the Author's Manifest to modify the Component of (to be) decrypted Payload.
 
 ## Operating on Multiple Components
 
@@ -533,22 +606,22 @@ In order to produce compact encoding, it is efficient to perform operations on m
 
 For example, to fetch all Dependency Manifests, the following Commands are added to the Dependency resolution block:
 
-- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
-- Set Parameters Directive (see {{suit-directive-set-parameters}}) for a URI (see Section 8.4.8.9 of {{I-D.ietf-suit-manifest}})
-- Set Component Index Directive, with argument "True" (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
+- Set Component Index Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.1)
+- Set Parameters Directive ({{suit-directive-set-parameters}}) for a URI ({{I-D.ietf-suit-manifest}}, Section 8.4.8.9)
+- Set Component Index Directive, with argument "True" ({{I-D.ietf-suit-manifest}}, Section 8.4.10.1)
 - Try Each Directive
     - Sequence 0
         - Condition Is Dependency Manifest
         - Fetch
-        - Dependency Integrity Condition (see {{suit-condition-dependency-integrity}})
+        - Dependency Integrity Condition ({{suit-condition-dependency-integrity}})
         - Process Dependency
     - Sequence 1 (Empty; no Commands, succeeds immediately)
 
 Another example is to fetch and validate all Component Images. The Image fetch sequence contains the following Commands:
 
-- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
-- Set Parameters Directive (see {{suit-directive-set-parameters}}) for a URI (see Section 8.4.8.9 of {{I-D.ietf-suit-manifest}})
-- Set Component Index Directive, with argument "True" (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
+- Set Component Index Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.1)
+- Set Parameters Directive ({{suit-directive-set-parameters}}) for a URI ({{I-D.ietf-suit-manifest}}, Section 8.4.8.9)
+- Set Component Index Directive, with argument "True" ({{I-D.ietf-suit-manifest}}, Section 8.4.10.1)
 - Try Each Directive
     - Sequence 0
         - Condition Is Dependency Manifest
@@ -559,11 +632,11 @@ Another example is to fetch and validate all Component Images. The Image fetch s
 
 When some Components are "installed" or "loaded" it is more productive to use lists of Component indices rather than Component Index = True. For example, to install several Components, the following Commands should be placed in the Image Install Sequence:
 
-- Set Component Index Directive (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
-- Set Parameters Directive (see {{suit-directive-set-parameters}}) for the Source Component (see Section 8.4.8.11 of {{I-D.ietf-suit-manifest}})
-- Set Component Index Directive, with argument containing list of destination Component indices (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
+- Set Component Index Directive ({{I-D.ietf-suit-manifest}}, Section 8.4.10.1)
+- Set Parameters Directive ({{suit-directive-set-parameters}}) for the Source Component ({{I-D.ietf-suit-manifest}}, Section 8.4.8.11)
+- Set Component Index Directive, with argument containing list of destination Component indices ({{I-D.ietf-suit-manifest}}, Section 8.4.10.1)
 - Copy
-- Set Component Index Directive, with argument containing list Dependency Component indices (see Section 8.4.10.1 of {{I-D.ietf-suit-manifest}})
+- Set Component Index Directive, with argument containing list Dependency Component indices ({{I-D.ietf-suit-manifest}}, Section 8.4.10.1)
 - Process Dependency
 
 #  IANA Considerations {#iana}
@@ -611,10 +684,10 @@ This document is about a Manifest format protecting and describing how to retrie
 
 # A. Full CDDL {#full-cddl}
 
-To be valid, the following CDDL MUST be appended to the SUIT Manifest CDDL. The SUIT CDDL is defined in Appendix A of {{I-D.ietf-suit-manifest}}
+To be valid, the following CDDL (see {{RFC8610}}) MUST be appended to the SUIT Manifest CDDL. The SUIT CDDL is defined in Appendix A of {{I-D.ietf-suit-manifest}}
 
 ~~~ cddl
-{::include draft-ietf-suit-trust-domains.cddl}
+{::include-fold draft-ietf-suit-trust-domains.cddl}
 ~~~
 
 # B. Examples {#examples}
@@ -659,7 +732,7 @@ The dependency Manifest:
 Total size of Envelope with COSE authentication object: 373
 
 ~~~ cbor-pretty
-{::include examples/example1_process.hex}
+{::include-fold examples/example1_process.hex}
 ~~~
 
 The dependent Manifest (fetched from "https://example.com/dependent.suit"):
@@ -690,5 +763,5 @@ Total size of Envelope with COSE authentication object: 519
 Envelope with COSE authentication object:
 
 ~~~ cbor-pretty
-{::include examples/example2_integrated.hex}
+{::include-fold examples/example2_integrated.hex}
 ~~~
