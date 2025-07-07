@@ -37,14 +37,15 @@ normative:
   I-D.ietf-suit-manifest:
   I-D.ietf-suit-firmware-encryption:
   RFC8610:
+  RFC8949:
 
 informative:
   I-D.ietf-suit-update-management:
-  rfc9397:
   I-D.ietf-iotops-7228bis:
   RFC6024:
   RFC9019:
   RFC9124:
+  RFC9397:
 
 --- abstract
 
@@ -75,7 +76,7 @@ Dependency Manifests enable several additional use cases. In particular, they en
 
 * Devices with network interface controllers (NICs), including radios, may contain secondary processors in the NICs in addition to the device primary processor. These two processors may have separate Software with separate signing authorities. Dependencies allow the Manifest for the primary processor to reference a Manifest signed by a different authority.
 * A network operator may wish to provide local caching of Update Payloads. The network creates a Dependent Manifest that provides a different URI for any Payloads they wish to cache the parameter override mechanism described in {{suit-directive-set-parameters}}.
-* A device operator provides a device with some additional configuration. The device operator wants to test their configuration with each new Software version before releasing it. The configuration is delivered as a binary in the same way as a Software Image. The device operator references the Software Manifest from the Software author in their own Manifest which also defines the configuration.
+* A Device Administrator provides a device with some additional configuration. The Device Administrator wants to test their configuration with each new Software version before releasing it. The configuration is delivered as a binary in the same way as a Software Image. The Device Administrator references the Software Manifest from the Software author in their own Manifest which also defines the configuration.
 * An Author wants to entrust a Distributor to provide devices with firmware decryption keys, but not permit the Distributor to sign code. Dependencies allow the Distributor to deliver a device's decryption information without also granting code signing authority.
 * A Trusted Application Manager (TAM) wants to distribute personalisation information to a Trusted Execution Environment in addition to a Trusted Application (TA), but does not have code signing authority (see {{RFC9397}}, Section 2). Dependencies enable the TAM to construct an update containing the personalisation information and a dependency on the TA, but leaves the TA signed by the TA's Author.
 
@@ -101,50 +102,15 @@ This specification extends the SUIT Manifest specification ({{I-D.ietf-suit-mani
 
 {::boilerplate bcp14}
 
+The terminology from {{I-D.ietf-suit-manifest}}, Section 2 and {{RFC9397}}, Section 2 is used in this specification. Additionally, the following terminology is used:
 
-Additionally, the following terminology is used throughout this document:
-
-* SUIT: Software Update for the Internet of Things, also the IETF working group for this standard.
-* Payload: A piece of information to be delivered. Typically Firmware/Software, configuration, or Resource data such as text or images.
-* Image: Information that a Recipient uses to perform its function, typically Firmware/Software, configuration, or Resource data such as text or images. Also, a Payload, once installed is an Image.
-* Resource: A piece of information that is used to construct a Payload.
-* Manifest: A Manifest is a bundle of metadata about one or more Components for a device, where to
-find them, and the devices to which they apply.
-* Envelope: A container with the Manifest, an authentication wrapper with cryptographic information protecting the Manifest, authorization information, and severable elements ({{I-D.ietf-suit-manifest}}, Section 5.1).
-* Update: One or more Manifests that describe one or more Payloads.
-* Update Authority: The owner of a cryptographic key used to sign Updates, trusted by Recipients.
-* Recipient: The system that receives and processes a Manifest.
-* Manifest Processor: A component of the Recipient that consumes Manifests and executes the Commands in the Manifest.
-* Component: An updatable logical block of the Firmware, Software, configuration, or data of the Recipient.
-* Component Set: A group of interdependent Components that must be updated simultaneously.
 * Dependency: A Manifest that is required by a second Manifest in order for operations described by the second Manifest to complete successfully.
 * Dependent: A Manifest that depends on another Mani
 * Root Manifest: A manifest that has no dependents and, combined with all Dependency Manifests (recursively) specifies a complete Component Set.
-* Command: A Condition or a Directive.
-* Condition: A test for a property of the Recipient or its Components.
-* Directive: An action for the Recipient to perform.
-* Trusted Invocation: A process by which a system ensures that only trusted code is executed, for example secure boot or launching a Trusted Application.
-* A/B Images: Dividing a Recipient's storage into two or more bootable Images, at different offsets, such that the active Image can write to the inactive Image(s).
-* Record: The result of a Command and any metadata about it.
-* Report: A list of Records.
-* Procedure: The process of invoking one or more sequences of Commands.
-* Update Procedure: A superset of Staging Procedure and Installation Procedure.
 * Staging Procedure: A procedure that fetches dependencies and images referenced by an Update and stores them to a Staging Area.
 * Installation Procedure: A procedure that installs dependencies and images stored in a Staging Area; copying (and optionally, transforming them) into an active Image storage location.
-* Invocation Procedure: A Procedure in which a Recipient verifies Dependencies and Images, loading Images, and invokes one or more Image.
 * Staging Area: A Component or group of Components that are used for transient storage of Images between fetch and installation. Images in this area are opaque, except for use by the Installation Procedure.
-* Software: Instructions and data that allow a Recipient to perform a useful function.
-* Firmware: Software that is typically changed infrequently, stored in nonvolatile memory, and small enough to apply to {{I-D.ietf-iotops-7228bis}} Class 0-2 devices.
-* Slot: One of several possible storage locations for a given Component, typically used in A/B Image systems
-* Abort: An event in which the Manifest Processor immediately halts execution of the current Procedure. It creates a Record of an error Condition.
-* Trust Anchor: A Trust Anchor, as defined in {{RFC6024}}, represents an
-      authoritative entity via a public key and associated data.  The
-      public key is used to verify digital signatures, and the
-      associated data is used to constrain the types of information for
-      which the Trust Anchor is authoritative.
 * Reference Count: An implementation-defined mechanism to track the number of manifests that refer to another manifest.
-* Device Operator: An entity that is responsible to for the day-to-day management
-    of a device. Not necessarily the OEM or the Device Owner.
 
 #  Changes to SUIT Workflow Model
 
@@ -152,7 +118,7 @@ The use of the features presented for use with multiple trust domains requires s
 
 One additional assumption is added to the list of assumptions for the Update Procedure in {{I-D.ietf-suit-manifest}}, Section 4.2: 
 
-* All Dependency Manifests must be present before any Payload is fetched.
+* All Dependency Manifests must be fetched and integrity checked before any Payload is fetched.
 
 One additional assumption is added to the list of assumptions for the Invocation Procedure in {{I-D.ietf-suit-manifest}}, Section 4.2:
 
@@ -168,7 +134,8 @@ Steps 3 and 5 are added to the expected installation workflow of a Recipient:
 6. Install Payload(s).
 7. Verify image(s).
 
-In addition, when multiple Manifests are used for an Update, each Manifest's steps occur in a lockstep fashion; all Manifests have Dependency resolution performed before any Manifest performs a Payload fetch, etc.
+In addition, when multiple Manifests are used for an Update, each Manifest's steps occur in a lockstep fashion: all Manifests have Dependency resolution performed before any Manifest performs a Payload fetch, etc.
+The lockstep process is described in {{processing-dependencies}}.
 
 #  Changes to Manifest Metadata Structure {#metadata-structure-overview}
 
@@ -265,7 +232,10 @@ If a Recipient supports groups of interdependent Components (a Component Set), t
 1. have sufficient permissions imparted by their signatures
 2. specify a digest and a Payload for every Component in the Component Set.
 
-The single dependent Manifest is sometimes called a Root Manifest.
+Failing to verify the availablility of all components may lead to
+API mismatches and other version mismatch problems.
+
+The single dependent Manifest is called a Root Manifest.
 
 ##  Changes to Manifest Structure {#structure-change}
 
@@ -310,7 +280,7 @@ The Components specified by SUIT_Dependency_Metadata will contain a Manifest Env
 
 When executing suit-condition-image-match over a Component that is designated in SUIT_Dependency_Metadata, the digest MUST be computed over just the bstr-wrapped SUIT_Manifest contained in the Manifest Envelope designated by the Component Index. This enables a Dependency reference to uniquely identify a particular Manifest structure. This is identical to the digest that is present as the first element of the suit-authentication-block in the Dependency's Envelope. The digest is calculated over the Manifest structure to ensure that removing a signature from a Manifest does not break Dependencies due to missing signature elements. This is also necessary to support the trusted intermediary use case, where an intermediary re-signs the Manifest, removing the original signature, potentially with a different algorithm, or trading COSE_Sign for COSE_Mac.
 
-The suit-dependency-prefix element contains a SUIT_Component_Identifier ({{I-D.ietf-suit-manifest}}, Section 8.4.5.1). This specifies the scope at which the Dependency operates. This allows the Dependency to be forwarded on to a Component that is capable of parsing its own Manifests. It also allows one Manifest to be deployed to multiple dependent Recipients without those Recipients needing consistent Component hierarchy. This element is OPTIONAL for Recipients to implement.
+The suit-dependency-prefix element contains a SUIT_Component_Identifier ({{I-D.ietf-suit-manifest}}, Section 8.4.5.1). This specifies the scope at which the Dependency operates. This allows the Dependency to be forwarded on to a Component that is capable of parsing its own Manifests. It also allows one Manifest to be deployed to multiple dependent Recipients without those Recipients needing consistent Component hierarchy. suit-dependency-prefix is OPTIONAL for Recipients to implement.
 
 A Dependency prefix can be used with a Component identifier. This allows complex systems to understand where Dependencies need to be applied. The Dependency prefix can be used in one of two ways. The first simply prepends the prefix to all Component Identifiers in the Dependency.
 
@@ -329,7 +299,7 @@ With the addition of Dependencies, some changes are necessary to the abstract ma
     * Dependency Integrity
     * Unlink
 
-* Dependency Manifests have Component Identifiers. All Commands may target Dependency Manifests as well as Components, with one exception: suit-directive-process-dependency. Additional restrictions may be added by future commands.
+* Dependency Manifests have Component Identifiers. All Commands may target Dependency Manifests as well as Components, with one exception: suit-directive-process-dependency. Future commands MAY define their own restrictions on applicability to Dependency Manifests and non-Dependency Components.
 * Dependencies are processed in lockstep with the Root Manifest. This means that every Dependency's current Command sequence must be executed before a dependent's later Command sequence may be executed. For example, every Dependency's Dependency Resolution step must be executed before any dependent's Payload fetch step.
 * When a Manifest Processor supports multiple independent Components, they may have shared Dependencies.
 * When a Manifest Processor supports shared Dependencies, it MUST support reference counting of those Dependencies.
@@ -496,7 +466,7 @@ In order to coordinate between download and installation in different trust doma
     * suit-candidate-verification
     * suit-install
 
-This extension is backwards compatible when used with a Manifest Processor that supports the Update Procedure but = does not support the Staging Procedure and Installation Procedure: the payload-fetch command sequence already contains suit-condition-image tests for each payload ({{I-D.ietf-suit-manifest}}, section 7.3) which means that images are already validated when suit-install is invoked. This makes suit-candidate-verification OPTIONAL to implement.
+This extension is backwards compatible when used with a Manifest Processor that supports the Update Procedure but does not support the Staging Procedure and Installation Procedure: the payload-fetch command sequence already contains suit-condition-image tests for each payload ({{I-D.ietf-suit-manifest}}, section 7.3) which means that images are already validated when suit-install is invoked. This makes suit-candidate-verification OPTIONAL to implement.
 
 The Staging and Installation Procedures are only required when Staging occurs in a different trust domain to Installation.
 
