@@ -139,6 +139,7 @@ find them, and the devices to which they apply.
       public key is used to verify digital signatures, and the
       associated data is used to constrain the types of information for
       which the Trust Anchor is authoritative.
+* Reference Count: An implementation-defined mechanism to track the number of manifests that refer to another manifest.
 * Device Operator: An entity that is responsible to for the day-to-day management
     of a device. Not necessarily the OEM or the Device Owner.
 
@@ -234,23 +235,24 @@ This is an update of the figure in Section 4.2 of {{I-D.ietf-suit-manifest}}
 
 #  Dependencies 
 
-A Dependency is another SUIT_Envelope that describes additional Components. 
+A Dependency is another SUIT_Envelope ({{I-D.ietf-suit-manifest}}, section 8.2) that describes additional Components. 
 
-As described in {{Introduction}}, Dependencies enable several common use cases.
 
 ##  Changes to Required Checks {#required-checks}
 
-This section augments the definitions in Required Checks (Section 6.2) of {{I-D.ietf-suit-manifest}}.
+This section augments the definitions in Required Checks ({{I-D.ietf-suit-manifest}}, Section 6.2).
 
-More checks are required when handling Dependencies. By default, any signature of a Dependency MUST be verified. However, there are some exceptions to this rule: where a device supports only one level of access (no ACLs defining which authorities have access to different Components/Commands/Parameters), it MAY choose to skip signature verification of Dependencies, since they are verified by digest. Where a device differentiates between trust levels, such as with an ACL, it MAY choose to defer the verification of signatures of Dependencies until the list of affected Components is known so that it can skip redundant signature verifications. For example, if a dependent's signer has access rights to all Components specified in a Dependency, then that Dependency does not require a signature verification. Similarly, if the signer of the dependent has full rights to the device, according to the ACL, then no signature verification is necessary on the Dependency.
+More checks are required when handling Dependencies. By default, any signature of a Dependency MUST be verified. However, there are some exceptions to this rule: where a device supports only one level of access (no ACLs, {{I-D.ietf-suit-manifest}}, Section 9, declaring which authorities have access to different Components/Commands/Parameters), it MAY choose to skip signature verification of Dependencies, since they are verified by digest. Where a device differentiates between trust levels, such as with an ACL, it MAY choose to defer the verification of signatures of Dependencies until the list of affected Components is known so that it can skip redundant signature verifications. For example, if a dependent's signer has access rights to all Components specified in a Dependency, then that Dependency does not require a signature verification. Similarly, if the signer of the dependent has full rights to the device, according to the ACL, then no signature verification is necessary on the Dependency.
 
 Components that should be treated as Dependency Manifests are identified in the suit-common metadata ({{structure-change}}).
+
+Any required check that fails MUST result in an Abort.
 
 If the Manifest contains more than one Component and/or Dependency, each Command sequence MUST begin with a Set Component Index Command.
 
 If a Dependency is specified, then the Manifest processor MUST perform the following checks:
 
-1. The dependent MUST populate all Command sequences for the current Procedure (Update or Invoke).
+1. The dependent MUST populate all Command sequences for the current Procedure; either the Staging Procedure, the Update Procedure, the Installation Procedure, or the Invocation Procedure.
 2. At the end of each section in the dependent: The corresponding section in each Dependency has been executed.
 
 If the interpreter does not support Dependencies and a Manifest specifies a Dependency, then the interpreter MUST Abort.
@@ -268,7 +270,7 @@ This section augments the Manifest Structure (Section 8.4) in {{I-D.ietf-suit-ma
 
 ### Manifest Component ID {#manifest-id}
 
-In complex systems, it may not always be clear where the Root Manifest should be stored; this is particularly complex when a system has multiple, independent Root Manifests. The Manifest Component ID resolves this contention. The manifest-component-id is intended to be used by the Root Manifest. When a Dependency Manifest also declares a Component ID, the Dependency Manifest's Component ID is overridden by the Component ID declared by the dependent.
+In complex systems, it may not always be clear where the Root Manifest is stored; this is particularly complex when a system has multiple, independent Root Manifests. The Manifest Component ID resolves this contention. The manifest-component-id is intended to be used by the Root Manifest. When a Dependency Manifest also declares a Component ID, the Dependency Manifest's Component ID is overridden by the Component ID declared by the dependent.
 
 The following CDDL (see {{RFC8610}}) describes the Manifest Component ID:
 
@@ -311,10 +313,10 @@ A Dependency prefix can also be used to indicate when a Dependency Manifest need
 
 ##  Changes to Abstract Machine Description
 
-This section augments the Abstract Machine Description (Section 6.4) in {{I-D.ietf-suit-manifest}}.
+This section augments the Abstract Machine Description in {{I-D.ietf-suit-manifest}}, Section 6.4.
 With the addition of Dependencies, some changes are necessary to the abstract machine, outside the typical scope of added Commands. These changes alter the behaviour of an existing Command and way that the parser processes Manifests:
 
-* Five new Commands are introduced:
+* Five new Commands are introduced in {{new-commands}}:
 
     * Set Parameters
     * Process Dependency
@@ -336,7 +338,7 @@ When a Process Dependency Command is encountered, the Manifest processor:
 
 1. Checks whether the map of Dependencies contains an entry for the current Component Index. If not present, it causes an immediate Abort.
 2. Checks whether the Dependency has been the target of a Dependency integrity check. If not, it causes an immediate Abort.
-2. Loads the specified Component as a Dependency Manifest Envelope.
+2. Performs any application-specific setup that is required to parse the specified Component as a Dependency Manifest Envelope.
 3. Authenticates the Dependency Manifest.
 4. Executes the common-sequence section of the Dependency Manifest.
 5. Executes the section of the Dependency Manifest that corresponds to the currently executing section of the dependent.
@@ -357,7 +359,7 @@ This mechanism ensures that the two or more Manifest processors do not need to t
 
 The Dependency Resolution Command Sequence is a container for the Commands needed to acquire and process the Dependencies of the current Manifest. All Dependency Manifests SHOULD be fetched before any Payload is fetched to ensure that all Manifests are available and authenticated before any of the (larger) Payloads are acquired.
 
-##  Added and Modified Commands
+##  Added and Modified Commands {#new-commands}
 
 All Commands are modified in that they can also target Dependencies. However, Set Component Index has a larger modification.
 
@@ -371,7 +373,7 @@ All Commands are modified in that they can also target Dependencies. However, Se
 
 ### suit-directive-set-parameters {#suit-directive-set-parameters}
 
-Similar to suit-directive-override-parameters, suit-directive-set-parameters allows the Manifest to configure behavior of future Directives by changing Parameters that are read by those Directives. Set Parameters is for use when Dependencies are used because it allows a Manifest to modify the behavior of its Dependencies.
+Similar to suit-directive-override-parameters ({{I-D.ietf-suit-manifest}}, section 8.4.10.3), suit-directive-set-parameters allows the Manifest to configure behavior of future Directives by changing Parameters that are read by those Directives. Set Parameters is for use when Dependencies are used because it allows a Manifest to modify the behavior of its Dependencies. Because of this modification behavior, suit-directive-set-parameters MUST only be used for parameters that are intended to be overridden.
 
 Available Parameters are defined in {{I-D.ietf-suit-manifest}}, section 8.4.8.
 
@@ -380,9 +382,17 @@ argument. This enables parameter replacement in Manifest trees. A Dependency Man
 default Parameter using suit-directive-set-parameters. Then, a dependent of that Dependency can use
 suit-directive-set-parameters prior to invoking suit-directive-process-dependency. Since
 suit-directive-set-parameters has set-if-unset behaviour, this means that the dependent has effectively
-overriden the Dependency's Parameter. Manifests that wishe to enforce a specific value of a Parameter
+overriden the Dependency's Parameter. Manifests that wish to enforce a specific value of a Parameter
 MUST use suit-directive-override-parameters instead. This satisfies USER_STORY.OVERRIDE and
 REQ.USE.MFST.COMPONENT of {{RFC9124}}.
+
+While suit-directive-set-parameters can be used outside of a Dependency use case, it has limited
+applicability: in linear manifests (without try-each, {{I-D.ietf-suit-manifest}}, section 8.4.10.2)
+it either behaves as suit-directive-override-parameters or has no effect, depending on whether its
+targets are already set. When used as a set-if-unset construction following a try-each,
+suit-directive-override-parameters has the same effect as if a suit-directive-override-parameters
+were placed in the final element of the try-each with no preceding condition. This limits the
+applicability of suit-directive-set-parameters outside dependency use cases.
 
 suit-directive-set-parameters does not specify a reporting policy.
 
@@ -391,11 +401,13 @@ suit-directive-set-parameters does not specify a reporting policy.
 
 Execute the Commands in the common section of the current Dependency, followed by the Commands in the equivalent section of the current Dependency. For example, if the current section is "Payload Fetch," this will execute "Common metadata" in the current Dependency, then "Payload Fetch" in the current Dependency. Once this is complete, the Command following suit-directive-process-dependency will be processed.
 
-If the current Component index does not have an entry in the suit-dependencies map, then this Command MUST Abort.
+If the current Component Index matches any of the following conditions, this Command MUST Abort:
 
-If the current Component index has not been the target of a suit-condition-dependency-integrity, then this Command MUST Abort.
+* The current Component index does not have an entry in the suit-dependencies map
+* The current Component index has not been the target of a suit-condition-dependency-integrity
+* The current section is "Common metadata"
 
-If the current Component is True, then this Directive applies to all Dependencies. If the current section is "Common metadata," then the Command sequence MUST Abort.
+If the current Component is True, then this Directive applies to all Dependencies.
 
 When SUIT_Process_Dependency completes, it forwards the last status code that occurred in the Dependency.
 
@@ -413,7 +425,13 @@ Verify the integrity of a Dependency Manifest. When a Manifest Processor execute
 
 If any of these steps fails, the Manifest Process MUST immediately Abort.
 
-The Manifest Processor MAY cache the results of these operations for later use from the context of the current Manifest. The Manifest Processor MUST NOT use cached results from any other Manifest context. If the Manifest Processor caches the results of these checks, it MUST eliminate this cache if any Fetch, or Copy operation targets the Dependency Manifest's Component ID. 
+The Manifest Processor MAY cache the results of these operations for later use from the context of the current Manifest. The Manifest Processor MUST NOT use cached results from any other Manifest context.
+The Manifest Processor MUST prevent tampering with the cached results, e.g. through tamper-evident memory.
+If the Manifest Processor caches the results of these checks, it MUST eliminate this cache if:
+
+* Any Fetch, or Copy operation targets the Dependency Manifest's Component ID
+* An Abort is encountered
+* A Procedure completes
 
 ### suit-directive-unlink {#suit-directive-unlink}
 
