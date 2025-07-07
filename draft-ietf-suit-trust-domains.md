@@ -36,6 +36,7 @@ author:
 normative:
   I-D.ietf-suit-manifest:
   I-D.ietf-suit-firmware-encryption:
+  RFC8610:
 
 informative:
   I-D.ietf-suit-update-management:
@@ -258,7 +259,7 @@ This section augments the Manifest Structure (Section 8.4) in {{I-D.ietf-suit-ma
 
 In complex systems, it may not always be clear where the Root Manifest should be stored; this is particularly complex when a system has multiple, independent Root Manifests. The Manifest Component ID resolves this contention. The manifest-component-id is intended to be used by the Root Manifest. When a Dependency Manifest also declares a Component ID, the Dependency Manifest's Component ID is overridden by the Component ID declared by the dependent.
 
-The following CDDL describes the Manifest Component ID:
+The following CDDL (see {{RFC8610}}) describes the Manifest Component ID:
 
 ~~~ cddl
 $$SUIT_Manifest_Extensions //= 
@@ -653,10 +654,10 @@ This document is about a Manifest format protecting and describing how to retrie
 
 # A. Full CDDL {#full-cddl}
 
-To be valid, the following CDDL MUST be appended to the SUIT Manifest CDDL. The SUIT CDDL is defined in Appendix A of {{I-D.ietf-suit-manifest}}
+To be valid, the following CDDL (see {{RFC8610}}) MUST be appended to the SUIT Manifest CDDL. The SUIT CDDL is defined in Appendix A of {{I-D.ietf-suit-manifest}}
 
 ~~~ cddl
-{::include draft-ietf-suit-trust-domains.cddl}
+{::include-fold draft-ietf-suit-trust-domains.cddl}
 ~~~
 
 # B. Examples {#examples}
@@ -701,7 +702,7 @@ The dependency Manifest:
 Total size of Envelope with COSE authentication object: 373
 
 ~~~ cbor-pretty
-{::include examples/example1_process.hex}
+{::include-fold examples/example1_process.hex}
 ~~~
 
 The dependent Manifest (fetched from "https://example.com/dependent.suit"):
@@ -732,5 +733,5 @@ Total size of Envelope with COSE authentication object: 519
 Envelope with COSE authentication object:
 
 ~~~ cbor-pretty
-{::include examples/example2_integrated.hex}
+{::include-fold examples/example2_integrated.hex}
 ~~~
