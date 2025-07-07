@@ -355,7 +355,14 @@ Similar to suit-directive-override-parameters, suit-directive-set-parameters all
 
 Available Parameters are defined in {{I-D.ietf-suit-manifest}}, section 8.4.8.
 
-If a Parameter is already set, suit-directive-set-parameters will skip setting the Parameter to its argument. This allows dependent Manifests to change the behavior of a Manifest, a Dependency that wishes to enforce a specific value of a Parameter MAY use suit-directive-override-parameters instead.
+If a Parameter is already set, suit-directive-set-parameters will skip setting the Parameter to its
+argument. This enables parameter replacement in Manifest trees. A Dependency Manifest can specify a
+default Parameter using suit-directive-set-parameters. Then, a dependent of that Dependency can use
+suit-directive-set-parameters prior to invoking suit-directive-process-dependency. Since
+suit-directive-set-parameters has set-if-unset behaviour, this means that the dependent has effectively
+overriden the Dependency's Parameter. Manifests that wishe to enforce a specific value of a Parameter
+MUST use suit-directive-override-parameters instead. This satisfies USER_STORY.OVERRIDE and
+REQ.USE.MFST.COMPONENT of {{RFC9124}}.
 
 suit-directive-set-parameters does not specify a reporting policy.
 
