@@ -65,7 +65,10 @@ Devices that go beyond single-signer update require more complex rules for deplo
 * a partly encrypted Manifest so that distribution does not reveal private information
 * installation performed by a different execution mode than payload fetch
 
-Because of the more complex use cases that are typically targetted by devices implementing this specification, the applicable device class is typically Class 2+ and often isolation level Is8, for example Arm TrustZone for Cortex-M, as described in {{I-D.ietf-iotops-7228bis}}
+Because of the more complex use cases that are typically targeted by
+devices implementing this specification, the applicable device class
+is typically Class 2+ and often isolation level Is8, for example Arm
+TrustZone for Cortex-M, as described in {{rfc7228bis}}.
 
 Dependency Manifests enable several additional use cases. In particular, they enable two or more entities who are trusted for different privileges to coordinate. This can be used in many scenarios. For example:
 
@@ -74,6 +77,10 @@ Dependency Manifests enable several additional use cases. In particular, they en
 * A device operator provides a device with some additional configuration. The device operator wants to test their configuration with each new Software version before releasing it. The configuration is delivered as a binary in the same way as a Software Image. The device operator references the Software Manifest from the Software author in their own Manifest which also defines the configuration.
 * An Author wants to entrust a Distributor to provide devices with firmware decryption keys, but not permit the Distributor to sign code. Dependencies allow the Distributor to deliver a device's decryption information without also granting code signing authority.
 * A Trusted Application Manager (TAM) wants to distribute personalisation information to a Trusted Execution Environment in addition to a Trusted Application (TA), but does not have code signing authority. Dependencies enable the TAM to construct an update containing the personalisation information and a dependency on the TA, but leaves the TA signed by the TA's Author.
+
+When a system has multiple trust domains, each domain might require independent verification of authenticity or security policies. Trust domains might be divided by separation technology such as Arm TrustZone, Intel SGX, or another Trusted Execution Environment (TEE) technology. Trust domains might also be divided into separate processors and memory spaces, with a communication interface between them.
+
+For example, an application processor may have an attached communications module that contains a processor. The communications module might require metadata signed by a specific Trust Authority for regulatory approval. This may be a different Trust Authority than the application processor.
 
 By using Dependencies, Components such as Software, configuration, and other Resource data authenticated by different Trust Anchors can be delivered to devices.
 
@@ -141,14 +148,43 @@ Steps 3 and 5 are added to the expected installation workflow of a Recipient:
 2. Verify the applicability of the Manifest.
 3. Resolve Dependencies.
 4. Fetch Payload(s).
-5. Verify Candidate.
+5. Verify Candidate Component Set.
 6. Install Payload(s).
+7. Verify image(s).
 
 In addition, when multiple Manifests are used for an Update, each Manifest's steps occur in a lockstep fashion; all Manifests have Dependency resolution performed before any Manifest performs a Payload fetch, etc.
 
 #  Changes to Manifest Metadata Structure {#metadata-structure-overview}
 
-To accommodate the additional metadata needed to enable these features, the Envelope and Manifest are augmented with several new elements.
+To accommodate the additional metadata needed to enable these features, the Envelope and Manifest are augmented with several new elements:
+
+* Envelope
+
+    * Integrated Dependency
+
+* Manifest
+
+    * Common
+
+        * Dependency Metadata
+
+    * Component Identifier
+    * Dependency Resolution SUIT\_Command\_Sequence
+    * Candidate Verification SUIT\_Command\_Sequence
+
+In addition several new SUIT\_Commands are added:
+
+* SUIT Conditions
+
+    * Dependency Integrity Check
+    * Component Is Dependency Check
+
+* SUIT Directives
+
+    * Process Dependency
+    * Set Parameters
+    * Unlink
+
 
 The Envelope gains two more elements: Integrated Dependencies and Integrated Payloads.
 The Common metadata section in the Manifest also gains a list of Dependencies.
@@ -298,10 +334,6 @@ The interpreter also performs the checks described in {{required-checks}} to ens
 
 ###  Multiple Manifest Processors {#hierarchical-interpreters}
 
-When a system has multiple trust domains, each domain might require independent verification of authenticity or security policies. Trust domains might be divided by separation technology such as Arm TrustZone, Intel SGX, or another Trusted Execution Environment (TEE) technology. Trust domains might also be divided into separate processors and memory spaces, with a communication interface between them.
-
-For example, an application processor may have an attached communications module that contains a processor. The communications module might require metadata signed by a specific Trust Authority for regulatory approval. This may be a different Trust Authority than the application processor.
-
 When there are two or more trust domains, a Manifest processor might be required in each. The first Manifest processor is the normal Manifest processor as described for the Recipient in Section 6 of {{I-D.ietf-suit-manifest}}. The second Manifest processor only executes sections when the first Manifest processor requests it. An API interface is provided from the second Manifest processor to the first. This allows the first Manifest processor to request a limited set of operations from the second. These operations are limited to: setting Parameters, inserting an Envelope, and invoking a Manifest Command Sequence. The second Manifest processor declares a prefix to the first, which tells the first Manifest processor when it should delegate to the second. These rules are enforced by underlying separation of privilege infrastructure, such as TEEs, or physical separation.
 
 When the first Manifest processor encounters a Dependency prefix, that informs the first Manifest processor that it should provide the second Manifest processor with the corresponding Dependency Envelope. This is done when the Dependency is fetched. The second Manifest processor immediately verifies any authentication information in the Dependency Envelope. When a Parameter is set for any Component that matches the prefix, this Parameter setting is passed to the second Manifest processor via an API. As the first Manifest processor works through the Procedure (set of Command sequences) it is executing, each time it sees a Process Dependency Command that is associated with the prefix declared by the second Manifest processor, it uses the API to ask the second Manifest processor to invoke that Dependency section instead.
@@ -330,7 +362,14 @@ Similar to suit-directive-override-parameters, suit-directive-set-parameters all
 
 Available Parameters are defined in {{I-D.ietf-suit-manifest}}, section 8.4.8.
 
-If a Parameter is already set, suit-directive-set-parameters will skip setting the Parameter to its argument. This allows dependent Manifests to change the behavior of a Manifest, a Dependency that wishes to enforce a specific value of a Parameter MAY use suit-directive-override-parameters instead.
+If a Parameter is already set, suit-directive-set-parameters will skip setting the Parameter to its
+argument. This enables parameter replacement in Manifest trees. A Dependency Manifest can specify a
+default Parameter using suit-directive-set-parameters. Then, a dependent of that Dependency can use
+suit-directive-set-parameters prior to invoking suit-directive-process-dependency. Since
+suit-directive-set-parameters has set-if-unset behaviour, this means that the dependent has effectively
+overriden the Dependency's Parameter. Manifests that wishe to enforce a specific value of a Parameter
+MUST use suit-directive-override-parameters instead. This satisfies USER_STORY.OVERRIDE and
+REQ.USE.MFST.COMPONENT of {{RFC9124}}.
 
 suit-directive-set-parameters does not specify a reporting policy.
 
