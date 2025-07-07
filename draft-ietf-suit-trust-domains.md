@@ -156,7 +156,7 @@ In addition, when multiple Manifests are used for an Update, each Manifest's ste
 
 #  Changes to Manifest Metadata Structure {#metadata-structure-overview}
 
-To accommodate the additional metadata needed to enable these features, the Envelope and Manifest have several new elements added:
+To accommodate the additional metadata needed to enable these features, the Envelope and Manifest are augmented with several new elements:
 
 * Envelope
 
@@ -186,7 +186,8 @@ In addition several new SUIT\_Commands are added:
     * Unlink
 
 
-The Envelope gains one more elements: Integrated Dependencies. The Common metadata section in the Manifest also gains a list of Dependencies.
+The Envelope gains two more elements: Integrated Dependencies and Integrated Payloads.
+The Common metadata section in the Manifest also gains a list of Dependencies.
 
 The new metadata structure is shown below.
 
@@ -197,11 +198,11 @@ The new metadata structure is shown below.
 | Authentication Block    |
 | Manifest           --------------> +------------------------------+
 | Severable Elements      |          | Manifest                     |
-| Human-Readable Text     |          +------------------------------+
-| CoSWID                  |          | Structure Version            |
-| Integrated Dependencies |          | Sequence Number              |
-| Integrated Payloads     |          | Reference to Full Manifest   |
-+-------------------------+    +------ Common Structure             |
+| Integrated Dependencies |          +------------------------------+
+| Integrated Payloads     |          | Structure Version            |
++-------------------------+          | Sequence Number              |
+                                     | Reference to Full Manifest   |
+                               +------ Common Structure             |
                                | +---- Command Sequences            |
 +-------------------------+    | |   | Digests of Envelope Elements |
 | Common Structure        | <--+ |   +------------------------------+
@@ -216,6 +217,8 @@ The new metadata structure is shown below.
                                      | ))                    |
                                      +-----------------------+
 ~~~
+
+This is an update of the figure in Section 4.2 of {{I-D.ietf-suit-manifest}}
 
 #  Dependencies 
 
