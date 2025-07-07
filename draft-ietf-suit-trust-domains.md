@@ -148,8 +148,9 @@ Steps 3 and 5 are added to the expected installation workflow of a Recipient:
 2. Verify the applicability of the Manifest.
 3. Resolve Dependencies.
 4. Fetch Payload(s).
-5. Verify Candidate.
+5. Verify Candidate Component Set.
 6. Install Payload(s).
+7. Verify image(s).
 
 In addition, when multiple Manifests are used for an Update, each Manifest's steps occur in a lockstep fashion; all Manifests have Dependency resolution performed before any Manifest performs a Payload fetch, etc.
 
