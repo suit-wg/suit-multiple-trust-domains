@@ -677,8 +677,50 @@ Label | Name | Reference
 
 #  Security Considerations
 
-This document is about a Manifest format protecting and describing how to retrieve, install, and invoke Images and as such it is part of a larger solution for delivering software updates to devices. A detailed security treatment can be found in the architecture {{RFC9019}} and in the information model {{RFC9124}} documents.
+This specification is about a Manifest format protecting and describing how to retrieve, install, and invoke Images and as such it is part of a larger solution for delivering software updates to devices. A detailed security treatment can be found in the SUIT architecture {{RFC9019}} and in the SUIT information model {{RFC9124}}.
 
+The features added in this specification introduce several new threats. The introduction
+of Dependencies enables multiple entities to operate on a device with different privileges.
+While this is necessary to fulfill REQ.USE.MFST.COMPONENT ({{RFC9124}}, Section 4.5.4), it
+also introduces a new requirement: REQ.SEC.ACCESS_CONTROL ({{RFC9124}}, Section 4.3.13),
+which is required to address THREAT.MFST.OVERRIDE ({{RFC9124}}, Section 4.2.13) and
+THREAT.UPD.UNAPPROVED ({{RFC9124}}, Section 4.2.11).
+
+Simultaneous processing of multiple Manifests, as enabled by Dependency processing,
+introduces risks of TOCTOU threats (THREAT.MFST.TOCTOU: {{RFC9124}}, Section 4.2.18). 
+Holding multiple Manifest Envelopes in memory
+simultaneously can exceed the capacity of the Manifest Processor's tamper-protected
+memory (REQ.SEC.MFST.CONST: {{RFC9124}}, Section 4.3.21). To address this threat,
+the Manifest Processor MAY use modular processing as described in REQ.USE.PAYLOAD
+({{RFC9124}}, Section 4.5.12). If retaining the Manifests only, excluding envelopes,
+in immutable memory does not provide enough capacity, the Manifest Processor MAY
+reduce overhead by retaining the following elements for each manifest in immutable memory: 
+
+* Manifest Digest
+* Parameters
+* Current Component Index
+* Current Command Sequence
+* Current Command Sequence Offset
+
+This allows a Manifest Processor to resume processing a manifest as follows:
+
+* Copy the Manifest into immutable memory
+* Validate the Manifest using the stored Manifest Digest
+* Parse forward to find the Current Command Sequence
+* Jump within the Command Seqeunce to the stored Command Sequence Offset
+
+When identifying a Root Manifest's correct storage location, 
+the Component Identifier MUST be evaluated vs. the access priviliges of an Author.
+Otherwise, the Component Identifier may permit an escalation of privilege: an
+authorised Author causes a manifest to be installed in a location for which the
+Author does not have access rights.
+
+Since Dependencies are stored as Components, Dependency Integrity Checks
+and Image Verification are slightly different operations. While a typical Image
+is immutable, a Manifest Envelope can be modified in some ways (e.g. removing
+a Severable Element) without changing the Integrity Check result. Because of
+these factors, suit-directive-process-dependency requires that a dependency first
+be validated with suit-check suit-condition-dependency-integrity.
 
 --- back
 
