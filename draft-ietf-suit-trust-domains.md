@@ -65,7 +65,10 @@ Devices that go beyond single-signer update require more complex rules for deplo
 * a partly encrypted Manifest so that distribution does not reveal private information
 * installation performed by a different execution mode than payload fetch
 
-Because of the more complex use cases that are typically targetted by devices implementing this specification, the applicable device class is typically Class 2+ and often isolation level Is8, for example Arm TrustZone for Cortex-M, as described in {{I-D.ietf-iotops-7228bis}}
+Because of the more complex use cases that are typically targeted by
+devices implementing this specification, the applicable device class
+is typically Class 2+ and often isolation level Is8, for example Arm
+TrustZone for Cortex-M, as described in {{rfc7228bis}}.
 
 Dependency Manifests enable several additional use cases. In particular, they enable two or more entities who are trusted for different privileges to coordinate. This can be used in many scenarios. For example:
 
