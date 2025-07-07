@@ -148,7 +148,35 @@ In addition, when multiple Manifests are used for an Update, each Manifest's ste
 
 #  Changes to Manifest Metadata Structure {#metadata-structure-overview}
 
-To accommodate the additional metadata needed to enable these features, the Envelope and Manifest have several new elements added.
+To accommodate the additional metadata needed to enable these features, the Envelope and Manifest have several new elements added:
+
+* Envelope
+
+    * Integrated Dependency
+
+* Manifest
+
+    * Common
+
+        * Dependency Metadata
+
+    * Component Identifier
+    * Dependency Resolution SUIT\_Command\_Sequence
+    * Candidate Verification SUIT\_Command\_Sequence
+
+In addition several new SUIT\_Commands are added:
+
+* SUIT Conditions
+
+    * Dependency Integrity Check
+    * Component Is Dependency Check
+
+* SUIT Directives
+
+    * Process Dependency
+    * Set Parameters
+    * Unlink
+
 
 The Envelope gains one more elements: Integrated Dependencies. The Common metadata section in the Manifest also gains a list of Dependencies.
 
