@@ -3,7 +3,7 @@ v: 3
 
 title: Software Update for the Internet of Things (SUIT) Manifest Extensions for Multiple Trust Domain
 abbrev: SUIT Trust Domains
-docname: draft-ietf-suit-trust-domains-10
+docname: draft-ietf-suit-trust-domains-11
 category: std
 stream: IETF
 
