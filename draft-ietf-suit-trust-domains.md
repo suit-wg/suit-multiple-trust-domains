@@ -72,8 +72,13 @@ This document defines a SUIT manifest extension that enables the explicit declar
 and handling of dependencies between manifests. It introduces:
 
 - a structure for declaring manifest dependencies,
-- a conceptual dependency resolution phase in the SUIT workflow, and
-- new conditions and directives for controlling dependency resolution and enforcement.
+- a conceptual dependency resolution phase in the SUIT workflow,
+- new conditions and directives for controlling dependency resolution and enforcement,
+- a candidate verification procedure, used to validate that all required images and/or
+dependencies are present and correct before installation, particularly when manifests
+are fetched in one trust domain but installed in another, and
+- mechanisms for unlinking and uninstalling, which support scenarios involving multiple
+independent manifests that may share common dependencies.
 
 These mechanisms support update scenarios in which one manifest must be validated or
 executed before another manifest is processed. The following example illustrates such
