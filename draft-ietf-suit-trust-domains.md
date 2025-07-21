@@ -1,8 +1,8 @@
 ---
 v: 3
 
-title: Software Update for the Internet of Things (SUIT) Manifest Extensions for Multiple Trust Domain
-abbrev: SUIT Trust Domains
+title: Software Update for the Internet of Things (SUIT) Manifest Extensions for Dependency Management
+abbrev: SUIT Dependency Management
 docname: draft-ietf-suit-trust-domains-11
 category: std
 stream: IETF
@@ -49,54 +49,52 @@ informative:
 
 --- abstract
 
-A device has
-more than one trust domain when it enables delegation of different
-rights to mutually distrusting entities for use for different
-purposes or Components in the context of firmware or software update. This
-specification describes extensions to the Software Update for the Internet
-of Things (SUIT) Manifest format for use in deployments with multiple trust
-domains.
+This document defines an extension to the SUIT (Software Update for the Internet
+of Things) manifest format to enable structured handling of dependencies between
+manifests. In complex firmware systems, one component may depend on the presence
+or successful validation of another. This extension introduces metadata for
+declaring such dependencies, as well as mechanisms for controlling their resolution
+and enforcement.
+
+This extension enables manifest authors to express and orchestrate dependencies
+in a secure and interoperable manner.
 
 --- middle
 
 #  Introduction {#Introduction}
 
-Devices that require more advanced configurations than a Manifest signed by a
-single authority also require more complex rules for deploying software updates. For example, devices may require:
+In many real-world Internet of Things (IoT) deployments, a device's firmware is organized
+into modular components, each with its own update lifecycle. These components are
+often described by separate SUIT manifests, and one manifest may depend on the
+successful processing of another.
 
-* Components from multiple software signing authorities
-* a mechanism to remove an unneeded Component
-* Dependencies delivered in the same envelope as the Manifest
-* a partly encrypted Manifest so that distribution does not reveal private information
-* installation performed by a different execution mode than payload fetch
+This document defines a SUIT manifest extension that enables the explicit declaration
+and handling of dependencies between manifests. It introduces:
 
-Devices implementing this specification typically partition their software, dividing it, according to physical or logical features, into multiple "domains" with different requirements for authorities: multiple trust domains. Because of the more complex use cases that are typically targetted by devices implementing this specification, the applicable device class is typically Class 2+ and often isolation level Is8, for example Arm TrustZone for Cortex-M, as described in {{I-D.ietf-iotops-7228bis}}.
+- a structure for declaring manifest dependencies,
+- a conceptual dependency resolution phase in the SUIT workflow,
+- new conditions and directives for controlling dependency resolution and enforcement,
+- a candidate verification procedure, used to validate that all required images and/or
+dependencies are present and correct before installation, particularly when manifests
+are fetched in one trust domain but installed in another, and
+- mechanisms for unlinking and uninstalling, which support scenarios involving multiple
+independent manifests that may share common dependencies.
 
-Dependency Manifests enable several additional use cases. In particular, they enable two or more entities who are trusted for different privileges to coordinate. This can be used in many scenarios. For example:
+These mechanisms support update scenarios in which one manifest must be validated or
+executed before another manifest is processed. The following example illustrates such
+a situation. As described in {{Section 5.2 of RFC 9019}}, some systems implement a single
+CPU with separate secure and normal partitions. In such architectures, the manifest
+updating the secure partition must be validated before the normal partition can updated.
 
-* Devices with network interface controllers (NICs), including radios, may contain secondary processors in the NICs in addition to the device primary processor. These two processors may have separate Software with separate signing authorities. Dependencies allow the Manifest for the primary processor to reference a Manifest signed by a different authority.
-* A network operator may wish to provide local caching of Update Payloads. The network creates a Dependent Manifest that provides a different URI for any Payloads they wish to cache the parameter override mechanism described in {{suit-directive-set-parameters}}.
-* A Device Administrator provides a device with some additional configuration. The Device Administrator wants to test their configuration with each new Software version before releasing it. The configuration is delivered as a binary in the same way as a Software Image. The Device Administrator references the Software Manifest from the Software author in their own Manifest which also defines the configuration.
-* An Author wants to entrust a Distributor to provide devices with firmware decryption keys, but not permit the Distributor to sign code. Dependencies allow the Distributor to deliver a device's decryption information without also granting code signing authority.
-* A Trusted Application Manager (TAM) wants to distribute personalisation information to a Trusted Execution Environment in addition to a Trusted Application (TA), but does not have code signing authority (see {{RFC9397}}, Section 2). Dependencies enable the TAM to construct an update containing the personalisation information and a dependency on the TA, but leaves the TA signed by the TA's Author.
+Using this extension, the scenario can be modeled with two SUIT manifests:
 
-When a system has multiple trust domains, each domain might require independent verification of authenticity or security policies. Trust domains might be divided by separation technology such as Arm TrustZone, Intel SGX, or another Trusted Execution Environment (TEE) technology. Trust domains might also be divided into separate processors and memory spaces, with a communication interface between them.
+- The first Manifest, the Secure Mode Manifest, installs and verifies the firmware for
+the secure partition.
+- The second Manifest declares a dependency on the Secure Mode Manifest, ensuring that
+the secure partition is validated before the normal-mode firmware is processed.
 
-For example, an application processor may have an attached communications module that contains a processor. The communications module might require metadata signed by a specific Trust Authority for regulatory approval. This may be a different Trust Authority than the application processor.
-
-Dependencies enable Components such as Software, configuration, and other Resource data authenticated by different Trust Anchors to be delivered to devices.
-
-These mechanisms are not part of the core Manifest specification ({{I-D.ietf-suit-manifest}}), but they are needed for more advanced use cases, such as the architecture described in {{RFC9397}}.
-
-This specification extends the SUIT Manifest specification ({{I-D.ietf-suit-manifest}}) with:
-
-* Integrated Components
-* Dependencies
-* Manifest Component Identifier
-* Candidate Verification
-* Parameter Override support
-* Uninstall support
-
+This arrangement ensures that update workflows respect boundaries present on modern IoT
+hardware and that critical dependencies are enforced in a verifiable manner.
 
 #  Conventions and Terminology
 
@@ -105,7 +103,7 @@ This specification extends the SUIT Manifest specification ({{I-D.ietf-suit-mani
 The terminology from {{I-D.ietf-suit-manifest}}, Section 2 and {{RFC9397}}, Section 2 is used in this specification. Additionally, the following terminology is used:
 
 * Dependency: A Manifest that is required by a second Manifest in order for operations described by the second Manifest to complete successfully.
-* Dependent: A Manifest that depends on another Mani
+* Dependent: A Manifest that depends on another Manifest.
 * Root Manifest: A manifest that has no dependents and, combined with all Dependency Manifests (recursively) specifies a complete Component Set.
 * Staging Procedure: A procedure that fetches dependencies and images referenced by an Update and stores them to a Staging Area.
 * Installation Procedure: A procedure that installs dependencies and images stored in a Staging Area; copying (and optionally, transforming them) into an active Image storage location.
@@ -740,11 +738,17 @@ Each example uses SHA256 as the digest function.
 
 ## Example 0: Process Dependency
 
-This example uses functionalities:
+This example illustrates a manifest that invokes commands in a
+dependency envelope as part of its workflow. The dependent manifest:
 
-* manifest component id
-* dependency resolution
-* process dependency
+- sets a component index,
+- fetches and validates the dependency,
+- then uses the `process-dependency` directive to execute the
+dependency's commands in-line before continuing its own install
+steps.
+
+This illustrates a dependent manifest triggering execution of
+dependency commands at defined points.
 
 The dependency Manifest:
 
@@ -772,10 +776,15 @@ Total size of Envelope with COSE authentication object: 190
 
 ## Example 1: Integrated Dependency
 
-* manifest component id
-* dependency resolution
-* process dependency
-* integrated dependency
+This example illustrates a dependency that is bundled inside
+the same SUIT envelope. The manifest:
+
+- declares components and dependencies in the `common` metadata,
+- thus enabling an integrated, upfront resolution of dependency commands
+before any per-component execution begins.
+
+This approach illustrates embedding dependency manifests directly rather than
+fetching them during execution.
 
 ~~~ cbor-diag
 {::include-fold examples/example2_integrated.diag}
