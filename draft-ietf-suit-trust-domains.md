@@ -3,7 +3,7 @@ v: 3
 
 title: Software Update for the Internet of Things (SUIT) Manifest Extensions for Multiple Trust Domain
 abbrev: SUIT Trust Domains
-docname: draft-ietf-suit-trust-domains-11
+docname: draft-ietf-suit-trust-domains-12
 category: std
 stream: IETF
 
@@ -32,6 +32,26 @@ author:
  -    name: Ken Takayama
       organization: SECOM CO., LTD.
       email: ken.takayama.ietf@gmail.com
+
+contributor:
+ -    name: Henk Birkholz
+      organization: Fraunhofer SIT
+      email: henk.birkholz@ietf.contact
+ -    name: Thomas Fossati
+      organization: Linaro
+      email: thomas.fossati@linaro.com
+ -    ins: M. Richardson
+      name: Michael C. Richardson
+      org: Sandelman Software
+      email: mcr+ietf@sandelman.ca
+      uri: http://www.sandelman.ca/
+ -    name: Hannes Tschofenig
+      ins: H. Tschofenig
+      org: H-BRS
+      email: Hannes.Tschofenig@gmx.net
+
+ 
+
 
 normative:
   I-D.ietf-suit-manifest:
@@ -221,10 +241,12 @@ Components that should be treated as Dependencies are identified in the suit-com
 Any required check that fails MUST result in an Abort.
 
 Prior to executing any Command Sequence:
+
 1. If the interpreter does not support Dependencies and a Manifest specifies a Dependency, then the interpreter MUST Abort.
 1. If the Manifest contains more than one Component and/or Dependency, each Command sequence MUST begin with a Set Component Index Command.
 
 If a Dependency is specified, then the Manifest Processor MUST perform the following additional checks:
+
 1. Prior to executing any Command Sequence: the dependent MUST populate all Command Sequences for each Procedure specified by the Dependency; either the Staging Procedure, the Update Procedure, the Installation Procedure, or the Invocation Procedure.
 2. At the end of each section in the dependent: The corresponding section in each Dependency has been executed, if present.
 
@@ -709,6 +731,8 @@ a Severable Element) without changing the Integrity Check result. Because of
 these factors, suit-directive-process-dependency requires that a dependency first
 be validated with suit-check suit-condition-dependency-integrity.
 
+
+
 --- back
 
 # A. Full CDDL {#full-cddl}
@@ -794,3 +818,8 @@ Envelope with COSE authentication object:
 ~~~ cbor-pretty
 {::include-fold examples/example2_integrated.hex}
 ~~~
+
+# Acknowledgements {#Acknowledgements}
+{: numbered="false"}
+
+We would like to thank {{{Mohamed Boucadair}}}, {{{Deb Cooley}}}, {{{Roman Danyliw}}}, {{{Tim Evens}}}, {{{Gorry Fairhurst}}}, {{{Russ Housley}}}, {{{Jacqueline McCall}}}, {{{Derrell Piper}}}, {{{Valery Smyslov}}}, {{{Orie Steele}}}, {{{Akira Tsukamoto}}}, {{{Gunter Van de Velde}}}, {{{David Waltermire}}}, and {{{Paul Wouters}}} for their support in designing this extension.
